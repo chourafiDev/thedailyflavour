@@ -378,3 +378,8 @@ export const dummyCategories: DummyCategory[] = [
 		image: { url: IMGS.healthy_c, alt: "Healthy recipes" },
 	},
 ];
+
+export interface DummyAuthor {
+	name: string;
+	slug: string;
+}

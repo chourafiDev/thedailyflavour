@@ -1,15 +1,16 @@
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import Image from "next/image";
 import Link from "next/link";
-import { touristCarryingLuggage } from "@/lib/assets";
-import type { FeaturedPost } from "@/types/extended-sanity";
+import type { DummyRecipe } from "@/lib/dummy-data";
 
-export function BlogCard({ post }: { post: FeaturedPost }) {
-	// Provide fallback values
-	const imageUrl = post.mainImage?.asset?.url || touristCarryingLuggage.src;
-	const imageAlt = post.mainImage?.alt || post.title || "Featured post";
-	const categoryTitle = post.category?.title || "Travel";
-	const postTitle = post.title || "Untitled Post";
+const PLACEHOLDER =
+	"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&q=80";
+
+export function BlogCard({ post }: { post: DummyRecipe }) {
+	const imageUrl = post.mainImage?.url || PLACEHOLDER;
+	const imageAlt = post.mainImage?.alt || post.title || "Featured recipe";
+	const categoryTitle = post.category?.title || "Recipes";
+	const postTitle = post.title || "Untitled Recipe";
 	const postSlug = post.slug || "#";
 
 	return (

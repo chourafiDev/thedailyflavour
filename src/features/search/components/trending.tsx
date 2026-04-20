@@ -1,14 +1,14 @@
-"use client";
-
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import { RxDividerVertical } from "react-icons/rx";
-import { touristCarryingLuggage } from "@/lib/assets";
-import type { TrendingPost } from "@/types/extended-sanity";
+import type { DummyRecipe } from "@/lib/dummy-data";
+
+const PLACEHOLDER =
+	"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&q=80";
 
 interface TrendingProps {
-	posts: TrendingPost[];
+	posts: DummyRecipe[];
 	loading?: boolean;
 }
 
@@ -24,7 +24,7 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 	if (!posts || posts.length === 0) {
 		return (
 			<p className="text-muted-foreground text-sm py-4">
-				No trending posts available
+				No trending recipes available
 			</p>
 		);
 	}
@@ -52,8 +52,8 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 							className="relative w-[90px] h-[70px] rounded-lg overflow-hidden"
 						>
 							<Image
-								src={post.mainImage?.asset?.url || touristCarryingLuggage}
-								alt={post.mainImage?.alt || post.title || "Trending Post"}
+								src={post.mainImage?.url || PLACEHOLDER}
+								alt={post.mainImage?.alt || post.title || "Trending Recipe"}
 								fill
 								sizes="90px"
 								className="absolute object-cover transition-all duration-300 group-hover:scale-110"
@@ -116,7 +116,7 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 						itemType="https://schema.org/Organization"
 						className="hidden"
 					>
-						<meta itemProp="name" content="DROZY" />
+						<meta itemProp="name" content="The Daily Flavour" />
 					</div>
 				</article>
 			))}

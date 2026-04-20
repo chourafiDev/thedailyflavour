@@ -1,8 +1,6 @@
-// Export everything from one place for easy imports
-export * from "./site-config";
 export * from "./generators";
 export * from "./schemas";
-export type { BlogPost, CategoryInfo } from "@/types/metadata";
+export * from "./site-config";
 
 // Convenience function to render JSON-LD schema
 export function renderJsonLd(schema: object) {

@@ -264,7 +264,6 @@ export function generateContactPageSchema() {
 			sameAs: [
 				siteConfig.social.instagram.url,
 				siteConfig.social.pinterest.url,
-				siteConfig.social.tiktok.url,
 			],
 		},
 	};

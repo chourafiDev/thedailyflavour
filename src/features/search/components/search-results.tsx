@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { Button } from "@/components/ui/button";
@@ -11,12 +11,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { getAllCategories } from "@/sanity/queries";
-
-interface Category {
-	title: string;
-	slug: string;
-}
+import { dummyCategories } from "@/lib/dummy-data";
 
 const formSchema = z.object({
 	search: z.string().trim(),
@@ -31,8 +26,11 @@ export default function SearchForm() {
 	const query = searchParams.get("q") || "";
 	const category = searchParams.get("category") || "";
 
-	const [categories, setCategories] = useState<Category[]>([]);
-	const [loading, setLoading] = useState(true);
+	// ── Dummy categories — replace with WPGraphQL fetch when live ──
+	const categories = dummyCategories.map((cat) => ({
+		title: cat.title,
+		slug: cat.slug,
+	}));
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -42,45 +40,16 @@ export default function SearchForm() {
 		},
 	});
 
-	// Fetch categories from Sanity
 	useEffect(() => {
-		const fetchCategories = async () => {
-			try {
-				const sanityCategories = await getAllCategories();
-				const transformedCategories = sanityCategories.map((cat) => ({
-					title: cat.title ?? "Untitled Category",
-					slug: cat.slug ?? "",
-				}));
-				setCategories(transformedCategories);
-			} catch (error) {
-				console.error("Failed to fetch categories:", error);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchCategories();
-	}, []);
-
-	useEffect(() => {
-		form.reset({
-			search: query,
-			category: category,
-		});
+		form.reset({ search: query, category: category });
 	}, [query, category, form]);
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		const params = new URLSearchParams();
 
-		if (values.search) {
-			params.set("q", values.search);
-		}
+		if (values.search) params.set("q", values.search);
+		if (values.category) params.set("category", values.category);
 
-		if (values.category) {
-			params.set("category", values.category);
-		}
-
-		// Update URL with new search params
 		if (params.toString()) {
 			router.push(`/search?${params.toString()}`);
 		} else {
@@ -88,24 +57,17 @@ export default function SearchForm() {
 		}
 	}
 
-	// Clear individual filter and submit
 	const clearFilter = (filterType: "search" | "category") => {
 		if (filterType === "search") {
 			form.setValue("search", "");
 		} else {
 			form.setValue("category", "");
 		}
-
-		// Auto-submit after clearing
 		form.handleSubmit(onSubmit)();
 	};
 
-	// Clear all filters and submit
 	const clearAllFilters = () => {
-		form.reset({
-			search: "",
-			category: "",
-		});
+		form.reset({ search: "", category: "" });
 		router.push("/search");
 	};
 
@@ -119,12 +81,12 @@ export default function SearchForm() {
 				className="section-bottom rounded-xl bg-soft-linen md:px-10 px-5 md:py-8 py-5"
 			>
 				<h2 id="search-form-heading" className="sr-only">
-					Search and Filter Travel Guides
+					Search and Filter Recipes
 				</h2>
 
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-						{/* Search Input Section */}
+						{/* Search Input */}
 						<div>
 							<div className="flex items-center justify-between mb-2">
 								<h3 className="text-foreground font-extrabold text-[17px]">
@@ -151,9 +113,9 @@ export default function SearchForm() {
 										<FormControl>
 											<div className="relative">
 												<Input
-													placeholder="Search solo female travel guides, tips, destinations..."
+													placeholder="Search recipes, cuisines, ingredients..."
 													type="search"
-													aria-label="Search travel guides and articles"
+													aria-label="Search recipes"
 													autoComplete="off"
 													className="bg-background dark:bg-background rounded-full border w-full px-4 py-6 pr-12 shadow-none outline-none focus-visible:ring-0"
 													{...field}
@@ -171,56 +133,45 @@ export default function SearchForm() {
 							/>
 						</div>
 
-						{/* Category Filter Section */}
+						{/* Category Filter */}
 						<div>
 							<h3 className="text-foreground font-extrabold text-[17px] mb-2">
 								Filter by Category:
 							</h3>
 
-							{loading ? (
-								<div className="flex items-center gap-2 text-muted-foreground text-sm">
-									<div className="animate-spin rounded-full h-4 w-4 border-b-2 border-foreground" />
-									<span>Loading categories...</span>
-								</div>
-							) : categories.length === 0 ? (
-								<p className="text-muted-foreground text-sm">
-									No categories available
-								</p>
-							) : (
-								<FormField
-									control={form.control}
-									name="category"
-									render={({ field }) => (
-										<FormItem>
-											<FormControl>
-												<RadioGroup
-													onValueChange={field.onChange}
-													value={field.value}
-													className="flex flex-wrap gap-2"
-													aria-label="Filter articles by category"
-												>
-													{categories.map((item) => (
-														<Label
-															key={`${id}-${item.slug}`}
-															htmlFor={`${id}-${item.slug}`}
-															className="relative flex cursor-pointer items-center bg-white dark:bg-background gap-3 rounded-full border border-input px-5 py-3 text-center hover:bg-foreground dark:hover:bg-foreground hover:text-background transition-colors outline-none has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50 has-[:checked]:text-background dark:has-[:checked]:bg-white has-[:checked]:bg-foreground"
-														>
-															<RadioGroupItem
-																id={`${id}-${item.slug}`}
-																value={item.slug}
-																className="sr-only after:absolute after:inset-0"
-															/>
-															<span className="text-sm leading-none font-medium whitespace-nowrap">
-																{item.title}
-															</span>
-														</Label>
-													))}
-												</RadioGroup>
-											</FormControl>
-										</FormItem>
-									)}
-								/>
-							)}
+							<FormField
+								control={form.control}
+								name="category"
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<RadioGroup
+												onValueChange={field.onChange}
+												value={field.value}
+												className="flex flex-wrap gap-2"
+												aria-label="Filter recipes by category"
+											>
+												{categories.map((item) => (
+													<Label
+														key={`${id}-${item.slug}`}
+														htmlFor={`${id}-${item.slug}`}
+														className="relative flex cursor-pointer items-center bg-white dark:bg-background gap-3 rounded-full border border-input px-5 py-3 text-center hover:bg-foreground dark:hover:bg-foreground hover:text-background transition-colors outline-none has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50 has-[:checked]:text-background dark:has-[:checked]:bg-white has-[:checked]:bg-foreground"
+													>
+														<RadioGroupItem
+															id={`${id}-${item.slug}`}
+															value={item.slug}
+															className="sr-only after:absolute after:inset-0"
+														/>
+														<span className="text-sm leading-none font-medium whitespace-nowrap">
+															{item.title}
+														</span>
+													</Label>
+												))}
+											</RadioGroup>
+										</FormControl>
+									</FormItem>
+								)}
+							/>
 						</div>
 
 						<div className="flex justify-end">
@@ -228,8 +179,7 @@ export default function SearchForm() {
 								type="submit"
 								size="lg"
 								className="px-16 flex-shrink-0 md:w-auto w-full"
-								aria-label="Search travel guides"
-								disabled={loading}
+								aria-label="Search recipes"
 							>
 								Search
 							</Button>
@@ -238,7 +188,7 @@ export default function SearchForm() {
 				</Form>
 			</section>
 
-			{/* Active Filters Display */}
+			{/* Active Filters */}
 			{hasActiveFilters && (
 				<section
 					aria-label="Active search filters"

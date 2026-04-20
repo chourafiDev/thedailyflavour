@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AiFillInstagram } from "react-icons/ai";
-import { FaPinterest, FaTiktok } from "react-icons/fa";
+import { FaPinterest } from "react-icons/fa";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import {
@@ -126,18 +126,6 @@ const ContactPage = () => {
 										rel="noopener noreferrer"
 									>
 										<FaPinterest size={20} aria-hidden="true" />
-									</Link>
-								</li>
-
-								<li>
-									<Link
-										href={siteConfig.social.tiktok.url}
-										aria-label={`Follow us on TikTok ${siteConfig.social.tiktok.handle}`}
-										className="flex items-center justify-center size-10 border hover:bg-foreground hover:text-background duration-200 ease-in rounded-full"
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										<FaTiktok size={20} aria-hidden="true" />
 									</Link>
 								</li>
 							</ul>

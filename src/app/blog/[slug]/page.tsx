@@ -6,7 +6,6 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import Subscribe from "@/components/subscribe";
 import SubscribeVertical from "@/components/subscribe-vertical";
-import TableOfContent from "@/components/table-of-content";
 import ArticleHeader from "@/features/blog/components/article-header";
 import AuthorBio from "@/features/blog/components/author-bio";
 import PostNavigation from "@/features/blog/components/post-navigation";
@@ -164,7 +163,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 					<div className="flex items-start gap-5 lg:w-[90%] lg:mx-auto">
 						{/* Sidebar */}
 						<aside className="lg:w-[25%] lg:block hidden sticky top-24 space-y-5">
-							<TableOfContent headings={headings} title="In this recipe" />
+							{/* <TableOfContent headings={headings} title="In this recipe" /> */}
 							<SocialShareButtons post={post} />
 							<SubscribeVertical />
 						</aside>

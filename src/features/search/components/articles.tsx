@@ -3,40 +3,49 @@ import Image from "next/image";
 import Link from "next/link";
 import { RxDividerVertical } from "react-icons/rx";
 import { Button } from "@/components/ui/button";
-import { touristCarryingLuggage } from "@/lib/assets";
+import { dummyRecipes } from "@/lib/dummy-data";
 import { siteConfig } from "@/lib/metadata";
-import { getAllPosts } from "@/sanity/queries";
+
+const PLACEHOLDER =
+	"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&q=80";
 
 interface ArticlesProps {
 	query: string;
 	category: string;
 }
 
-const Articles = async ({ query, category }: ArticlesProps) => {
-	// Fetch posts from Sanity with search and category filters
-	const sanityPosts = await getAllPosts({
-		searchTerm: query || undefined,
-		categorySlug: category || undefined,
+const Articles = ({ query, category }: ArticlesProps) => {
+	// Filter dummy recipes by search term and/or category
+	const filtered = dummyRecipes.filter((r) => {
+		const matchesQuery = query
+			? r.title.toLowerCase().includes(query.toLowerCase()) ||
+				r.excerpt.toLowerCase().includes(query.toLowerCase()) ||
+				r.recipeDetails.cuisine.toLowerCase().includes(query.toLowerCase())
+			: true;
+
+		const matchesCategory = category ? r.category.slug === category : true;
+
+		return matchesQuery && matchesCategory;
 	});
 
-	// Transform Sanity posts to match the component's expected format
-	const posts = sanityPosts.map((post, index) => ({
+	// Transform to component shape
+	const posts = filtered.map((r, index) => ({
 		id: index + 1,
-		title: post.title ?? "Untitled Post",
-		excerpt: post.excerpt ?? "",
-		slug: post.slug ?? "",
-		category: post.category?.title ?? "",
-		categorySlug: post.category?.slug ?? "",
-		image: post.mainImage?.asset?.url ?? touristCarryingLuggage.src,
-		date: post.publishedAt ?? new Date().toISOString(),
-		author: post.author?.name ?? "Unknown Author",
-		authorSlug: post.author?.slug ?? "",
+		title: r.title,
+		excerpt: r.excerpt,
+		slug: r.slug,
+		category: r.category.title,
+		categorySlug: r.category.slug,
+		image: r.mainImage?.url || PLACEHOLDER,
+		date: r.publishedAt || new Date().toISOString(),
+		author: r.author?.name || "Remi",
+		authorSlug: r.author?.slug || "remi",
 	}));
 
 	const resultsCount = posts.length;
 	const hasQuery = query || category;
 
-	// Empty state - no results found
+	// Empty state
 	if (resultsCount === 0) {
 		return (
 			<section aria-labelledby="no-results-heading" className="section-bottom">
@@ -46,20 +55,20 @@ const Articles = async ({ query, category }: ArticlesProps) => {
 							id="no-results-heading"
 							className="text-2xl font-bold text-foreground"
 						>
-							No Articles Found
+							No Recipes Found
 						</h2>
 						<p className="text-muted-foreground">
 							{query && category
-								? `We couldn't find any articles matching "${query}" in ${category}. Try different keywords or browse other categories.`
+								? `We couldn't find any recipes matching "${query}" in ${category}. Try different keywords or browse other categories.`
 								: query
-									? `No articles found for "${query}". Try different search terms or explore our categories.`
+									? `No recipes found for "${query}". Try different search terms or explore our categories.`
 									: category
-										? `No articles found in ${category}. Check back soon for new content.`
-										: "No articles available at the moment."}
+										? `No recipes found in ${category}. Check back soon for new content.`
+										: "No recipes available at the moment."}
 						</p>
 						<div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
 							<Button asChild variant="default">
-								<Link href="/">Browse All Articles</Link>
+								<Link href="/">Browse All Recipes</Link>
 							</Button>
 							{hasQuery && (
 								<Button asChild variant="outline">
@@ -102,7 +111,7 @@ const Articles = async ({ query, category }: ArticlesProps) => {
 									className="relative w-full h-[230px] rounded-lg overflow-hidden"
 								>
 									<Image
-										src={post.image || touristCarryingLuggage}
+										src={post.image}
 										alt={post.title}
 										fill
 										sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 20vw"

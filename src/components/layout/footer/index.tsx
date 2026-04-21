@@ -7,7 +7,7 @@ import Subscribe from "./subscribe";
 const index = () => {
 	return (
 		<footer className="custom-container mb-4">
-			<div className="border rounded-lg overflow-hidden">
+			<div className="border rounded-md overflow-hidden">
 				<div className="grid lg:grid-cols-3 grid-cols-1">
 					<Info />
 

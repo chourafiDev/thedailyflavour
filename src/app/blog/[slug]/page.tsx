@@ -154,7 +154,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 							height={700}
 							itemProp="url"
 							priority
-							className="object-cover rounded-xl w-full h-[700px]"
+							className="object-cover rounded-md w-full h-[700px]"
 						/>
 						<meta itemProp="width" content="1200" />
 						<meta itemProp="height" content="700" />
@@ -171,7 +171,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 						{/* Article body */}
 						<div className="lg:w-[75%] w-full">
 							{/* Recipe quick stats */}
-							<div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-soft-linen rounded-xl p-5 mb-8">
+							<div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-soft-linen rounded-md p-5 mb-8">
 								<div className="text-center">
 									<p className="text-[11px] text-muted-foreground uppercase font-semibold mb-1">
 										Prep Time
@@ -257,7 +257,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 								<h2 className="text-foreground font-extrabold text-2xl mb-4">
 									Tips &amp; Notes
 								</h2>
-								<div className="bg-soft-linen rounded-xl p-5">
+								<div className="bg-soft-linen rounded-md p-5">
 									<p className="text-foreground text-sm leading-7">
 										{post.excerpt}
 									</p>

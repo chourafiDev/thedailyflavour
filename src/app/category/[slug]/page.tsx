@@ -102,7 +102,7 @@ const CategoryPage = async ({ params, searchParams }: PageProps) => {
 				</Breadcrumbs>
 				<main className="custom-container my-10">
 					<CategoryHeader slug={slug} postCount={0} />
-					<div className="py-44 bg-soft-linen rounded-xl flex justify-center items-center">
+					<div className="py-44 bg-soft-linen rounded-md flex justify-center items-center">
 						<h1 className="text-foreground font-semibold text-lg">
 							No recipes found in this category yet
 						</h1>

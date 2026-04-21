@@ -80,7 +80,7 @@ const CategorySection = ({ label, href, posts }: CategorySectionProps) => (
 							itemProp="image"
 							itemScope
 							itemType="https://schema.org/ImageObject"
-							className="relative w-full h-[300px] rounded-xl overflow-hidden"
+							className="relative w-full h-[300px] rounded-md overflow-hidden"
 						>
 							<Image
 								src={post.mainImage?.url || placeholderImg}

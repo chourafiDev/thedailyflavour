@@ -57,7 +57,7 @@ const AboutUsPage = () => {
 				</header>
 
 				{/* Featured image — warm kitchen / food flat-lay */}
-				<figure className="relative rounded-lg overflow-hidden md:h-[550px] h-[500px] w-full md:mb-20 mb-16">
+				<figure className="relative rounded-md overflow-hidden md:h-[550px] h-[500px] w-full md:mb-20 mb-16">
 					<Image
 						src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=2070&q=80"
 						alt="Remi cooking in a warm family kitchen — The Daily Flavour"

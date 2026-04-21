@@ -122,7 +122,7 @@ const Articles = ({ query, category }: ArticlesProps) => {
 								</figure>
 							</Link>
 
-							<div className="absolute top-3 left-3 bg-foreground/20 backdrop-blur-md px-4 py-1 rounded-full z-20">
+							<div className="absolute top-3 left-3 bg-foreground/20 backdrop-blur-md border dark:border-white px-4 py-1 rounded-full z-20">
 								<Link
 									href={`/category/${post.categorySlug}`}
 									rel="category tag"

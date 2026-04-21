@@ -1,6 +1,3 @@
-// features/home/components/featured-posts.tsx
-// CHANGED: removed Sanity import + async, uses dummyFeaturedPosts instead
-// UNCHANGED: all classNames, JSX structure, Schema markup
 
 import { format } from "date-fns";
 import { ChevronRight } from "lucide-react";
@@ -48,7 +45,7 @@ const FeaturedPosts = () => {
 									itemProp="image"
 									itemScope
 									itemType="https://schema.org/ImageObject"
-									className="relative w-full h-[170px] rounded-lg overflow-hidden"
+									className="relative w-full h-[170px] rounded-md overflow-hidden"
 								>
 									<Image
 										src={post.mainImage.url}
@@ -63,7 +60,7 @@ const FeaturedPosts = () => {
 							</Link>
 
 							{post.category && (
-								<div className="absolute top-3 left-3 bg-foreground/20 backdrop-blur-md px-4 py-1 rounded-full z-20">
+								<div className="absolute top-3 left-3 bg-foreground/20 backdrop-blur-md border dark:border-white px-4 py-1 rounded-full z-20">
 									<Link
 										href={`/category/${post.category.slug}`}
 										rel="category tag"

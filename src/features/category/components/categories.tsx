@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { dummyCategories } from "@/lib/dummy-data";
+import { getAllCategories } from "@/lib/wordpress";
 
-const Categories = () => {
-	const allCategories = dummyCategories;
+interface WPCategory {
+	name: string;
+	slug: string;
+	count: number;
+}
+
+const Categories = async () => {
+	const allCategories: WPCategory[] = await getAllCategories();
 
 	return (
 		<div>
@@ -17,10 +23,10 @@ const Categories = () => {
 							className="group flex items-center justify-between"
 						>
 							<p className="font-semibold text-sm text-foreground">
-								{cat.title}
+								{cat.name}
 							</p>
 							<p className="size-8 flex items-center justify-center rounded-full text-xs font-medium text-muted-foreground group-hover:bg-foreground group-hover:text-background duration-300 ease-linear border border-muted-foreground/30">
-								{cat.count}
+								{cat.count ?? 0}
 							</p>
 						</Link>
 						{index < allCategories.length - 1 && <Separator />}

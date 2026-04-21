@@ -38,7 +38,7 @@ const BlogCard = ({
 						itemProp="image"
 						itemScope
 						itemType="https://schema.org/ImageObject"
-						className="relative w-full h-[250px] rounded-lg overflow-hidden"
+						className="relative w-full h-[250px] rounded-md overflow-hidden"
 					>
 						<Image
 							src={image}
@@ -57,7 +57,7 @@ const BlogCard = ({
 					<Link
 						href={`/category/${categorySlug}`}
 						rel="category tag"
-						className="bg-foreground/40 backdrop-blur-md px-4 py-2 rounded-full text-[11px] text-white font-bold uppercase leading-none"
+						className="bg-foreground/40 backdrop-blur-md border border dark:border-white px-4 py-2 rounded-full text-[11px] text-white font-bold uppercase leading-none"
 					>
 						{category}
 					</Link>

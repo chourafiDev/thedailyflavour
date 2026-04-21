@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = generateHomeMetadata();
 
-export default function Home() {
+export default async function Home() {
 	const websiteSchema = generateWebsiteSchema();
 
 	return (
@@ -34,24 +34,25 @@ export default function Home() {
 				<Trending />
 				<section
 					aria-labelledby="about-author"
-					className="section-bottom relative rounded-xl md:px-10 px-4 md:py-12 py-8 bg-soft-linen"
+					className="section-bottom relative rounded-md bg-soft-linen"
 				>
-					<div className="flex items-center gap-12">
+					<div className="flex items-center">
 						<div>
 							<Image
 								src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 								alt="remi"
 								width={1000}
 								height={1000}
-								className="rounded-2xl"
+								className="rounded-md"
 							/>
 						</div>
-						<div>
+						<div className="px-14">
 							<h2 className="font-marcellus text-foreground text-2xl font-semibold mb-2">
 								Welcome to The Daily Flavour !
 							</h2>
 							<p className="text-foreground mb-8">
-								I am <span className="font-bold">{siteConfig.creator.name}</span>,
+								I am{" "}
+								<span className="font-bold">{siteConfig.creator.name}</span>,
 								sharing flavor-packed fusion comfort food. From quick dinners to
 								Friday night fakeaways (James approved!), every dish is
 								meticulously tested, simple, and full of heart. You do not need

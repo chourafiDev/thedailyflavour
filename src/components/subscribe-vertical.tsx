@@ -82,7 +82,7 @@ const SubscribeVertical = () => {
 	}
 
 	return (
-		<section className="min-h-auto w-full bg-soft-linen rounded-xl overflow-hidden relative">
+		<section className="min-h-auto w-full bg-soft-linen rounded-md overflow-hidden relative">
 			<div className="relative px-5 py-8">
 				<div>
 					<div className="mb-8">
@@ -145,7 +145,7 @@ const SubscribeVertical = () => {
 					{/* Success/Error Messages with Fade Animation */}
 					{message && (
 						<div
-							className={`mt-3 text-sm p-3 rounded-lg flex items-start gap-2 transition-opacity duration-500 ${
+							className={`mt-3 text-sm p-3 rounded-md flex items-start gap-2 transition-opacity duration-500 ${
 								isVisible ? "opacity-100" : "opacity-0"
 							} ${
 								isSuccess

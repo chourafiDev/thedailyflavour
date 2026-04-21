@@ -76,7 +76,7 @@ const Subscribe = () => {
 	return (
 		<section
 			aria-labelledby="subscribe-heading"
-			className="section-bottom rounded-xl md:px-10 px-4 md:py-12 py-8 bg-soft-linen"
+			className="section-bottom rounded-md md:px-10 px-4 md:py-12 py-8 bg-soft-linen"
 		>
 			<div className="flex lg:flex-row flex-col items-center lg:gap-16 gap-6">
 				<h2
@@ -120,7 +120,7 @@ const Subscribe = () => {
 								variant="default"
 								size="icon"
 								shadow="soft"
-								className="size-12 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+								className="size-12 mr-1 mb-1 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
 								aria-label="Subscribe to newsletter"
 								disabled={isPending}
 							>
@@ -146,7 +146,7 @@ const Subscribe = () => {
 			{/* Success/Error Messages with Fade Animation */}
 			{message && (
 				<div
-					className={`mt-3 text-sm p-3 rounded-lg flex items-start gap-2 transition-opacity duration-500 ${
+					className={`mt-3 text-sm p-3 rounded-md flex items-start gap-2 transition-opacity duration-500 ${
 						isVisible ? "opacity-100" : "opacity-0"
 					} ${
 						isSuccess

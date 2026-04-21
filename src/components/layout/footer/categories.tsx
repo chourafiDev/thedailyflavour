@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { dummyCategories } from "@/lib/dummy-data";
+import { getAllCategories } from "@/lib/wordpress";
 
-const Categories = () => {
-	const categories = dummyCategories;
+const Categories = async () => {
+	const categories = await getAllCategories();
 
 	return (
 		<div>
@@ -11,10 +11,10 @@ const Categories = () => {
 			</p>
 
 			<ul className="space-y-1 font-medium">
-				{categories.map((cat) => (
+				{categories.map((cat: { slug: string; name: string }) => (
 					<li key={cat.slug}>
 						<Link href={`/category/${cat.slug}`} className="link text-sm">
-							{cat.title}
+							{cat.name}
 						</Link>
 					</li>
 				))}

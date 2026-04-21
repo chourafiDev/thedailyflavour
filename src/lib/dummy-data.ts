@@ -75,7 +75,7 @@ export const dummyRecipes: DummyRecipe[] = [
 		isFeatured: true,
 		author: { name: "Remi Cassidy", slug: "remi-cassidy" },
 		category: { title: "Dinner", slug: "dinner" },
-		mainImage: { url: IMGS.chicken, alt: "Thai basil chicken in a wok" },
+		mainImage: { url: IMGS.curry, alt: "Thai basil chicken in a wok" },
 		recipeDetails: {
 			prepTime: 10,
 			cookTime: 15,
@@ -243,7 +243,7 @@ export const dummyRecipes: DummyRecipe[] = [
 		excerpt:
 			"Individual tiramisu cups with a proper espresso kick. No baking, no fuss, everyone thinks you spent hours.",
 		publishedAt: "2026-01-30T10:00:00Z",
-		isTrending: false,
+		isTrending: true,
 		isFeatured: false,
 		author: { name: "Remi Cassidy", slug: "remi-cassidy" },
 		category: { title: "Dessert", slug: "dessert" },
@@ -325,7 +325,7 @@ export const dummyRecipes: DummyRecipe[] = [
 // ── Trending (first 4 with isTrending = true) ─────────────────
 export const dummyTrendingPosts = dummyRecipes
 	.filter((r) => r.isTrending)
-	.slice(0, 4);
+	.slice(0, 5);
 
 // ── Featured (first 5 with isFeatured = true) ─────────────────
 export const dummyFeaturedPosts = dummyRecipes

@@ -57,7 +57,7 @@ export const GET_RECIPE_BY_SLUG = gql`
 // Fetch all categories with post count
 export const GET_ALL_CATEGORIES = gql`
   query GetAllCategories {
-    categories(first: 50, where: { hideEmpty: true }) {
+    categories(first: 50) {
       nodes {
         id
         name

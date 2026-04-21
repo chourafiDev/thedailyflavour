@@ -29,7 +29,7 @@ export function BlogCard({ post }: { post: DummyRecipe }) {
 				/>
 
 				{/* Category Badge */}
-				<div className="absolute top-3 left-3 bg-foreground/20 backdrop-blur-md px-4 py-1.5 rounded-full z-20">
+				<div className="absolute top-3 left-3 bg-foreground/20 backdrop-blur-md border dark:border-white px-4 py-1.5 rounded-full z-20">
 					<p className="text-[11px] text-white font-semibold uppercase">
 						{categoryTitle}
 					</p>

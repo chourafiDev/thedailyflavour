@@ -1,7 +1,5 @@
-import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
-import { RxDividerVertical } from "react-icons/rx";
 import { dummyTrendingPosts } from "@/lib/dummy-data";
 
 const Trending = () => {
@@ -17,15 +15,15 @@ const Trending = () => {
 				The Daily Flavour Trending Recipes
 			</h2>
 
-			<div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2 my-6">
+			<div className="grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-2 my-6">
 				{posts.map((post, index) => (
 					<article
 						key={post.slug}
 						itemScope
 						itemType="https://schema.org/BlogPosting"
 						className={`group w-full flex items-center gap-3 
-	${index % 2 === 0 ? "md:border-r md:pr-4" : ""} 
-	${index !== posts.length - 1 ? "lg:border-r lg:pr-0" : "lg:pr-0"}
+	${index % 2 !== 0 ? "md:border-r md:pr-4" : ""} 
+	${index !== posts.length - 1 ? "lg:border-r lg:pr-2" : "lg:pr-0"}
 `}
 					>
 						<Link href={`/blog/${post.slug}`} itemProp="url">
@@ -33,7 +31,7 @@ const Trending = () => {
 								itemProp="image"
 								itemScope
 								itemType="https://schema.org/ImageObject"
-								className="relative w-[90px] h-[70px] rounded-lg overflow-hidden"
+								className="relative w-[90px] h-[70px] rounded-md overflow-hidden"
 							>
 								<Image
 									src={post.mainImage.url}
@@ -49,22 +47,6 @@ const Trending = () => {
 
 						<div>
 							<div className="flex items-center gap-0">
-								{post.publishedAt && (
-									<time
-										dateTime={post.publishedAt}
-										itemProp="datePublished"
-										className="text-[9px] font-bold text-foreground"
-									>
-										{format(
-											new Date(post.publishedAt),
-											"MMMM d, yyyy",
-										).toUpperCase()}
-									</time>
-								)}
-								<RxDividerVertical
-									className="text-foreground font-bold rotate-12"
-									aria-hidden="true"
-								/>
 								{post.author && (
 									<div
 										itemProp="author"

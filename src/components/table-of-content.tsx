@@ -75,7 +75,7 @@ const TableOfContent = ({
 		<Sheet>
 			<SheetTrigger asChild>
 				<Button
-					className="w-full relative"
+					className="w-full relative dark:text-background"
 					variant={"white"}
 					size={"lg"}
 					shadow={"sm"}
@@ -84,7 +84,7 @@ const TableOfContent = ({
 				</Button>
 			</SheetTrigger>
 			<SheetContent side="left" className="w-[400px] sm:w-[540px] gap-0">
-				<SheetHeader className="px-4 pt-4">
+				<SheetHeader>
 					<SheetTitle className="font-bold">{title}</SheetTitle>
 					<SheetDescription>
 						Jump to any section of this article
@@ -92,7 +92,7 @@ const TableOfContent = ({
 				</SheetHeader>
 
 				<nav
-					className="bg-white border-t border-gray-200 overflow-y-scroll py-4 px-2"
+					className="border-t border-gray-50 overflow-y-scroll py-4 px-2"
 					aria-label="Table of contents"
 				>
 					<ol className="space-y-2">

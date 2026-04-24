@@ -142,7 +142,7 @@ function NutritionGrid({ raw }: { raw: string }) {
 
 	if (items.length === 0) {
 		return (
-			<div className="pb-4 text-sm leading-[1.7] text-[#444] whitespace-pre-line">
+			<div className="pb-4 text-sm leading-[1.7] text-foreground whitespace-pre-line">
 				{raw}
 			</div>
 		);
@@ -155,10 +155,10 @@ function NutritionGrid({ raw }: { raw: string }) {
 					key={i}
 					className="bg-[#7bae8a1f] rounded px-3 py-2 flex flex-col gap-0.5"
 				>
-					<span className="text-[0.63rem] uppercase tracking-[0.07em] text-[#999] font-[Arial,sans-serif]">
+					<span className="text-[0.63rem] uppercase tracking-[0.07em] text-foreground/70 font-[Arial,sans-serif]">
 						{item.key}
 					</span>
-					<span className="text-[0.9rem] font-bold text-[#1e1e1e] font-[Arial,sans-serif]">
+					<span className="text-[0.9rem] font-bold text-foreground font-[Arial,sans-serif]">
 						{item.val}
 					</span>
 				</div>
@@ -181,10 +181,10 @@ function StatPill({
 		<div className="flex items-center gap-2 px-5 py-3 border-r border-[#eae5d8] flex-[1_1_120px] last:border-r-0">
 			<span className="text-[#7BAE8A] flex">{icon}</span>
 			<div>
-				<p className="text-[0.62rem] uppercase tracking-[0.07em] text-[#999] font-[Arial,sans-serif] mb-1 leading-none">
+				<p className="text-[0.62rem] uppercase tracking-[0.07em] text-foreground font-[Arial,sans-serif] mb-1 leading-none">
 					{label}
 				</p>
-				<p className="text-[0.88rem] font-bold text-[#1e1e1e] font-[Arial,sans-serif] leading-none">
+				<p className="text-[0.88rem] font-bold text-foreground font-[Arial,sans-serif] leading-none">
 					{value}
 				</p>
 			</div>
@@ -267,7 +267,7 @@ export default function RecipeCard({
 			{/* ── Card wrapper ── */}
 			<div
 				id="recipe-card"
-				className="recipe-card border-2 border-black rounded-md bg-[#fffef9] my-8 shadow-[5px_5px_0_#000] overflow-hidden scroll-mt-[100px]"
+				className="recipe-card border-2 border-black dark:border-white rounded-md bg-[#fffef9] dark:bg-soft-linen my-8 shadow-[5px_5px_0_#000] overflow-hidden scroll-mt-[100px]"
 			>
 				{/* ── Header ── */}
 				<div className="bg-[#7BAE8A] text-[#fffef9] px-6 py-[1.1rem] flex items-center justify-between gap-4">
@@ -294,7 +294,7 @@ export default function RecipeCard({
 							</div>
 						)}
 						{description && (
-							<p className="py-4 text-[0.92rem] leading-[1.65] text-[#444] m-0 self-center">
+							<p className="py-4 text-[0.92rem] leading-[1.65] text-foreground m-0 self-center">
 								{description}
 							</p>
 						)}
@@ -352,24 +352,24 @@ export default function RecipeCard({
 								</p>
 
 								{/* Servings scaler */}
-								<div className="rc-scaler flex items-center gap-2 mb-3.5 font-[Arial,sans-serif] text-[0.78rem] text-[#666]">
+								<div className="rc-scaler flex items-center gap-2 mb-3.5 font-[Arial,sans-serif] text-[0.78rem] text-foreground">
 									<span>Servings:</span>
 									<button
 										type="button"
 										onClick={() => setServings((s) => Math.max(1, s - 1))}
 										aria-label="Decrease servings"
-										className="w-6 h-6 border-[1.5px] border-[#1e1e1e] rounded-full bg-transparent text-[#1e1e1e] text-base font-bold flex items-center justify-center leading-none transition-colors hover:bg-[#1e1e1e] hover:text-[#fffef9]"
+										className="w-6 h-6 border-[1.5px] border-foreground rounded-full bg-transparent text-foreground text-base font-bold flex items-center justify-center leading-none transition-colors hover:bg-[#1e1e1e] hover:text-[#fffef9]"
 									>
 										−
 									</button>
-									<span className="font-bold text-[0.9rem] text-[#1e1e1e] min-w-[20px] text-center">
+									<span className="font-bold text-[0.9rem] text-foreground min-w-[20px] text-center">
 										{servings}
 									</span>
 									<button
 										type="button"
 										onClick={() => setServings((s) => s + 1)}
 										aria-label="Increase servings"
-										className="w-6 h-6 border-[1.5px] border-[#1e1e1e] rounded-full bg-transparent text-[#1e1e1e] text-base font-bold flex items-center justify-center leading-none transition-colors hover:bg-[#1e1e1e] hover:text-[#fffef9]"
+										className="w-6 h-6 border-[1.5px] border-foreground rounded-full bg-transparent text-foreground text-base font-bold flex items-center justify-center leading-none transition-colors hover:bg-[#1e1e1e] hover:text-[#fffef9]"
 									>
 										+
 									</button>
@@ -380,7 +380,7 @@ export default function RecipeCard({
 										return (
 											<p
 												key={i}
-												className="text-[0.68rem] uppercase tracking-[0.08em] font-bold text-[#999] font-[Arial,sans-serif] mt-3 mb-1 pb-1 border-b border-dashed border-[#ddd]"
+												className="text-[0.68rem] uppercase tracking-[0.08em] font-bold text-foreground font-[Arial,sans-serif] mt-3 mb-1 pb-1 border-b border-dashed border-[#ddd]"
 											>
 												{ing.name}
 											</p>
@@ -405,20 +405,20 @@ export default function RecipeCard({
 													<Check size={9} strokeWidth={3.5} color="#fffef9" />
 												)}
 											</span>
-											<span>
+											<span className="text-foreground">
 												{ing.amount && (
 													<span className="font-bold text-[#7BAE8A] font-[Arial,sans-serif] flex-shrink-0">
 														{scaleAmount(ing.amount, scale)}{" "}
 													</span>
 												)}
 												{ing.unit && (
-													<span className="text-[#777] italic flex-shrink-0">
+													<span className="text-foreground/50 italic flex-shrink-0">
 														{ing.unit}{" "}
 													</span>
 												)}
 												{ing.name}
 												{ing.notes && (
-													<span className="text-[#999] text-[0.78rem] italic">
+													<span className="text-foreground text-[0.78rem] italic">
 														, {ing.notes}
 													</span>
 												)}
@@ -440,7 +440,7 @@ export default function RecipeCard({
 										return (
 											<p
 												key={i}
-												className="text-[0.68rem] uppercase tracking-[0.08em] font-bold text-[#999] font-[Arial,sans-serif] mt-3 mb-1 pb-1 border-b border-dashed border-[#ddd]"
+												className="text-[0.68rem] uppercase tracking-[0.08em] font-bold text-foreground font-[Arial,sans-serif] mt-3 mb-1 pb-1 border-b border-dashed border-[#ddd]"
 											>
 												{inst.text}
 											</p>
@@ -459,7 +459,7 @@ export default function RecipeCard({
 												className="sr-only"
 											/>
 											<span
-												className={`w-[26px] h-[26px] rounded-full flex-shrink-0 flex items-center justify-center mt-[1px] text-[0.72rem] font-bold font-[Arial,sans-serif] text-[#fffef9] transition-colors ${checked ? "bg-[#7BAE8A]" : "bg-[#1e1e1e]"}`}
+												className={`w-[26px] h-[26px] rounded-full flex-shrink-0 flex items-center justify-center mt-[1px] text-[0.72rem] font-bold font-[Arial,sans-serif] text-[#fffef9] dark:text-background dark:bg-white transition-colors ${checked ? "bg-[#7BAE8A]" : "bg-[#1e1e1e]"}`}
 											>
 												{checked ? (
 													<Check size={11} strokeWidth={3} />
@@ -467,7 +467,7 @@ export default function RecipeCard({
 													inst.step
 												)}
 											</span>
-											<p className="text-[0.88rem] leading-[1.65] text-[#1e1e1e] pt-[3px] m-0">
+											<p className="text-[0.88rem] leading-[1.65] text-foreground pt-[3px] m-0">
 												{inst.text}
 											</p>
 										</label>
@@ -484,7 +484,7 @@ export default function RecipeCard({
 						<p className="flex items-center gap-2 border-b border-foreground/10 pb-2 text-lg font-bold uppercase tracking-[0.12em] text-[#7BAE8A] font-[Arial,sans-serif] mb-3">
 							Recipe Notes
 						</p>
-						<div className="text-[0.86rem] leading-[1.7] text-[#444] whitespace-pre-line">
+						<div className="text-[0.86rem] leading-[1.7] text-foreground whitespace-pre-line">
 							{notes}
 						</div>
 					</div>
@@ -501,7 +501,7 @@ export default function RecipeCard({
 				)}
 
 				{/* ── Footer ── */}
-				<div className="bg-[#f5f0e5] border-t border-[#eae5d8] px-6 py-2.5 flex items-center justify-between font-[Arial,sans-serif] text-[0.7rem] text-[#999] gap-4 flex-wrap">
+				<div className="bg-[#f5f0e5] border-t border-[#eae5d8] px-6 py-2.5 flex items-center justify-between font-[Arial,sans-serif] text-[0.7rem] text-foreground gap-4 flex-wrap">
 					<div
 						className="flex gap-0.5 text-[#e8a000]"
 						role="img"
@@ -511,7 +511,7 @@ export default function RecipeCard({
 							<Star key={i} size={12} fill="currentColor" strokeWidth={0} />
 						))}
 					</div>
-					<span>Recipe by {author}</span>
+					<span className="text-black">Recipe by {author}</span>
 				</div>
 			</div>
 		</>

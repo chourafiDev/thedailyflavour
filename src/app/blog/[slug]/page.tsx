@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa6";
 import { IoChevronForwardOutline } from "react-icons/io5";
 import Breadcrumbs from "@/components/breadcrumbs";
-import { JsonLd } from "@/components/JsonLd";
+import { JsonLd, RecipeSchema } from "@/components/JsonLd";
 import JumpToRecipeButton from "@/components/Jump-to-recipe-button";
 import PrintRecipeButton from "@/components/print-recipe-button";
 import RecipeCard from "@/components/recipe-card";
@@ -93,17 +93,17 @@ export default async function BlogPostPage({ params }: PageProps) {
 	const ingredientsForSchema =
 		r?.ingredients
 			?.split("\n")
-			.map((l) => l.trim())
-			.filter((l) => l && !l.startsWith("##")) ?? [];
+			.map((l: string) => l.trim())
+			.filter((l: string) => l && !l.startsWith("##")) ?? [];
 
 	const instructionsForSchema =
 		r?.instructions
 			?.split("\n")
-			.map((l) => l.trim())
-			.filter((l) => l && !l.startsWith("##")) ?? [];
+			.map((l: string) => l.trim())
+			.filter((l: string) => l && !l.startsWith("##")) ?? [];
 
 	// ── JSON-LD ──────────────────────────────────────────────────────────────────
-	const recipeSchema = {
+	const recipeSchema: RecipeSchema = {
 		"@context": "https://schema.org",
 		"@type": "Recipe",
 		name: post.title,
@@ -125,7 +125,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 			? ingredientsForSchema
 			: undefined,
 		recipeInstructions: instructionsForSchema.length
-			? instructionsForSchema.map((text, i) => ({
+			? instructionsForSchema.map((text: string, i: number) => ({
 					"@type": "HowToStep",
 					position: i + 1,
 					text,
@@ -232,7 +232,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 											shadow: "sm",
 										}),
 
-										"bg-[#E60023] w-full",
+										"bg-[#E60023] w-full dark:text-white dark:border-[#E60023]",
 									)}
 								>
 									Follow us on Pinterest <FaArrowRight />

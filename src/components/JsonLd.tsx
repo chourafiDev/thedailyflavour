@@ -12,6 +12,7 @@ type JsonLdSchema =
 	| ReviewSchema
 	| OrganizationSchema
 	| PersonSchema
+	| RecipeSchema
 	| Record<string, JsonValue>;
 
 // Define JSON value types
@@ -41,6 +42,23 @@ interface WebSiteSchema extends BaseSchema {
 		target: string | { "@type": string; urlTemplate: string };
 		"query-input"?: string;
 	};
+}
+
+export interface RecipeSchema extends BaseSchema {
+	"@type": "Recipe";
+	name: string;
+	description?: string;
+	image?: string;
+	author?: { "@type": string; name: string };
+	datePublished?: string;
+	prepTime?: string;
+	cookTime?: string;
+	totalTime?: string;
+	recipeYield?: string;
+	recipeIngredient?: string[];
+	recipeInstructions?: { "@type": string; position: number; text: string }[];
+	nutrition?: { "@type": string; calories: string };
+	publisher?: { "@type": string; name: string };
 }
 
 interface BlogPostingSchema extends BaseSchema {

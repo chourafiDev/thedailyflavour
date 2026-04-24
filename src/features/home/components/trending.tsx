@@ -26,7 +26,7 @@ const Trending = () => {
 	${index !== posts.length - 1 ? "lg:border-r lg:pr-2" : "lg:pr-0"}
 `}
 					>
-						<Link href={`/blog/${post.slug}`} itemProp="url">
+						<Link href={`/blog/crock-pot-round-steak-and-gravy`} itemProp="url">
 							<figure
 								itemProp="image"
 								itemScope
@@ -55,7 +55,7 @@ const Trending = () => {
 										className="mb-1"
 									>
 										<Link
-											href={`/author/${post.author.slug}`}
+											href={`/author/crock-pot-round-steak-and-gravy`}
 											className="text-[9px] font-semibold"
 										>
 											<span className="text-muted-foreground">POST BY</span>{" "}
@@ -71,7 +71,9 @@ const Trending = () => {
 								itemProp="headline"
 								className="text-foreground font-bold text-sm leading-[20px] group-hover:underline line-clamp-2"
 							>
-								<Link href={`/blog/${post.slug}`}>{post.title}</Link>
+								<Link href={`/blog/crock-pot-round-steak-and-gravy`}>
+									{post.title}
+								</Link>
 							</h3>
 						</div>
 

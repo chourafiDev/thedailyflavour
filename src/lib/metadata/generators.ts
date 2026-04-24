@@ -141,7 +141,6 @@ export function generateBlogPostMetadata(post: DummyRecipe | null): Metadata {
 		keywords: [
 			...siteConfig.keywords,
 			post.category?.title?.toLowerCase() ?? "",
-			post.recipeDetails?.cuisine?.toLowerCase() ?? "",
 			"recipe",
 			"easy recipe",
 		].filter(Boolean),
@@ -183,7 +182,7 @@ export function generateAboutMetadata(): Metadata {
 
 	return {
 		title: `About ${siteConfig.shortName}`,
-		description: `Meet Remi Cassidy — the home cook behind The Daily Flavour. Quick, globally-inspired recipes for busy families, made with real ingredients and zero fuss.`,
+		description: `Meet Sarah Mitchell — the home cook behind The Daily Flavour. Quick, globally-inspired recipes for busy families, made with real ingredients and zero fuss.`,
 		keywords: [
 			...siteConfig.keywords,
 			"about The Daily Flavour",

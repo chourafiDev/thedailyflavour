@@ -74,7 +74,12 @@ const TableOfContent = ({
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
-				<Button className="w-full relative" size={"lg"} shadow={"bold"}>
+				<Button
+					className="w-full relative"
+					variant={"white"}
+					size={"lg"}
+					shadow={"sm"}
+				>
 					Table Of Content <Menu className="absolute right-4" />
 				</Button>
 			</SheetTrigger>

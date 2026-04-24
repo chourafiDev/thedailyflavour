@@ -120,4 +120,183 @@
   .link {
     @apply text-muted-foreground hover:text-foreground hover:underline duration-100 ease-linear;
   }
+
+
+
+  /* Add this to your globals.css */
+
+
+  .post-content {
+    @apply text-foreground leading-[1.85] max-w-none mb-10;
+    font-family: var(--font-manrope);
+  }
+
+  /* ── Paragraphs ── */
+  .post-content p {
+    @apply text-foreground text-[1.05rem] leading-[1.85] mb-5;
+  }
+
+  /* ── Headings ── */
+  .post-content h1,
+  .post-content h2,
+  .post-content h3,
+  .post-content h4,
+  .post-content h5 {
+    @apply text-foreground tracking-tight;
+    font-family: var(--font-marcellus);
+  }
+
+  .post-content h1 {
+    @apply text-4xl mt-10 pb-3 border-b-[3px] border-primary;
+  }
+
+  .post-content h2 {
+    @apply text-[1.65rem] mt-8 mb-5 pl-4 border-l-4 border-primary leading-7;
+  }
+
+  .post-content h3 {
+    @apply text-[1.40rem] mt-6 mb-2;
+  }
+
+  .post-content h4 {
+    @apply text-sm mt-6 mb-2 uppercase tracking-widest text-muted-foreground;
+  }
+
+  /* ── Strong / Em ── */
+  .post-content strong {
+    @apply font-bold text-foreground;
+  }
+  .post-content em {
+    @apply italic text-muted-foreground;
+  }
+
+  /* ── Links ── */
+  .post-content a {
+    @apply text-primary underline underline-offset-[3px] decoration-[1.5px] transition-colors duration-150;
+  }
+  .post-content a:hover {
+    @apply text-foreground;
+  }
+
+  /* ── Blockquote ── */
+  .post-content blockquote {
+    @apply border-l-4 border-primary bg-soft-linen rounded-r-md px-6 py-4 my-8 not-italic text-muted-foreground text-[1.05rem] leading-[1.75];
+  }
+  .post-content blockquote p {
+    @apply mb-0 text-muted-foreground;
+  }
+
+  /* ── HR ── */
+  .post-content hr {
+    @apply border-border my-10;
+  }
+
+  /* ── Images ── */
+  .post-content img {
+    @apply rounded-md shadow-md my-6 max-w-full h-auto;
+  }
+
+  /* ── Lists ── */
+  .post-content ul {
+    @apply my-5 pl-0 space-y-1.5 list-none;
+  }
+  .post-content ul li {
+    @apply relative pl-5 text-foreground leading-[1.7];
+  }
+  .post-content ul li::before {
+    content: '';
+    @apply absolute left-0 top-[0.6em] w-1.5 h-1.5 rounded-full bg-primary;
+  }
+
+  .post-content ol {
+    @apply my-5 pl-0 space-y-1.5 list-none;
+    counter-reset: ol-counter;
+  }
+  .post-content ol li {
+    counter-increment: ol-counter;
+    @apply relative pl-9 text-foreground leading-[1.7];
+  }
+  .post-content ol li::before {
+    content: counter(ol-counter);
+    @apply absolute left-0 top-[0.05em] w-6 h-6 rounded-full bg-foreground text-background text-xs font-bold flex items-center justify-center;
+    font-family: var(--font-manrope);
+  }
+
+  /* ── Inline Code ── */
+  .post-content code {
+    @apply bg-soft-linen text-primary px-1.5 py-0.5 rounded text-[0.875em];
+    font-family: 'Menlo', 'Monaco', monospace;
+  }
+  .post-content code::before,
+  .post-content code::after {
+    content: none;
+  }
+
+  /* ── Code Block ── */
+  .post-content pre {
+    @apply bg-foreground text-background rounded-md p-5 my-6 overflow-x-auto text-sm leading-relaxed;
+  }
+  .post-content pre code {
+    @apply bg-transparent text-inherit p-0;
+  }
+
+  /* ── Table ── */
+  .post-content table {
+    @apply w-full border-collapse text-sm my-6;
+  }
+  .post-content th {
+    @apply bg-foreground text-background text-xs uppercase tracking-wider px-4 py-2.5 text-left;
+  }
+  .post-content td {
+    @apply px-4 py-2.5 border-b border-border align-top text-foreground;
+  }
+  .post-content tr:nth-child(even) td {
+    @apply bg-soft-linen;
+  }
+
+  /* ── Figure / Caption ── */
+  .post-content figure {
+    @apply my-6;
+  }
+  .post-content figcaption {
+    @apply text-center text-sm text-muted-foreground italic mt-2;
+  }
+
+}
+
+@media print {
+  /* When print-recipe-only class is on body, hide everything */
+  body.print-recipe-only * {
+    visibility: hidden;
+  }
+
+  /* Show only the recipe card and its children */
+  body.print-recipe-only #recipe-card,
+  body.print-recipe-only #recipe-card * {
+    visibility: visible;
+  }
+
+  /* Position the recipe card at the top of the page */
+  body.print-recipe-only #recipe-card {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    margin: 0 !important;
+  }
+
+  /* Hide the print button and scaler inside the card itself */
+  body.print-recipe-only .rc-print-btn,
+  body.print-recipe-only .rc-scaler {
+    display: none !important;
+  }
+
+  /* Expand collapsible sections so notes/nutrition print fully */
+  body.print-recipe-only .rc-collapsible-body,
+  body.print-recipe-only .rc-nutrition-grid {
+    display: block !important;
+    visibility: visible !important;
+  }
 }

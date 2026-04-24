@@ -16,15 +16,15 @@ import {
 
 // ── Remi's persona ────────────────────────────────────────────
 const REMI = {
-	name: "Remi Cassidy",
-	slug: "remi-cassidy",
+	name: "Sarah Mitchell",
+	slug: "sarah-mitchell",
 	jobTitle: "Home Cook & Recipe Creator",
 	location: "London, UK",
 	image:
 		"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
 	tagline: "World flavours, weeknight speed",
 	bio: [
-		"Hi, I'm Remi Cassidy 👋 the home cook behind The Daily Flavour. I'm obsessed with finding the quickest path to genuinely delicious food, and I've spent years figuring out how to get the flavours of the world onto a busy family table in 30 minutes or less.",
+		"Hi, I'm Sarah Mitchell 👋 the home cook behind The Daily Flavour. I'm obsessed with finding the quickest path to genuinely delicious food, and I've spent years figuring out how to get the flavours of the world onto a busy family table in 30 minutes or less.",
 		"It started with a notebook. Every time I tasted something incredible a bowl of ramen in Tokyo, shakshuka at a tiny café in Tel Aviv, tacos from a street cart in Mexico City I'd scribble it down and spend the next few weeks working out how to recreate it on a Tuesday night with a supermarket shop and no sous chef.",
 		"The Daily Flavour is where those recipes live. No obscure ingredients. No three-hour braises. Just quick, honest cooking that makes weeknights feel a little more like an adventure.",
 		"When I'm not in the kitchen I'm probably planning the next trip, eating something I definitely shouldn't be photographing, or convincing my family to try yet another cuisine they've never heard of.",
@@ -200,18 +200,6 @@ const AuthorPage = async ({ params }: AuthorPageProps) => {
 										{authorPosts.length}
 									</span>
 									<span className="text-muted-foreground ml-1">Recipes</span>
-								</div>
-								<div>
-									<span className="font-bold text-foreground text-3xl">
-										{
-											[
-												...new Set(
-													authorPosts.map((p) => p.recipeDetails.cuisine),
-												),
-											].length
-										}
-									</span>
-									<span className="text-muted-foreground ml-1">Cuisines</span>
 								</div>
 							</div>
 						</header>

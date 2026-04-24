@@ -4,3 +4,43 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
+
+import type { TableOfContentHeading } from "@/components/table-of-content";
+
+export function extractHeadings(html: string): {
+	headings: TableOfContentHeading[];
+	content: string;
+} {
+	const headings: TableOfContentHeading[] = [];
+
+	// Match h2, h3, h4 tags — captures existing id if present, plus inner text
+	const enriched = html.replace(
+		/<(h2|h3|h4)([^>]*)>(.*?)<\/(h2|h3|h4)>/gi,
+		(match, tag: string, attrs: string, inner: string) => {
+			// Strip any HTML tags inside the heading to get plain text
+			const text = inner.replace(/<[^>]*>/g, "").trim();
+			if (!text) return match;
+
+			// Use existing id or generate a slug from the text
+			const existingId = attrs.match(/id=["']([^"']+)["']/)?.[1];
+			const id =
+				existingId ||
+				text
+					.toLowerCase()
+					.replace(/[^a-z0-9]+/g, "-")
+					.replace(/^-|-$/g, "");
+
+			headings.push({
+				id,
+				text,
+				level: tag.toLowerCase() as "h2" | "h3" | "h4",
+			});
+
+			// Inject the id into the heading tag if not already there
+			const newAttrs = existingId ? attrs : `${attrs} id="${id}"`;
+			return `<${tag}${newAttrs}>${inner}</${tag}>`;
+		},
+	);
+
+	return { headings, content: enriched };
+}

@@ -121,7 +121,7 @@ const SubscribeVertical = () => {
 								<Button
 									type="submit"
 									size={"lg"}
-									shadow={"bold"}
+									shadow={"sm"}
 									className="py-[22px] w-full"
 									disabled={isPending}
 								>

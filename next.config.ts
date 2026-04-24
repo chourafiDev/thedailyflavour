@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
 				protocol: "https",
 				hostname: "thedailyflavour.com",
 			},
+			{
+				protocol: "https",
+				hostname: "cms.thedailyflavour.com",
+			},
 		],
 	},
 };

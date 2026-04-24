@@ -14,12 +14,24 @@ export const GET_ALL_RECIPES = gql`
             altText
           }
         }
+        author {
+          node {
+            name
+            slug
+          }
+        }
+        categories {
+          nodes {
+            name
+            slug
+          }
+        }
         recipeDetails {
           prepTime
           cookTime
-          servings
-          cuisine
-          difficulty
+          totalTime
+          calories
+          cost
         }
       }
     }
@@ -32,29 +44,41 @@ export const GET_RECIPE_BY_SLUG = gql`
       title
       slug
       date
-      content
       excerpt
+      content
       featuredImage {
         node {
           sourceUrl
           altText
         }
       }
+      author {
+        node {
+          name
+          slug
+        }
+      }
+      categories {
+        nodes {
+          name
+          slug
+        }
+      }
       recipeDetails {
         prepTime
         cookTime
-        servings
+        totalTime
         calories
-        cuisine
-        difficulty
+        cost
         ingredients
         instructions
+        notes
+        nutrition
       }
     }
   }
 `;
 
-// Fetch all categories with post count
 export const GET_ALL_CATEGORIES = gql`
   query GetAllCategories {
     categories(first: 50) {
@@ -69,7 +93,6 @@ export const GET_ALL_CATEGORIES = gql`
   }
 `;
 
-// Fetch all recipes belonging to a specific category
 export const GET_RECIPES_BY_CATEGORY = gql`
   query GetRecipesByCategory($slug: String!) {
     category(id: $slug, idType: SLUG) {
@@ -91,9 +114,8 @@ export const GET_RECIPES_BY_CATEGORY = gql`
           recipeDetails {
             prepTime
             cookTime
-            servings
-            cuisine
-            difficulty
+            totalTime
+            calories
           }
         }
       }

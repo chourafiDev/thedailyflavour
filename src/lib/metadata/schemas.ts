@@ -67,7 +67,6 @@ export function generateBlogPostingSchema(post: DummyRecipe | null) {
 		"quick recipes",
 		"family recipes",
 		post.category?.title?.toLowerCase(),
-		post.recipeDetails?.cuisine?.toLowerCase(),
 		"easy recipe",
 		"weeknight dinner",
 	]
@@ -104,7 +103,6 @@ export function generateBlogPostingSchema(post: DummyRecipe | null) {
 			"@id": `${siteConfig.url}/blog/${post.slug}`,
 		},
 		keywords,
-		recipeCuisine: post.recipeDetails?.cuisine || "",
 		recipeCategory: post.category?.title || "",
 		prepTime: `PT${post.recipeDetails?.prepTime || 0}M`,
 		cookTime: `PT${post.recipeDetails?.cookTime || 0}M`,

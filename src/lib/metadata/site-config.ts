@@ -13,7 +13,7 @@ export const siteConfig = {
 		tiktok: "https://tiktok.com/@thedailyflavour",
 	},
 	creator: {
-		name: "Remi Cassidy",
+		name: "Sarah Mitchell",
 		email: "hello@thedailyflavour.com",
 		twitter: "@thedailyflavour",
 	},

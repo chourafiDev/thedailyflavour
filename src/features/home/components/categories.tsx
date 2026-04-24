@@ -48,6 +48,7 @@ interface CategoryWithImage extends WPCategory {
 const Categories = async () => {
 	const raw: WPCategory[] = await getAllCategories();
 
+
 	const categories: CategoryWithImage[] = raw
 		.filter((c) => c.slug !== "uncategorized")
 		.slice(0, 6)

@@ -19,8 +19,7 @@ const Articles = ({ query, category }: ArticlesProps) => {
 	const filtered = dummyRecipes.filter((r) => {
 		const matchesQuery = query
 			? r.title.toLowerCase().includes(query.toLowerCase()) ||
-				r.excerpt.toLowerCase().includes(query.toLowerCase()) ||
-				r.recipeDetails.cuisine.toLowerCase().includes(query.toLowerCase())
+				r.excerpt.toLowerCase().includes(query.toLowerCase())
 			: true;
 
 		const matchesCategory = category ? r.category.slug === category : true;

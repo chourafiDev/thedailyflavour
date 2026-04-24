@@ -123,9 +123,7 @@
 
 
 
-  /* Add this to your globals.css */
-
-
+  /* Post content style */
   .post-content {
     @apply text-foreground leading-[1.85] max-w-none mb-10;
     font-family: var(--font-manrope);
@@ -193,7 +191,7 @@
 
   /* ── Images ── */
   .post-content img {
-    @apply rounded-md shadow-md my-6 max-w-full h-auto;
+    @apply rounded-md my-6 max-w-full h-auto;
   }
 
   /* ── Lists ── */

@@ -3,48 +3,52 @@ import Image from "next/image";
 import Link from "next/link";
 import { RxDividerVertical } from "react-icons/rx";
 import { Button } from "@/components/ui/button";
-import { dummyRecipes } from "@/lib/dummy-data";
 import { siteConfig } from "@/lib/metadata";
+import { searchRecipes } from "@/lib/wordpress";
 
 const PLACEHOLDER =
 	"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&q=80";
+
+function stripHtml(html: string) {
+	return html.replace(/<[^>]*>/g, "").trim();
+}
 
 interface ArticlesProps {
 	query: string;
 	category: string;
 }
 
-const Articles = ({ query, category }: ArticlesProps) => {
-	// Filter dummy recipes by search term and/or category
-	const filtered = dummyRecipes.filter((r) => {
-		const matchesQuery = query
-			? r.title.toLowerCase().includes(query.toLowerCase()) ||
-				r.excerpt.toLowerCase().includes(query.toLowerCase())
-			: true;
+const Articles = async ({ query, category }: ArticlesProps) => {
+	const results = await searchRecipes(
+		query || undefined,
+		category || undefined,
+	);
 
-		const matchesCategory = category ? r.category.slug === category : true;
-
-		return matchesQuery && matchesCategory;
-	});
-
-	// Transform to component shape
-	const posts = filtered.map((r, index) => ({
-		id: index + 1,
-		title: r.title,
-		excerpt: r.excerpt,
-		slug: r.slug,
-		category: r.category.title,
-		categorySlug: r.category.slug,
-		image: r.mainImage?.url || PLACEHOLDER,
-		date: r.publishedAt || new Date().toISOString(),
-		author: r.author?.name || "Remi",
-		authorSlug: r.author?.slug || "remi",
-	}));
+	const posts = results.map(
+		(r: {
+			title: string;
+			slug: string;
+			excerpt: string;
+			date: string;
+			featuredImage?: { node?: { sourceUrl?: string } };
+			categories?: { nodes?: { name: string; slug: string }[] };
+			author?: { node?: { name?: string; slug?: string } };
+		}) => ({
+			title: r.title || "Untitled",
+			slug: r.slug || "",
+			excerpt: r.excerpt ? stripHtml(r.excerpt) : "",
+			date: r.date || new Date().toISOString(),
+			image: r.featuredImage?.node?.sourceUrl || PLACEHOLDER,
+			category: r.categories?.nodes?.[0]?.name || "Recipes",
+			categorySlug: r.categories?.nodes?.[0]?.slug || "recipes",
+			author: r.author?.node?.name || "Sarah Mitchell",
+			authorSlug: r.author?.node?.slug || "sarah-mitchell",
+		}),
+	);
 
 	const resultsCount = posts.length;
 	const hasQuery = query || category;
 
-	// Empty state
 	if (resultsCount === 0) {
 		return (
 			<section aria-labelledby="no-results-heading" className="section-bottom">
@@ -66,11 +70,11 @@ const Articles = ({ query, category }: ArticlesProps) => {
 										: "No recipes available at the moment."}
 						</p>
 						<div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-							<Button asChild variant="default">
+							<Button asChild variant="default" size="lg" shadow={"sm"}>
 								<Link href="/">Browse All Recipes</Link>
 							</Button>
 							{hasQuery && (
-								<Button asChild variant="outline">
+								<Button asChild variant="outline" size="lg" shadow={"sm"}>
 									<Link href="/search">Clear Filters</Link>
 								</Button>
 							)}
@@ -93,10 +97,10 @@ const Articles = ({ query, category }: ArticlesProps) => {
 				{resultsCount === 1 ? "Result" : "Results"} found
 			</h2>
 
-			<div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-x-3 gap-y-8">
+			<div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-x-3 gap-y-8">
 				{posts.map((post) => (
 					<article
-						key={`${post.slug}-${post.id}`}
+						key={post.slug}
 						itemScope
 						itemType="https://schema.org/BlogPosting"
 						className="pr-3 border-r border-border"
@@ -107,7 +111,7 @@ const Articles = ({ query, category }: ArticlesProps) => {
 									itemProp="image"
 									itemScope
 									itemType="https://schema.org/ImageObject"
-									className="relative w-full h-[230px] rounded-lg overflow-hidden"
+									className="relative w-full h-[230px] rounded-md overflow-hidden"
 								>
 									<Image
 										src={post.image}
@@ -164,7 +168,6 @@ const Articles = ({ query, category }: ArticlesProps) => {
 							<Link href={`/blog/${post.slug}`}>{post.title}</Link>
 						</h3>
 
-						{/* Hidden publisher */}
 						<div
 							itemProp="publisher"
 							itemScope

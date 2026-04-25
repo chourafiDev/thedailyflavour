@@ -1,7 +1,5 @@
-import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
-import { RxDividerVertical } from "react-icons/rx";
 import type { DummyRecipe } from "@/lib/dummy-data";
 
 const PLACEHOLDER =
@@ -32,7 +30,7 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 	return (
 		<section
 			aria-labelledby="trending-search"
-			className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2"
+			className="grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-2"
 		>
 			{posts.map((post, index) => (
 				<article
@@ -40,8 +38,8 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 					itemScope
 					itemType="https://schema.org/BlogPosting"
 					className={`group w-full flex items-center gap-3 
-	${index % 2 === 0 ? "md:border-r md:pr-4" : ""} 
-	${index !== posts.length - 1 ? "lg:border-r lg:pr-0" : "lg:pr-0"}
+	${index % 3 === 0 ? "md:border-r md:pr-4" : ""} 
+	${index !== posts.length - 1 ? "lg:border-r lg:pr-4" : "lg:pr-0"}
 `}
 				>
 					<Link href={`/blog/${post.slug}`} itemProp="url">
@@ -64,42 +62,22 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 					</Link>
 
 					<div>
-						<div className="flex items-center gap-0">
-							{post.publishedAt && (
-								<time
-									dateTime={post.publishedAt}
-									itemProp="datePublished"
-									className="text-[9px] font-bold text-foreground"
+						{post.author && (
+							<div
+								itemProp="author"
+								itemScope
+								itemType="https://schema.org/Person"
+								className="mb-1"
+							>
+								<Link
+									href={`/author/${post.author.slug}`}
+									className="text-[9px] font-semibold"
 								>
-									{format(
-										new Date(post.publishedAt),
-										"MMMM d, yyyy",
-									).toUpperCase()}
-								</time>
-							)}
-							<RxDividerVertical
-								className="text-foreground font-bold rotate-12"
-								aria-hidden="true"
-							/>
-							{post.author && (
-								<div
-									itemProp="author"
-									itemScope
-									itemType="https://schema.org/Person"
-									className="mb-1"
-								>
-									<Link
-										href={`/author/${post.author.slug}`}
-										className="text-[9px] font-semibold"
-									>
-										<span className="text-muted-foreground">POST BY</span>{" "}
-										<span itemProp="name">
-											{post.author.name?.toUpperCase()}
-										</span>
-									</Link>
-								</div>
-							)}
-						</div>
+									<span className="text-muted-foreground">POST BY</span>{" "}
+									<span itemProp="name">{post.author.name?.toUpperCase()}</span>
+								</Link>
+							</div>
+						)}
 
 						<h3
 							itemProp="headline"

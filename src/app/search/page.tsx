@@ -41,17 +41,17 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 				<header className="mb-8">
 					<h1 className="title mb-1">
 						{query && category
-							? `"${query}" in ${categoryTitle}`
+							? `"${query}" in ${category}`
 							: query
 								? `Search Results for "${query}"`
 								: category
-									? `${categoryTitle} Articles`
-									: "Search Travel Guides"}
+									? `${category} Recipes`
+									: "Search Recipes"}
 					</h1>
 					<p className="text-muted-foreground">
 						{query || category
-							? "Discover solo female travel guides, tips, and destination information."
-							: "Find destinations, safety tips, budget guides, and travel inspiration for solo female travelers."}
+							? "Discover quick global recipes and weeknight dinner ideas."
+							: "Find recipes, cuisines, and cooking inspiration for your family table."}
 					</p>
 				</header>
 

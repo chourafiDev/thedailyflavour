@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useId } from "react";
+import { useEffect, useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,6 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { dummyCategories } from "@/lib/dummy-data";
 
 const formSchema = z.object({
 	search: z.string().trim(),
@@ -26,18 +25,20 @@ export default function SearchForm() {
 	const query = searchParams.get("q") || "";
 	const category = searchParams.get("category") || "";
 
-	// ── Dummy categories — replace with WPGraphQL fetch when live ──
-	const categories = dummyCategories.map((cat) => ({
-		title: cat.title,
-		slug: cat.slug,
-	}));
+	const [categories, setCategories] = useState<
+		{ title: string; slug: string }[]
+	>([]);
+
+	useEffect(() => {
+		fetch("/api/categories")
+			.then((res) => res.json())
+			.then((data) => setCategories(data))
+			.catch(() => setCategories([]));
+	}, []);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
-		defaultValues: {
-			search: query,
-			category: category,
-		},
+		defaultValues: { search: query, category: category },
 	});
 
 	useEffect(() => {
@@ -46,23 +47,13 @@ export default function SearchForm() {
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		const params = new URLSearchParams();
-
 		if (values.search) params.set("q", values.search);
 		if (values.category) params.set("category", values.category);
-
-		if (params.toString()) {
-			router.push(`/search?${params.toString()}`);
-		} else {
-			router.push("/search");
-		}
+		router.push(params.toString() ? `/search?${params.toString()}` : "/search");
 	}
 
 	const clearFilter = (filterType: "search" | "category") => {
-		if (filterType === "search") {
-			form.setValue("search", "");
-		} else {
-			form.setValue("category", "");
-		}
+		form.setValue(filterType === "search" ? "search" : "category", "");
 		form.handleSubmit(onSubmit)();
 	};
 
@@ -75,7 +66,6 @@ export default function SearchForm() {
 
 	return (
 		<>
-			{/* Search Form Section */}
 			<section
 				aria-labelledby="search-form-heading"
 				className="section-bottom rounded-xl bg-soft-linen md:px-10 px-5 md:py-8 py-5"
@@ -86,7 +76,6 @@ export default function SearchForm() {
 
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-						{/* Search Input */}
 						<div>
 							<div className="flex items-center justify-between mb-2">
 								<h3 className="text-foreground font-extrabold text-[17px]">
@@ -133,12 +122,10 @@ export default function SearchForm() {
 							/>
 						</div>
 
-						{/* Category Filter */}
 						<div>
 							<h3 className="text-foreground font-extrabold text-[17px] mb-2">
 								Filter by Category:
 							</h3>
-
 							<FormField
 								control={form.control}
 								name="category"
@@ -178,6 +165,7 @@ export default function SearchForm() {
 							<Button
 								type="submit"
 								size="lg"
+								shadow={"bold"}
 								className="px-16 flex-shrink-0 md:w-auto w-full"
 								aria-label="Search recipes"
 							>
@@ -188,7 +176,6 @@ export default function SearchForm() {
 				</Form>
 			</section>
 
-			{/* Active Filters */}
 			{hasActiveFilters && (
 				<section
 					aria-label="Active search filters"

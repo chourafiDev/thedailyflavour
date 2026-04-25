@@ -18,13 +18,25 @@ interface ArticlesProps {
 	category: string;
 }
 
+interface Post {
+	title: string;
+	slug: string;
+	excerpt: string;
+	date: string;
+	image: string;
+	category: string;
+	categorySlug: string;
+	author: string;
+	authorSlug: string;
+}
+
 const Articles = async ({ query, category }: ArticlesProps) => {
 	const results = await searchRecipes(
 		query || undefined,
 		category || undefined,
 	);
 
-	const posts = results.map(
+	const posts: Post[] = results.map(
 		(r: {
 			title: string;
 			slug: string;

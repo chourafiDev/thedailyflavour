@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/breadcrumbs";
-import { siteConfig } from "@/lib/metadata";
+import { JsonLd } from "@/components/JsonLd";
+import {
+	generateTermsMetadata,
+	generateWebPageSchema,
+	siteConfig,
+} from "@/lib/metadata";
 
-export const metadata: Metadata = {
-	title: "Terms of Service",
-	description: `Terms of Service for ${siteConfig.name}. Read our terms and conditions for using our website and services.`,
-};
+export const metadata: Metadata = generateTermsMetadata();
 
 const TermsOfServicePage = () => {
+	const webPageSchema = generateWebPageSchema(
+		"Terms of Service",
+		`Terms of Service for ${siteConfig.name}.`,
+		"/terms-of-service",
+	);
+
+	const lastUpdated = "January 1, 2025";
+
 	return (
 		<>
+			<JsonLd data={webPageSchema} id="webpage-schema" />
+
 			<Breadcrumbs>
 				<li
 					itemProp="itemListElement"
@@ -23,23 +35,19 @@ const TermsOfServicePage = () => {
 			</Breadcrumbs>
 
 			<main className="custom-container py-10">
-				<article className="max-w-4xl mx-auto">
+				<article
+					className="max-w-4xl mx-auto"
+					itemScope
+					itemType="https://schema.org/WebPage"
+				>
 					<header className="mb-8">
 						<h1 className="text-4xl font-bold text-foreground mb-4">
 							Terms of Service
 						</h1>
-						<p className="text-muted-foreground">
-							Last updated:{" "}
-							{new Date().toLocaleDateString("en-US", {
-								year: "numeric",
-								month: "long",
-								day: "numeric",
-							})}
-						</p>
+						<p className="text-muted-foreground">Last updated: {lastUpdated}</p>
 					</header>
 
 					<div className="prose prose-lg max-w-none space-y-8">
-						{/* Agreement to Terms */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Agreement to Terms
@@ -52,7 +60,6 @@ const TermsOfServicePage = () => {
 							</p>
 						</section>
 
-						{/* Use License */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Use License
@@ -85,7 +92,6 @@ const TermsOfServicePage = () => {
 							</ul>
 						</section>
 
-						{/* Content Disclaimer */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Content Disclaimer
@@ -100,14 +106,14 @@ const TermsOfServicePage = () => {
 								of rights.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								All content on this website is for informational purposes only.
-								Travel information, safety tips, and recommendations are based
-								on personal experiences and research. Always verify information
-								with official sources before making travel decisions.
+								All content on this website is for informational and
+								entertainment purposes only. Recipe results may vary based on
+								ingredients, equipment, and technique. Always use your own
+								judgment when preparing food, especially regarding allergies and
+								dietary restrictions.
 							</p>
 						</section>
 
-						{/* Affiliate Links */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Affiliate Links and Advertising
@@ -125,7 +131,6 @@ const TermsOfServicePage = () => {
 							</p>
 						</section>
 
-						{/* User Content */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								User Content
@@ -148,7 +153,6 @@ const TermsOfServicePage = () => {
 							</ul>
 						</section>
 
-						{/* Copyright */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Copyright and Intellectual Property
@@ -162,7 +166,6 @@ const TermsOfServicePage = () => {
 							</p>
 						</section>
 
-						{/* External Links */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								External Links
@@ -177,7 +180,6 @@ const TermsOfServicePage = () => {
 							</p>
 						</section>
 
-						{/* Limitation of Liability */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Limitation of Liability
@@ -193,33 +195,6 @@ const TermsOfServicePage = () => {
 							</p>
 						</section>
 
-						{/* Travel Disclaimer */}
-						<section>
-							<h2 className="text-2xl font-bold text-foreground mb-4">
-								Travel Disclaimer
-							</h2>
-							<p className="text-muted-foreground leading-relaxed mb-4">
-								Travel involves inherent risks. While we strive to provide
-								accurate and up-to-date information, travel conditions,
-								regulations, and safety situations can change rapidly.
-							</p>
-							<ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-								<li>
-									Always check official government travel advisories before
-									traveling
-								</li>
-								<li>
-									Verify visa and entry requirements with official sources
-								</li>
-								<li>Purchase appropriate travel insurance</li>
-								<li>
-									Follow local laws and customs in your destination countries
-								</li>
-								<li>Use your own judgment when making travel decisions</li>
-							</ul>
-						</section>
-
-						{/* Governing Law */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Governing Law
@@ -232,7 +207,6 @@ const TermsOfServicePage = () => {
 							</p>
 						</section>
 
-						{/* Changes to Terms */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Changes to Terms
@@ -244,7 +218,6 @@ const TermsOfServicePage = () => {
 							</p>
 						</section>
 
-						{/* Contact */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Contact Us
@@ -255,10 +228,22 @@ const TermsOfServicePage = () => {
 							</p>
 							<ul className="list-none space-y-2 text-muted-foreground mt-4">
 								<li>
-									<strong>Email:</strong> {siteConfig.creator.email}
+									<strong>Email:</strong>{" "}
+									<a
+										href={`mailto:${siteConfig.creator.email}`}
+										className="text-primary hover:underline"
+									>
+										{siteConfig.creator.email}
+									</a>
 								</li>
 								<li>
-									<strong>Website:</strong> {siteConfig.url}
+									<strong>Website:</strong>{" "}
+									<a
+										href={siteConfig.url}
+										className="text-primary hover:underline"
+									>
+										{siteConfig.url}
+									</a>
 								</li>
 							</ul>
 						</section>

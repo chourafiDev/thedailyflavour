@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/breadcrumbs";
-import { siteConfig } from "@/lib/metadata";
+import { JsonLd } from "@/components/JsonLd";
+import {
+	generateDisclaimerMetadata,
+	generateWebPageSchema,
+	siteConfig,
+} from "@/lib/metadata";
 
-export const metadata: Metadata = {
-	title: "Disclaimer",
-	description: `Disclaimer for ${siteConfig.name}. Important information about the content and advice provided on our website.`,
-};
+export const metadata: Metadata = generateDisclaimerMetadata();
 
 const DisclaimerPage = () => {
+	const webPageSchema = generateWebPageSchema(
+		"Disclaimer",
+		`Disclaimer for ${siteConfig.name}.`,
+		"/disclaimer",
+	);
+
+	const lastUpdated = "January 1, 2025";
+
 	return (
 		<>
+			<JsonLd data={webPageSchema} id="webpage-schema" />
+
 			<Breadcrumbs>
 				<li
 					itemProp="itemListElement"
@@ -23,23 +35,19 @@ const DisclaimerPage = () => {
 			</Breadcrumbs>
 
 			<main className="custom-container py-10">
-				<article className="max-w-4xl mx-auto">
+				<article
+					className="max-w-4xl mx-auto"
+					itemScope
+					itemType="https://schema.org/WebPage"
+				>
 					<header className="mb-8">
 						<h1 className="text-4xl font-bold text-foreground mb-4">
 							Disclaimer
 						</h1>
-						<p className="text-muted-foreground">
-							Last updated:{" "}
-							{new Date().toLocaleDateString("en-US", {
-								year: "numeric",
-								month: "long",
-								day: "numeric",
-							})}
-						</p>
+						<p className="text-muted-foreground">Last updated: {lastUpdated}</p>
 					</header>
 
 					<div className="prose prose-lg max-w-none space-y-8">
-						{/* General Disclaimer */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								General Disclaimer
@@ -54,95 +62,64 @@ const DisclaimerPage = () => {
 							</p>
 						</section>
 
-						{/* Travel Information */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
-								Travel Information Disclaimer
+								Recipe Disclaimer
 							</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								All travel information, recommendations, and advice on{" "}
-								{siteConfig.name} are based on personal experiences and research
-								at the time of writing. Travel conditions, regulations, safety
-								situations, and circumstances can change rapidly and without
-								notice.
-							</p>
-							<p className="text-muted-foreground leading-relaxed mb-4">
-								We strongly recommend that you:
+								All recipes and cooking advice on {siteConfig.name} are based on
+								personal experience and testing. Results may vary depending on
+								your ingredients, equipment, technique, and other factors. We
+								strongly recommend that you:
 							</p>
 							<ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+								<li>Read the full recipe before starting to cook</li>
 								<li>
-									Check official government travel advisories before traveling
+									Check ingredients for allergens before preparing any dish
 								</li>
 								<li>
-									Verify all information with official and local sources before
-									making travel decisions
+									Use your own judgment when adjusting seasoning and cooking
+									times
 								</li>
-								<li>Purchase comprehensive travel insurance</li>
-								<li>Register with your embassy when traveling abroad</li>
+								<li>Verify substitutions with a reliable culinary source</li>
 								<li>
-									Stay informed about current events and safety conditions in
-									your destination
+									Follow safe food handling and storage practices at all times
 								</li>
-								<li>Use your own judgment and common sense</li>
 							</ul>
 						</section>
 
-						{/* Safety Disclaimer */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
-								Safety and Risk Disclaimer
+								Nutritional Information Disclaimer
 							</h2>
 							<p className="text-muted-foreground leading-relaxed mb-4">
-								Travel inherently involves risks. While we provide safety tips
-								and recommendations based on our experiences, we cannot
-								guarantee your safety or security while traveling. You are
-								solely responsible for:
-							</p>
-							<ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-								<li>Your personal safety and security decisions</li>
-								<li>Assessing risks in any situation</li>
-								<li>Following local laws and customs</li>
-								<li>Obtaining necessary visas and travel documents</li>
-								<li>Getting appropriate vaccinations and medical clearances</li>
-								<li>Understanding and managing travel-related risks</li>
-							</ul>
-						</section>
-
-						{/* Medical Disclaimer */}
-						<section>
-							<h2 className="text-2xl font-bold text-foreground mb-4">
-								Medical and Health Disclaimer
-							</h2>
-							<p className="text-muted-foreground leading-relaxed mb-4">
-								{siteConfig.name} is not a medical or health professional. Any
-								health or medical information provided on this website is for
-								informational purposes only and should not be considered
-								professional medical advice, diagnosis, or treatment.
+								{siteConfig.name} is not staffed by registered dietitians or
+								nutritionists. Any nutritional information provided is estimated
+								and for informational purposes only. Actual values may vary
+								based on specific ingredients, brands, portion sizes, and
+								preparation methods.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								Always consult with a qualified healthcare provider before
-								traveling, especially if you have pre-existing medical
-								conditions. Seek immediate medical attention if you experience
-								health issues while traveling.
+								If you have specific dietary needs, allergies, or health
+								conditions, always consult a qualified healthcare or nutrition
+								professional before making changes to your diet.
 							</p>
 						</section>
 
-						{/* Financial Disclaimer */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
-								Financial and Budget Information
+								Allergy Disclaimer
 							</h2>
 							<p className="text-muted-foreground leading-relaxed">
-								Budget estimates, costs, and financial information provided on{" "}
-								{siteConfig.name} are based on personal experiences and are
-								subject to change. Actual costs may vary depending on exchange
-								rates, inflation, seasonal pricing, personal spending habits,
-								and other factors. Always research current prices and maintain a
-								financial buffer for unexpected expenses.
+								While we do our best to note common allergens in our recipes, we
+								cannot guarantee that any recipe is free from allergens due to
+								potential cross-contamination or ingredient variations between
+								brands. If you have a serious food allergy, please consult the
+								packaging of every ingredient you use and seek professional
+								medical advice if needed.
 							</p>
 						</section>
 
-						{/* Affiliate Disclaimer */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Affiliate Links Disclaimer
@@ -154,15 +131,13 @@ const DisclaimerPage = () => {
 								additional cost to you.
 							</p>
 							<p className="text-muted-foreground leading-relaxed">
-								We only recommend products, services, and accommodations that we
-								have personally used or thoroughly researched. However, our
+								We only recommend products, kitchen tools, and ingredients that
+								we have personally used or thoroughly researched. However, our
 								positive experience does not guarantee yours will be the same.
-								Always conduct your own research before making purchases or
-								bookings.
+								Always conduct your own research before making purchases.
 							</p>
 						</section>
 
-						{/* External Links */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								External Links Disclaimer
@@ -178,52 +153,33 @@ const DisclaimerPage = () => {
 							</p>
 						</section>
 
-						{/* Photography Disclaimer */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Photography and Images
 							</h2>
 							<p className="text-muted-foreground leading-relaxed">
 								Unless otherwise stated, all photographs on {siteConfig.name}{" "}
-								are our own. Images are meant to represent destinations and
-								experiences but may not reflect current conditions. Colors,
-								lighting, and appearance may differ from what you experience in
-								person. Weather, seasons, renovations, and other factors can
-								significantly change the appearance of locations.
+								are our own. Food photography is styled for visual appeal and
+								may not exactly represent the finished dish. Colors, portion
+								sizes, and presentation may differ depending on your ingredients
+								and plating style.
 							</p>
 						</section>
 
-						{/* Personal Experience */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Personal Experience Disclaimer
 							</h2>
 							<p className="text-muted-foreground leading-relaxed">
 								All content on {siteConfig.name} reflects personal experiences,
-								opinions, and perspectives. Your experience may differ based on
-								numerous factors including but not limited to: timing of visit,
-								personal preferences, cultural background, budget, travel style,
-								language skills, and individual circumstances. What worked for
-								us may not work for you.
+								opinions, and perspectives. Your results may differ based on
+								numerous factors including ingredient quality, cooking
+								equipment, skill level, personal taste preferences, and
+								individual circumstances. What worked for us may not work for
+								you.
 							</p>
 						</section>
 
-						{/* Changes and Updates */}
-						<section>
-							<h2 className="text-2xl font-bold text-foreground mb-4">
-								Changes and Updates
-							</h2>
-							<p className="text-muted-foreground leading-relaxed">
-								Destinations, businesses, accommodations, and services mentioned
-								on {siteConfig.name} may change ownership, close, relocate, or
-								alter their offerings without notice. We strive to keep
-								information current but cannot guarantee that all content
-								reflects the latest changes. Always verify information before
-								making travel arrangements.
-							</p>
-						</section>
-
-						{/* Errors and Omissions */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Errors and Omissions
@@ -237,21 +193,19 @@ const DisclaimerPage = () => {
 							</p>
 						</section>
 
-						{/* Professional Advice */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Professional Advice
 							</h2>
 							<p className="text-muted-foreground leading-relaxed">
-								{siteConfig.name} does not provide professional legal, medical,
-								financial, or other expert advice. If you require such advice,
-								please consult with a licensed professional in the relevant
-								field. Never rely solely on information from travel blogs for
-								important decisions.
+								{siteConfig.name} does not provide professional medical,
+								nutritional, financial, or legal advice. If you require such
+								advice, please consult with a licensed professional in the
+								relevant field. Never rely solely on a recipe blog for important
+								health or dietary decisions.
 							</p>
 						</section>
 
-						{/* Limitation of Liability */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Limitation of Liability
@@ -265,7 +219,6 @@ const DisclaimerPage = () => {
 							</p>
 						</section>
 
-						{/* Contact */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Questions or Concerns
@@ -276,10 +229,22 @@ const DisclaimerPage = () => {
 							</p>
 							<ul className="list-none space-y-2 text-muted-foreground mt-4">
 								<li>
-									<strong>Email:</strong> {siteConfig.creator.email}
+									<strong>Email:</strong>{" "}
+									<a
+										href={`mailto:${siteConfig.creator.email}`}
+										className="text-primary hover:underline"
+									>
+										{siteConfig.creator.email}
+									</a>
 								</li>
 								<li>
-									<strong>Website:</strong> {siteConfig.url}
+									<strong>Website:</strong>{" "}
+									<a
+										href={siteConfig.url}
+										className="text-primary hover:underline"
+									>
+										{siteConfig.url}
+									</a>
 								</li>
 							</ul>
 						</section>

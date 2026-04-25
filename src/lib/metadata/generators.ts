@@ -312,3 +312,75 @@ export function generateSearchMetadata(
 		twitter: { card: "summary", title, description },
 	};
 }
+
+// ── Privacy Policy page ───────────────────────────────────────
+export function generatePrivacyMetadata(): Metadata {
+	const url = `${siteConfig.url}/privacy-policy`;
+
+	return {
+		title: "Privacy Policy",
+		description: `Privacy Policy for ${siteConfig.name}. Learn how we collect, use, and protect your personal information.`,
+		keywords: [
+			...siteConfig.keywords,
+			"privacy policy",
+			"data protection",
+			"personal information",
+		],
+		alternates: { canonical: url },
+		robots: { index: false, follow: true },
+		openGraph: {
+			title: `Privacy Policy — ${siteConfig.name}`,
+			description: `Privacy Policy for ${siteConfig.name}.`,
+			url,
+			type: "website",
+		},
+	};
+}
+
+// ── Terms of Service page ─────────────────────────────────────
+export function generateTermsMetadata(): Metadata {
+	const url = `${siteConfig.url}/terms-of-service`;
+
+	return {
+		title: "Terms of Service",
+		description: `Terms of Service for ${siteConfig.name}. Read our terms and conditions for using our website and services.`,
+		keywords: [
+			...siteConfig.keywords,
+			"terms of service",
+			"terms and conditions",
+			"legal",
+		],
+		alternates: { canonical: url },
+		robots: { index: false, follow: true },
+		openGraph: {
+			title: `Terms of Service — ${siteConfig.name}`,
+			description: `Terms of Service for ${siteConfig.name}.`,
+			url,
+			type: "website",
+		},
+	};
+}
+
+// ── Disclaimer page ───────────────────────────────────────────
+export function generateDisclaimerMetadata(): Metadata {
+	const url = `${siteConfig.url}/disclaimer`;
+
+	return {
+		title: "Disclaimer",
+		description: `Disclaimer for ${siteConfig.name}. Important information about the content and advice provided on our website.`,
+		keywords: [
+			...siteConfig.keywords,
+			"disclaimer",
+			"legal notice",
+			"affiliate disclosure",
+		],
+		alternates: { canonical: url },
+		robots: { index: false, follow: true },
+		openGraph: {
+			title: `Disclaimer — ${siteConfig.name}`,
+			description: `Disclaimer for ${siteConfig.name}.`,
+			url,
+			type: "website",
+		},
+	};
+}

@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/breadcrumbs";
-import { siteConfig } from "@/lib/metadata";
+import { JsonLd } from "@/components/JsonLd";
+import {
+	generatePrivacyMetadata,
+	generateWebPageSchema,
+	siteConfig,
+} from "@/lib/metadata";
 
-export const metadata: Metadata = {
-	title: "Privacy Policy",
-	description: `Privacy Policy for ${siteConfig.name}. Learn how we collect, use, and protect your personal information.`,
-};
+export const metadata: Metadata = generatePrivacyMetadata();
 
 const PrivacyPolicyPage = () => {
+	const webPageSchema = generateWebPageSchema(
+		"Privacy Policy",
+		`Privacy Policy for ${siteConfig.name}.`,
+		"/privacy-policy",
+	);
+
+	const lastUpdated = "January 1, 2025";
+
 	return (
 		<>
+			<JsonLd data={webPageSchema} id="webpage-schema" />
+
 			<Breadcrumbs>
 				<li
 					itemProp="itemListElement"
@@ -23,23 +35,19 @@ const PrivacyPolicyPage = () => {
 			</Breadcrumbs>
 
 			<main className="custom-container py-10">
-				<article className="max-w-4xl mx-auto">
+				<article
+					className="max-w-4xl mx-auto"
+					itemScope
+					itemType="https://schema.org/WebPage"
+				>
 					<header className="mb-8">
 						<h1 className="text-4xl font-bold text-foreground mb-4">
 							Privacy Policy
 						</h1>
-						<p className="text-muted-foreground">
-							Last updated:{" "}
-							{new Date().toLocaleDateString("en-US", {
-								year: "numeric",
-								month: "long",
-								day: "numeric",
-							})}
-						</p>
+						<p className="text-muted-foreground">Last updated: {lastUpdated}</p>
 					</header>
 
 					<div className="prose prose-lg max-w-none space-y-8">
-						{/* Introduction */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Introduction
@@ -53,7 +61,6 @@ const PrivacyPolicyPage = () => {
 							</p>
 						</section>
 
-						{/* Information We Collect */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Information We Collect
@@ -86,7 +93,6 @@ const PrivacyPolicyPage = () => {
 							</ul>
 						</section>
 
-						{/* How We Use Your Information */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								How We Use Your Information
@@ -108,7 +114,6 @@ const PrivacyPolicyPage = () => {
 							</ul>
 						</section>
 
-						{/* Cookies */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Cookies
@@ -124,7 +129,6 @@ const PrivacyPolicyPage = () => {
 							</p>
 						</section>
 
-						{/* Third-Party Services */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Third-Party Services
@@ -145,7 +149,6 @@ const PrivacyPolicyPage = () => {
 							</ul>
 						</section>
 
-						{/* Data Security */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Data Security
@@ -159,7 +162,6 @@ const PrivacyPolicyPage = () => {
 							</p>
 						</section>
 
-						{/* Your Rights */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Your Rights
@@ -196,7 +198,6 @@ const PrivacyPolicyPage = () => {
 							</ul>
 						</section>
 
-						{/* Children's Privacy */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Children&apos;s Privacy
@@ -209,7 +210,6 @@ const PrivacyPolicyPage = () => {
 							</p>
 						</section>
 
-						{/* Changes to Privacy Policy */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Changes to This Privacy Policy
@@ -223,7 +223,6 @@ const PrivacyPolicyPage = () => {
 							</p>
 						</section>
 
-						{/* Contact */}
 						<section>
 							<h2 className="text-2xl font-bold text-foreground mb-4">
 								Contact Us
@@ -234,10 +233,22 @@ const PrivacyPolicyPage = () => {
 							</p>
 							<ul className="list-none space-y-2 text-muted-foreground mt-4">
 								<li>
-									<strong>Email:</strong> {siteConfig.creator.email}
+									<strong>Email:</strong>{" "}
+									<a
+										href={`mailto:${siteConfig.creator.email}`}
+										className="text-primary hover:underline"
+									>
+										{siteConfig.creator.email}
+									</a>
 								</li>
 								<li>
-									<strong>Website:</strong> {siteConfig.url}
+									<strong>Website:</strong>{" "}
+									<a
+										href={siteConfig.url}
+										className="text-primary hover:underline"
+									>
+										{siteConfig.url}
+									</a>
 								</li>
 							</ul>
 						</section>

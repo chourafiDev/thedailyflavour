@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import React from "react";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
@@ -8,13 +9,13 @@ import Categories from "@/features/category/components/categories";
 import CategoryHeader from "@/features/category/components/category-header";
 import PaginationPosts from "@/features/category/components/pagination-posts";
 import Search from "@/features/category/components/search";
-import { dummyCategories, dummyRecipes } from "@/lib/dummy-data";
 import {
 	generateBreadcrumbSchema,
 	generateCollectionPageSchema,
 	generateItemListSchema,
 	siteConfig,
 } from "@/lib/metadata";
+import { getAllCategories, getCategoryWithPosts } from "@/lib/wordpress";
 
 export interface BlogCardProps {
 	image: string;
@@ -37,8 +38,8 @@ const POSTS_PER_PAGE = 10;
 
 export async function generateMetadata({ params }: PageProps) {
 	const { slug } = await params;
-	const cat = dummyCategories.find((c) => c.slug === slug);
-	const title = cat?.title ?? slug.charAt(0).toUpperCase() + slug.slice(1);
+	const category = await getCategoryWithPosts(slug);
+	const title = category?.name ?? slug.charAt(0).toUpperCase() + slug.slice(1);
 	return {
 		title: `${title} Recipes — ${siteConfig.name}`,
 		description: `Browse all ${title.toLowerCase()} recipes on ${siteConfig.name}`,
@@ -46,21 +47,19 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export async function generateStaticParams() {
-	const slugs = [...new Set(dummyRecipes.map((r) => r.category.slug))];
-	return slugs.map((slug) => ({ slug }));
+	const categories = await getAllCategories();
+	return categories.map((cat: { slug: string }) => ({ slug: cat.slug }));
 }
 
-const CategoryPage = async ({ params, searchParams }: PageProps) => {
+const PostsByCategoryPage = async ({ params, searchParams }: PageProps) => {
 	const { slug } = await params;
 	const { page: pageParam } = await searchParams;
 
-	// Derive category title from dummy data — no siteConfig lookup needed
-	const categoryMeta = dummyCategories.find((c) => c.slug === slug);
-	const categoryTitle =
-		categoryMeta?.title ?? slug.charAt(0).toUpperCase() + slug.slice(1);
+	const category = await getCategoryWithPosts(slug);
+	if (!category) return notFound();
 
-	// Filter recipes for this category
-	const allCategoryPosts = dummyRecipes.filter((r) => r.category.slug === slug);
+	const categoryTitle = category.name;
+	const allCategoryPosts = category.posts?.nodes ?? [];
 
 	// Pagination
 	const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
@@ -73,19 +72,28 @@ const CategoryPage = async ({ params, searchParams }: PageProps) => {
 	);
 
 	// Transform to BlogCardProps
-	const posts: BlogCardProps[] = paginated.map((post) => ({
-		image: post.mainImage?.url || "",
-		date: post.publishedAt || new Date().toISOString(),
-		author: post.author?.name || "Remi",
-		authorSlug: post.author?.slug || "remi",
-		title: post.title || "Untitled Recipe",
-		slug: post.slug || "",
-		category: post.category?.title || categoryTitle,
-		categorySlug: post.category?.slug || slug,
-		excerpt: post.excerpt || "",
-	}));
+	const posts: BlogCardProps[] = paginated.map(
+		(post: {
+			title: string;
+			slug: string;
+			date: string;
+			excerpt: string;
+			featuredImage?: { node?: { sourceUrl?: string } };
+			author?: { node?: { name?: string; slug?: string } };
+		}) => ({
+			image: post.featuredImage?.node?.sourceUrl || "",
+			date: post.date || new Date().toISOString(),
+			author: post.author?.node?.name || "Unknown",
+			authorSlug: post.author?.node?.slug || "unknown",
+			title: post.title || "Untitled Recipe",
+			slug: post.slug || "",
+			category: categoryTitle,
+			categorySlug: slug,
+			excerpt: post.excerpt || "",
+		}),
+	);
 
-	// Empty state — category exists in URL but no recipes yet
+	// Empty state
 	if (totalPosts === 0) {
 		return (
 			<>
@@ -204,4 +212,4 @@ const CategoryPage = async ({ params, searchParams }: PageProps) => {
 	);
 };
 
-export default CategoryPage;
+export default PostsByCategoryPage;

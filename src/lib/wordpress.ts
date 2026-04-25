@@ -1,7 +1,9 @@
 import { client } from "@/lib/client";
 import {
+	GET_ALL_AUTHORS,
 	GET_ALL_CATEGORIES,
 	GET_ALL_RECIPES,
+	GET_AUTHOR_BY_SLUG,
 	GET_RECIPES_BY_CATEGORY as GET_CATEGORY_WITH_POSTS,
 	GET_RECIPE_BY_SLUG,
 	GET_RECIPES_BY_CATEGORY,
@@ -171,6 +173,30 @@ export async function searchRecipes(query?: string, categorySlug?: string) {
 		);
 	} catch (error) {
 		console.error("Error searching recipes:", error);
+		return [];
+	}
+}
+
+// ── Author ────────────────────────────────────────────────────
+
+// Fetch single author with their posts
+export async function getAuthorBySlug(slug: string) {
+	try {
+		const data = await client.request(GET_AUTHOR_BY_SLUG, { slug });
+		return data.user ?? null;
+	} catch (error) {
+		console.error("Error fetching author:", error);
+		return null;
+	}
+}
+
+// Fetch all authors
+export async function getAllAuthors() {
+	try {
+		const data = await client.request(GET_ALL_AUTHORS);
+		return data.users.nodes;
+	} catch (error) {
+		console.error("Error fetching authors:", error);
 		return [];
 	}
 }

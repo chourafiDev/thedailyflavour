@@ -101,9 +101,13 @@ const BlogCard = ({
 						<Link href={`/blog/${slug}`}>{title}</Link>
 					</h2>
 
-					<p itemProp="description" className="text-muted-foreground text-sm">
-						{excerpt}
-					</p>
+					<p
+						itemProp="description"
+						className="text-muted-foreground text-sm line-clamp-2"
+						dangerouslySetInnerHTML={{
+							__html: excerpt,
+						}}
+					/>
 				</div>
 
 				{/* Read More */}

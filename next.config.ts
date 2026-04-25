@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
 				protocol: "https",
 				hostname: "cms.thedailyflavour.com",
 			},
+			{
+				protocol: "https",
+				hostname: "secure.gravatar.com",
+			},
 		],
 	},
 };

@@ -94,7 +94,7 @@ export const GET_ALL_CATEGORIES = gql`
 `;
 
 export const GET_RECIPES_BY_CATEGORY = gql`
-  query GetRecipesByCategory($slug: String!) {
+  query GetRecipesByCategory($slug: ID!) {
     category(id: $slug, idType: SLUG) {
       name
       description
@@ -111,12 +111,108 @@ export const GET_RECIPES_BY_CATEGORY = gql`
               altText
             }
           }
+          author {
+            node {
+              name
+              slug
+            }
+          }
           recipeDetails {
             prepTime
             cookTime
             totalTime
             calories
           }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_CATEGORY_WITH_POSTS = gql`
+  query GetCategoryWithPosts($slug: ID!) {
+    category(id: $slug, idType: SLUG) {
+      name
+      description
+      slug
+      posts(first: 100) {
+        nodes {
+          title
+          slug
+          date
+          excerpt
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          author {
+            node {
+              name
+              slug
+            }
+          }
+          recipeDetails {
+            prepTime
+            cookTime
+            totalTime
+            calories
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_AUTHOR_BY_SLUG = gql`
+  query GetAuthorBySlug($slug: ID!) {
+    user(id: $slug, idType: SLUG) {
+      name
+      slug
+      description
+      avatar {
+        url
+      }
+      posts(first: 100) {
+        nodes {
+          title
+          slug
+          date
+          excerpt
+          featuredImage {
+            node {
+              sourceUrl
+              altText
+            }
+          }
+          categories {
+            nodes {
+              name
+              slug
+            }
+          }
+          recipeDetails {
+            prepTime
+            cookTime
+            totalTime
+            calories
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ALL_AUTHORS = gql`
+  query GetAllAuthors {
+    users(first: 50, where: { hasPublishedPosts: POST }) {
+      nodes {
+        name
+        slug
+        description
+        avatar {
+          url
         }
       }
     }

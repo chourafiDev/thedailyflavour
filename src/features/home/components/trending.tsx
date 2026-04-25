@@ -55,11 +55,11 @@ const Trending = () => {
 										className="mb-1"
 									>
 										<Link
-											href={`/author/crock-pot-round-steak-and-gravy`}
+											href={`/author/sarah`}
 											className="text-[9px] font-semibold"
 										>
 											<span className="text-muted-foreground">POST BY</span>{" "}
-											<span itemProp="name">
+											<span itemProp="name" className="font-bold">
 												{post.author.name?.toUpperCase()}
 											</span>
 										</Link>

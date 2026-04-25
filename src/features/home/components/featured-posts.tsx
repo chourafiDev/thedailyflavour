@@ -1,4 +1,3 @@
-
 import { format } from "date-fns";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -24,7 +23,7 @@ const FeaturedPosts = () => {
 					Recipes You Will Love
 				</h2>
 				<Link
-					href="/recipes"
+					href="/search"
 					className="text-foreground flex items-center gap-1 text-sm font-medium cursor-pointer hover:underline"
 				>
 					Explore All Recipes{" "}

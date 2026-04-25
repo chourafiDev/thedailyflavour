@@ -58,7 +58,7 @@ export default async function Home() {
 							</p>
 
 							<Link
-								href="/"
+								href="/search"
 								className={cn(
 									buttonVariants({
 										variant: "default",

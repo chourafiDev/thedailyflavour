@@ -21,18 +21,14 @@ const NAVIGATION_MENU: NavigationMenu = [
 	{ href: "/category/dinner", label: "Dinner" },
 	{ href: "/category/breakfast", label: "Breakfast" },
 	{ href: "/category/dessert", label: "Dessert" },
-	{ href: "/about-us", label: "About Us" },
 	{
 		label: "Discover More",
 		submenu: true,
 		type: "description",
 		items: [
 			{ href: "/category/drinks", label: "Drinks" },
-			{ href: "/category/asian", label: "Asian Recipes" },
 			{ href: "/category/healthy", label: "Healthy Eating" },
 			{ href: "/category/meal-prep", label: "Meal Prep" },
-			{ href: "/category/one-pan", label: "One Pan Dinners" },
-			{ href: "/category/vegetarian", label: "Vegetarian" },
 		],
 	},
 ];

@@ -25,9 +25,9 @@ const DesktopMenu = ({ menu }: { menu: TNavigationMenu }) => {
 								{item.label}
 							</NavigationMenuTrigger>
 							<NavigationMenuContent>
-								<div className="grid w-full md:w-5xl md:grid-cols-[.30fr_1fr]">
+								<div className="grid w-full md:w-4xl md:grid-cols-[.30fr_1fr]">
 									{/* Submenu Items */}
-									<ul className="space-y-1 p-4 md:border-r">
+									<ul className="space-y-1 pr-2 md:border-r">
 										{item.items?.map((subItem) => (
 											<li key={subItem.label}>
 												<NavSmallItem item={subItem} />
@@ -36,7 +36,7 @@ const DesktopMenu = ({ menu }: { menu: TNavigationMenu }) => {
 									</ul>
 
 									{/* Featured Posts */}
-									<ul className="grid grow gap-2 p-4 md:grid-cols-3">
+									<ul className="grid grow gap-2 pl-2 md:grid-cols-3">
 										{posts.map((post) => (
 											<li key={post.slug || post.title}>
 												<BlogCard post={post} />

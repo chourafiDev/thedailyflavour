@@ -17,7 +17,7 @@ export function BlogCard({ post }: { post: DummyRecipe }) {
 		<NavigationMenuPrimitive.Link asChild>
 			<Link
 				href={`/blog/${postSlug}`}
-				className="group relative isolate z-0 flex h-full min-h-[200px] rounded-lg overflow-hidden transition-colors duration-75"
+				className="group relative isolate z-0 flex h-full min-h-[200px] rounded-md overflow-hidden transition-colors duration-75"
 			>
 				{/* Background Image */}
 				<Image

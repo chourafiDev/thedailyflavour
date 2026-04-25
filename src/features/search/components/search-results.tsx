@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import { useForm } from "react-hook-form";
+import { IoSearch } from "react-icons/io5";
 import z from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -161,15 +162,15 @@ export default function SearchForm() {
 							/>
 						</div>
 
-						<div className="flex justify-end">
+						<div className="flex justify-center">
 							<Button
 								type="submit"
 								size="lg"
 								shadow={"bold"}
-								className="px-16 flex-shrink-0 md:w-auto w-full"
+								className="has-[>svg]:px-16 flex-shrink-0 md:w-auto w-full"
 								aria-label="Search recipes"
 							>
-								Search
+								Search <IoSearch />
 							</Button>
 						</div>
 					</form>

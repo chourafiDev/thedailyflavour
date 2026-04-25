@@ -119,7 +119,7 @@ const AuthorPage = async ({ params }: AuthorPageProps) => {
 
 					{/* Sidebar */}
 					<aside
-						className="lg:w-1/6 w-full sticky top-20"
+						className="lg:w-1/6 w-full lg:sticky top-24"
 						aria-label="Author profile sidebar"
 					>
 						{author.avatar?.url && (

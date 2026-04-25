@@ -17,7 +17,7 @@ const CallActions = () => {
 			</Suspense>
 
 			<div className="h-10 w-1 mx-3 bg-border" />
-			<div className="flex items-center gap-2">
+			<div className="md:flex hidden items-center gap-2">
 				<Link
 					href="/contact"
 					className={cn(

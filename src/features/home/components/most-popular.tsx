@@ -64,7 +64,7 @@ const CategorySection = ({ label, href, posts }: CategorySectionProps) => (
 
 		<div className="bg-foreground h-0.5 rounded-full w-full mb-6" />
 
-		<div className="grid grid-cols-4 gap-2">
+		<div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-2 gap-6">
 			{posts.map((post, index) => (
 				<article
 					key={post.slug || index}
@@ -94,7 +94,7 @@ const CategorySection = ({ label, href, posts }: CategorySectionProps) => (
 						</figure>
 					</Link>
 
-					<div className="flex items-center gap-2 mt-4">
+					<div className="flex items-center gap-2 md:mt-4 mt-2">
 						<time
 							dateTime={post.publishedAt || ""}
 							itemProp="datePublished"

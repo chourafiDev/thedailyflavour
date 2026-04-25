@@ -36,7 +36,7 @@ export default async function Home() {
 					aria-labelledby="about-author"
 					className="section-bottom relative rounded-md bg-soft-linen"
 				>
-					<div className="flex items-center p-4">
+					<div className="flex md:flex-row flex-col items-center md:gap-0 gap-6 p-4">
 						<div>
 							<Image
 								src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -46,7 +46,7 @@ export default async function Home() {
 								className="rounded-md"
 							/>
 						</div>
-						<div className="px-14">
+						<div className="md:px-14">
 							<h2 className="font-marcellus text-foreground text-2xl font-semibold mb-4">
 								Welcome to The Daily Flavour !
 							</h2>
@@ -65,7 +65,7 @@ export default async function Home() {
 										size: "lg",
 										shadow: "bold",
 									}),
-									"has-[>svg]:px-10",
+									"has-[>svg]:px-10 md:w-auto w-full",
 								)}
 							>
 								Explore all recipes <FaArrowRightLong />

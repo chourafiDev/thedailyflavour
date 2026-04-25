@@ -1,5 +1,7 @@
 import { MenuIcon } from "lucide-react";
 import Link from "next/link";
+import { FaInstagram, FaPinterestP } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { NavItemMobile } from "@/components/navigation-menu";
 import {
 	Accordion,
@@ -74,13 +76,55 @@ const MobileNav = ({ menu }: { menu: NavigationMenu }) => {
 								</Link>
 							),
 						)}
+
+						<div className="flex items-center gap-2">
+							<Link
+								href="/contact"
+								className={cn(
+									buttonVariants({
+										variant: "default",
+										size: "icon",
+										shadow: "soft",
+									}),
+									"size-10",
+								)}
+							>
+								<FaPinterestP />
+							</Link>
+							<Link
+								href="/contact"
+								className={cn(
+									buttonVariants({
+										variant: "default",
+										size: "icon",
+										shadow: "soft",
+									}),
+									"size-10",
+								)}
+							>
+								<FaInstagram />
+							</Link>
+							<Link
+								href="/contact"
+								className={cn(
+									buttonVariants({
+										variant: "default",
+										size: "icon",
+										shadow: "soft",
+									}),
+									"size-10",
+								)}
+							>
+								<FaXTwitter />
+							</Link>
+						</div>
 					</div>
 				</div>
 
 				<Link
-					href="/"
+					href="/contact"
 					className={cn(
-						buttonVariants({ variant: "default", size: "lg" }),
+						buttonVariants({ variant: "default", size: "lg", shadow: "bold" }),
 						"h-12",
 					)}
 				>

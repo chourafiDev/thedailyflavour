@@ -1,24 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import type { DummyAuthor } from "@/lib/dummy-data";
-
-// Remi's short bio shown under each recipe post
-const REMI_SHORT_BIO = [
-	"Hi, I'm Remi — the home cook behind The Daily Flavour. I'm obsessed with bringing the world's best flavours to the family table in 30 minutes or less.",
-	"From Thai street food to Lebanese home cooking, I spend my time figuring out how to get incredible results with a regular supermarket shop and a weeknight schedule.",
-];
 
 interface AuthorBioProps {
-	author: DummyAuthor;
+	author: { name: string; slug: string; image?: string };
 }
 
 const AuthorBio = ({ author }: AuthorBioProps) => {
 	if (!author) return null;
-
-	const authorName = author.name || "Remi";
-	const authorSlug = author.slug || "remi";
-	const authorImage =
-		"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80";
 
 	const getInitials = (name: string) =>
 		name
@@ -42,22 +30,37 @@ const AuthorBio = ({ author }: AuthorBioProps) => {
 			<div
 				itemScope
 				itemType="https://schema.org/Person"
-				className="flex md:flex-row flex-col items-start lg:gap-14 md:gap-10 gap-5"
+				className="flex md:flex-row flex-col items-center lg:gap-14 md:gap-10 gap-5"
 			>
 				<div>
-					<Avatar className="size-20 mx-auto mb-2.5">
-						<AvatarImage
-							src={authorImage}
-							alt={authorName}
-							className="object-cover"
+					{author.image ? (
+						<figure
 							itemProp="image"
-						/>
-						<AvatarFallback>{getInitials(authorName)}</AvatarFallback>
-					</Avatar>
+							itemScope
+							itemType="https://schema.org/ImageObject"
+							className="relative rounded-full size-[100px] mb-5 mx-auto overflow-hidden"
+						>
+							<Image
+								src={author.image}
+								alt={`${author.name} profile picture`}
+								itemProp="url"
+								priority
+								fill
+								sizes="100px"
+								className="absolute object-cover"
+							/>
+						</figure>
+					) : (
+						<div className="size-[120px] rounded-full bg-muted flex items-center justify-center mb-5 mx-auto">
+							<span className="text-2xl font-bold text-muted-foreground">
+								{getInitials(author.name)}
+							</span>
+						</div>
+					)}
 
 					<h3 className="text-foreground font-bold text-center text-base">
-						<Link href={`/author/${authorSlug}`} itemProp="url">
-							<span itemProp="name">{authorName}</span>
+						<Link href={`/author/${author.slug}`} itemProp="url">
+							<span itemProp="name">{author.name}</span>
 						</Link>
 					</h3>
 				</div>
@@ -67,17 +70,15 @@ const AuthorBio = ({ author }: AuthorBioProps) => {
 						itemProp="description"
 						className="text-muted-foreground text-sm prose prose-sm max-w-none"
 					>
-						{REMI_SHORT_BIO.map((paragraph, i) => (
-							<p
-								key={i}
-								className="my-2 text-foreground text-base leading-7 first:mt-0 last:mb-0"
-							>
-								{paragraph}
-							</p>
-						))}
+						<p className="my-2 text-foreground text-base leading-7 first:mt-0 last:mb-0">
+							Mom of two, comfort food lover, and the heart behind The Daily
+							Flavour. I share real recipes from my real kitchen warm, simple,
+							and always worth making twice. Grab a recipe and make yourself at
+							home. 🍲
+						</p>
 						<p className="mt-2">
 							<Link
-								href={`/author/${authorSlug}`}
+								href={`/author/${author.slug}`}
 								className="font-medium text-link underline"
 							>
 								Read Full bio

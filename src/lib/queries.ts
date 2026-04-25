@@ -56,6 +56,9 @@ export const GET_RECIPE_BY_SLUG = gql`
         node {
           name
           slug
+          avatar {
+            url
+          }
         }
       }
       categories {

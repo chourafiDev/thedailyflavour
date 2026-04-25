@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa6";
 import { IoChevronForwardOutline } from "react-icons/io5";
 import Breadcrumbs from "@/components/breadcrumbs";
-import { JsonLd, RecipeSchema } from "@/components/JsonLd";
+import { JsonLd, type RecipeSchema } from "@/components/JsonLd";
 import JumpToRecipeButton from "@/components/Jump-to-recipe-button";
 import PrintRecipeButton from "@/components/print-recipe-button";
 import RecipeCard from "@/components/recipe-card";
@@ -87,7 +87,11 @@ export default async function BlogPostPage({ params }: PageProps) {
 		? "Sarah Mitchell"
 		: post.author?.node?.slug || "Sarah Mitchell";
 
-	const authorObj = { name: authorName, slug: authorSlug };
+	const authorObj = {
+		name: authorName,
+		slug: authorSlug,
+		image: post.author?.node?.avatar?.url || "",
+	};
 
 	// ── Schema.org arrays (plain text, no group headers) ────────────────────────
 	const ingredientsForSchema =

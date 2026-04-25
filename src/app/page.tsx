@@ -36,7 +36,7 @@ export default async function Home() {
 					aria-labelledby="about-author"
 					className="section-bottom relative rounded-md bg-soft-linen"
 				>
-					<div className="flex items-center">
+					<div className="flex items-center p-4">
 						<div>
 							<Image
 								src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -47,16 +47,14 @@ export default async function Home() {
 							/>
 						</div>
 						<div className="px-14">
-							<h2 className="font-marcellus text-foreground text-2xl font-semibold mb-2">
+							<h2 className="font-marcellus text-foreground text-2xl font-semibold mb-4">
 								Welcome to The Daily Flavour !
 							</h2>
-							<p className="text-foreground mb-8">
-								I am{" "}
-								<span className="font-bold">{siteConfig.creator.name}</span>,
-								sharing flavor-packed fusion comfort food. From quick dinners to
-								Friday night fakeaways (James approved!), every dish is
-								meticulously tested, simple, and full of heart. You do not need
-								a Michelin star to make a killer dinner!
+							<p className="text-foreground mb-10">
+								Mom of two, comfort food lover, and the heart behind{" "}
+								<span className="font-semibold">The Daily Flavour.</span> I share real recipes from my
+								real kitchen warm, simple, and always worth making twice. Grab a
+								recipe and make yourself at home. 🍲
 							</p>
 
 							<Link

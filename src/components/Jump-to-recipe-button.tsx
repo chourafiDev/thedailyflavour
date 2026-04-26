@@ -15,7 +15,7 @@ export default function JumpToRecipeButton() {
 			}
 			className={cn(
 				buttonVariants({ variant: "default", size: "lg", shadow: "sm" }),
-				"py-[22px] has-[>svg]:px-16",
+				"py-[22px] has-[>svg]:px-16 md:w-auto w-full",
 			)}
 		>
 			Jump To Recipe <FaArrowDown />

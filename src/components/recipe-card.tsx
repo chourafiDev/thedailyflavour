@@ -11,11 +11,12 @@ export interface RecipeCardProps {
 	description?: string;
 	featuredImageUrl?: string | null;
 	featuredImageAlt?: string | null;
-	prepTime?: number | null;
-	cookTime?: number | null;
-	totalTime?: number | null;
+	prepTime?: string | null;
+	servings?: number | null;
+	cookTime?: string | null;
+	totalTime?: string | null;
 	calories?: number | null;
-	cost?: number | null;
+	cost?: string | null;
 	ingredientsRaw?: string | null;
 	instructionsRaw?: string | null;
 	notes?: string | null;
@@ -69,14 +70,6 @@ function parseInstructions(raw: string): ParsedInstruction[] {
 			const clean = line.replace(/^(step\s*)?\d+[.:)]\s*/i, "").trim();
 			return { step: stepNum, text: clean };
 		});
-}
-
-function formatTime(minutes?: number | null): string {
-	if (!minutes) return "—";
-	if (minutes < 60) return `${minutes} min`;
-	const h = Math.floor(minutes / 60);
-	const m = minutes % 60;
-	return m ? `${h} hr ${m} min` : `${h} hr`;
 }
 
 function scaleAmount(amount: string, scale: number): string {
@@ -199,6 +192,7 @@ export default function RecipeCard({
 	featuredImageUrl,
 	featuredImageAlt,
 	prepTime,
+	servings: initialServings,
 	cookTime,
 	totalTime,
 	calories,
@@ -213,10 +207,9 @@ export default function RecipeCard({
 	const instructions = instructionsRaw
 		? parseInstructions(instructionsRaw)
 		: [];
-	const computedTotal =
-		totalTime ?? (prepTime && cookTime ? prepTime + cookTime : null);
+	const computedTotal = totalTime ?? null;
 
-	const BASE_SERVINGS = 4;
+	const BASE_SERVINGS = initialServings ?? 4;
 	const [servings, setServings] = useState(BASE_SERVINGS);
 	const scale = servings / BASE_SERVINGS;
 
@@ -270,7 +263,7 @@ export default function RecipeCard({
 				className="recipe-card border-2 border-black dark:border-white rounded-md bg-[#fffef9] dark:bg-soft-linen my-8 shadow-[5px_5px_0_#000] overflow-hidden scroll-mt-[100px]"
 			>
 				{/* ── Header ── */}
-				<div className="bg-[#7BAE8A] text-[#fffef9] px-6 py-[1.1rem] flex items-center justify-between gap-4">
+				<div className="bg-[#7BAE8A] text-[#fffef9] px-6 py-[1.1rem] flex md:flex-row flex-col items-center justify-between md:gap-4 gap-3">
 					<h2 className="text-[1.4rem] font-bold tracking-[-0.02em] leading-tight">
 						{title}
 					</h2>
@@ -280,16 +273,15 @@ export default function RecipeCard({
 				{/* ── Description + Featured Image ── */}
 				{(description || featuredImageUrl) && (
 					<div
-						className={`border-b border-[#eae5d8] grid gap-4 p-4 ${featuredImageUrl ? "grid-cols-[220px_1fr]" : "grid-cols-1"} max-sm:grid-cols-1`}
+						className={`border-b border-[#eae5d8] grid gap-6 p-4 ${featuredImageUrl ? "grid-cols-[220px_1fr]" : "grid-cols-1"} max-sm:grid-cols-1`}
 					>
 						{featuredImageUrl && (
-							<div className="relative rounded-md overflow-hidden w-[220px] h-[165px] flex-shrink-0 max-sm:w-full max-sm:h-[200px] max-sm:border-r-0 max-sm:border-t">
+							<div className="relative rounded-md overflow-hidden aspect-square flex-shrink-0">
 								<Image
 									src={featuredImageUrl}
 									alt={featuredImageAlt || title}
 									fill
 									style={{ objectFit: "cover" }}
-									sizes="220px"
 								/>
 							</div>
 						)}
@@ -307,21 +299,21 @@ export default function RecipeCard({
 						<StatPill
 							icon={<Clock size={15} />}
 							label="Prep Time"
-							value={formatTime(prepTime)}
+							value={prepTime}
 						/>
 					)}
 					{cookTime != null && (
 						<StatPill
 							icon={<Flame size={15} />}
 							label="Cook Time"
-							value={formatTime(cookTime)}
+							value={cookTime}
 						/>
 					)}
 					{computedTotal != null && (
 						<StatPill
 							icon={<Clock size={15} />}
 							label="Total Time"
-							value={formatTime(computedTotal)}
+							value={computedTotal}
 						/>
 					)}
 					{calories != null && (
@@ -335,7 +327,7 @@ export default function RecipeCard({
 						<StatPill
 							icon={<DollarSign size={15} />}
 							label="Est. Cost"
-							value={`$${cost}`}
+							value={cost}
 						/>
 					)}
 				</div>
@@ -345,7 +337,7 @@ export default function RecipeCard({
 					<>
 						{/* Ingredients */}
 						{ingredients.length > 0 && (
-							<div className="border-r border-[#eae5d8] px-6 pt-5 max-sm:border-r-0 max-sm:border-b">
+							<div className="border-r border-[#eae5d8] px-6 pt-6 max-sm:border-r-0 max-sm:border-b">
 								{/* Section title */}
 								<p className="flex items-center gap-2 border-b border-foreground/10 pb-2 text-lg font-bold uppercase tracking-[0.12em] text-[#7BAE8A] font-[Arial,sans-serif] mb-3">
 									Ingredients
@@ -431,7 +423,7 @@ export default function RecipeCard({
 
 						{/* Instructions */}
 						{instructions.length > 0 && (
-							<div className="px-6 pt-5 pb-6">
+							<div className="px-6 pt-6">
 								<p className="flex items-center gap-2 border-b border-foreground/10 pb-2 text-lg font-bold uppercase tracking-[0.12em] text-[#7BAE8A] font-[Arial,sans-serif] mb-3">
 									Instructions
 								</p>
@@ -480,7 +472,7 @@ export default function RecipeCard({
 
 				{/* ── Notes ── */}
 				{notes && (
-					<div className="px-6">
+					<div className="px-6 pt-6">
 						<p className="flex items-center gap-2 border-b border-foreground/10 pb-2 text-lg font-bold uppercase tracking-[0.12em] text-[#7BAE8A] font-[Arial,sans-serif] mb-3">
 							Recipe Notes
 						</p>
@@ -492,7 +484,7 @@ export default function RecipeCard({
 
 				{/* ── Nutrition ── */}
 				{nutrition && (
-					<div className="px-6 pb-4">
+					<div className="px-6 pt-6 pb-4">
 						<p className="flex items-center gap-2 border-b border-foreground/10 pb-2 text-lg font-bold uppercase tracking-[0.12em] text-[#7BAE8A] font-[Arial,sans-serif] mb-3">
 							Nutrition Info
 						</p>

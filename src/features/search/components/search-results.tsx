@@ -107,7 +107,7 @@ export default function SearchForm() {
 													type="search"
 													aria-label="Search recipes"
 													autoComplete="off"
-													className="bg-background dark:bg-background rounded-full border w-full px-4 py-6 pr-12 shadow-none outline-none focus-visible:ring-0"
+													className="bg-background dark:bg-background rounded-full border w-full px-4 py-6 pr-12 md:text-base text-sm shadow-none outline-none focus-visible:ring-0"
 													{...field}
 													onKeyDown={(e) => {
 														if (e.key === "Enter") {
@@ -170,7 +170,7 @@ export default function SearchForm() {
 								className="has-[>svg]:px-16 flex-shrink-0 md:w-auto w-full"
 								aria-label="Search recipes"
 							>
-								Search <IoSearch />
+								<span>Search</span> <IoSearch />
 							</Button>
 						</div>
 					</form>

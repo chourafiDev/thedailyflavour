@@ -71,6 +71,7 @@ export const GET_RECIPE_BY_SLUG = gql`
         prepTime
         cookTime
         totalTime
+        servings
         calories
         cost
         ingredients

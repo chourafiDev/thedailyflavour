@@ -141,7 +141,7 @@ const SearchSheet = () => {
 														placeholder="Search recipes..."
 														type="text"
 														aria-label="Search query"
-														className="w-full bg-background dark:bg-transparent border-none shadow-none outline-none dark:focus-visible:ring-offset-0 focus-visible:border-none focus-visible:ring-0"
+														className="w-full bg-background dark:bg-transparent border-none shadow-none outline-none md:text-base text-sm dark:focus-visible:ring-offset-0 focus-visible:border-none focus-visible:ring-0"
 														{...field}
 														onKeyDown={(e) => {
 															if (e.key === "Enter") {
@@ -157,9 +157,9 @@ const SearchSheet = () => {
 									<Button
 										type="submit"
 										shadow={"sm"}
-										className="has-[>svg]:px-10 py-6 mb-1 mr-1 flex-shrink-0"
+										className="md:has-[>svg]:px-10 has-[>svg]:px-4 py-6 mb-1 mr-1 flex-shrink-0"
 									>
-										Search <IoSearch />
+										<span className="md:block hidden">Search</span> <IoSearch />
 									</Button>
 								</div>
 							</div>

@@ -73,6 +73,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 	const imageUrl = post.featuredImage?.node?.sourceUrl || "";
 	const imageAlt = post.featuredImage?.node?.altText || post.title;
 	const r = post.recipeDetails;
+
 	const { headings, content: enrichedContent } = extractHeadings(
 		post.content ?? "",
 	);
@@ -207,7 +208,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 							itemProp="image"
 							itemScope
 							itemType="https://schema.org/ImageObject"
-							className="my-8"
+							className="md:my-8 my-4"
 						>
 							<Image
 								src={imageUrl}
@@ -216,7 +217,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 								height={700}
 								itemProp="url"
 								priority
-								className="object-cover rounded-md w-full h-[700px]"
+								className="object-cover rounded-md md:w-full md:h-[700px] aspect-square"
 							/>
 							<meta itemProp="width" content="1200" />
 							<meta itemProp="height" content="700" />
@@ -249,7 +250,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
 						{/* Article body */}
 						<div className="lg:w-[75%] w-full">
-							<div className="flex items-center justify-end gap-3 mb-8">
+							<div className="flex md:flex-row flex-col items-center justify-end md:gap-3 gap-2 md:mb-8 mb-4">
 								<JumpToRecipeButton />
 								{r && <PrintRecipeButton />}
 							</div>
@@ -269,6 +270,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 									featuredImageUrl={imageUrl || undefined}
 									featuredImageAlt={imageAlt || undefined}
 									prepTime={r.prepTime ?? undefined}
+									servings={r.servings ?? undefined}
 									cookTime={r.cookTime ?? undefined}
 									totalTime={r.totalTime ?? undefined}
 									calories={r.calories ?? undefined}

@@ -16,7 +16,7 @@ export type NavigationItem = {
 
 export type NavigationMenu = NavigationItem[];
 
-const NAVIGATION_MENU: NavigationMenu = [
+const NAVIGATION_MENU_DESKTOP: NavigationMenu = [
 	{ href: "/", label: "Home" },
 	{ href: "/category/dinner", label: "Dinner" },
 	{ href: "/category/breakfast", label: "Breakfast" },
@@ -33,16 +33,26 @@ const NAVIGATION_MENU: NavigationMenu = [
 	},
 ];
 
+const NAVIGATION_MENU_MOBILE: NavigationMenu = [
+	{ href: "/", label: "Home" },
+	{ href: "/category/dinner", label: "Dinner" },
+	{ href: "/category/breakfast", label: "Breakfast" },
+	{ href: "/category/dessert", label: "Dessert" },
+	{ href: "/category/drinks", label: "Drinks" },
+	{ href: "/category/healthy", label: "Healthy Eating" },
+	{ href: "/category/meal-prep", label: "Meal Prep" },
+];
+
 export default function NavBar() {
 	return (
 		<header className="custom-container sticky top-0 bg-background z-50 flex items-center justify-between border-b py-3.5">
 			<div className="flex w-full h-full items-center justify-between">
 				<Logo />
-				<DesktopMenu menu={NAVIGATION_MENU} />
+				<DesktopMenu menu={NAVIGATION_MENU_DESKTOP} />
 
-				<div className="flex items-center gap-2">
+				<div className="flex items-center md:gap-2">
 					<CallActions />
-					<MobileNav menu={NAVIGATION_MENU} />
+					<MobileNav menu={NAVIGATION_MENU_MOBILE} />
 				</div>
 			</div>
 		</header>

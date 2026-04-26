@@ -1,9 +1,10 @@
 export interface RecipeDetails {
-	prepTime?: number | null;
-	cookTime?: number | null;
-	totalTime?: number | null;
+	prepTime?: string | null;
+	cookTime?: string | null;
+	totalTime?: string | null;
 	calories?: number | null;
-	cost?: number | null;
+	servings?: number | null;
+	cost?: string | null;
 	ingredients?: string | null;
 	instructions?: string | null;
 	notes?: string | null;

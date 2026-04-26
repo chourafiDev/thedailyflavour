@@ -17,7 +17,7 @@ export default function PrintRecipeButton() {
 			onClick={handlePrint}
 			className={cn(
 				buttonVariants({ variant: "outline", size: "lg", shadow: "sm" }),
-				"gap-2 text-foreground",
+				"gap-2 text-foreground md:w-auto w-full",
 			)}
 		>
 			<Printer size={16} />

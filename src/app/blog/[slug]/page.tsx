@@ -229,7 +229,8 @@ export default async function BlogPostPage({ params }: PageProps) {
 						<aside className="lg:w-[25%] lg:block hidden sticky top-24 space-y-5">
 							<div className="space-y-3">
 								<Link
-									href="/"
+									href="https://www.pinterest.com/the_daily_flavour/"
+									target="_blank"
 									className={cn(
 										buttonVariants({
 											variant: "default",

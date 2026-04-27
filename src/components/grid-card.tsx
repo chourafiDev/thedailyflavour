@@ -1,8 +1,8 @@
-import { touristCarryingLuggage } from "@/lib/assets";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
+import { sarahMitchell } from "@/lib/assets";
+import { cn } from "@/lib/utils";
 
 export function GridCard({
 	className,
@@ -19,7 +19,7 @@ export function GridCard({
 		>
 			<Link href="/">
 				<Image
-					src={touristCarryingLuggage}
+					src={sarahMitchell}
 					alt="title"
 					fill
 					placeholder="blur"

@@ -1,17 +1,29 @@
 import { format } from "date-fns";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import type { DummyRecipe } from "@/lib/dummy-data";
+
+interface ArticleHeaderPost {
+	title: string;
+	date: string;
+	categories?: {
+		nodes: { name: string; slug: string }[];
+	};
+	author: {
+		name: string;
+		slug: string;
+		image?: string;
+	};
+}
 
 interface ArticleHeaderProps {
-	post: DummyRecipe;
+	post: ArticleHeaderPost;
 }
 
 const ArticleHeader = ({ post }: ArticleHeaderProps) => {
 	const title = post.title || "Untitled Post";
-	const categoryTitle = post.category?.title || "Recipes";
-	const categorySlug = post.category?.slug || "recipes";
-	const publishedDate = post.publishedAt || new Date().toISOString();
+	const categoryTitle = post.categories?.nodes?.[0]?.name || "Recipes";
+	const categorySlug = post.categories?.nodes?.[0]?.slug || "recipes";
+	const publishedDate = post.date || new Date().toISOString();
 	const authorName = post.author?.name || "Remi";
 	const authorSlug = post.author?.slug || "#";
 

@@ -13,7 +13,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 
-// Local type — replaces TableOfContentHeading from @/types/extended-sanity
 export interface TableOfContentHeading {
 	id: string;
 	text: string;
@@ -63,13 +62,28 @@ const TableOfContent = ({
 		const element = document.getElementById(id);
 		if (element) {
 			const yOffset = -80;
-			const y =
-				element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+			const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
 			window.scrollTo({ top: y, behavior: "smooth" });
 		}
 	};
 
 	if (headings.length === 0) return null;
+
+	let h2Count = 0;
+	let h3Count = 0;
+
+	const numberedHeadings = headings.map((heading) => {
+		if (heading.level === "h2") {
+			h2Count++;
+			h3Count = 0;
+			return { ...heading, number: `${h2Count}.` };
+		}
+		if (heading.level === "h3") {
+			h3Count++;
+			return { ...heading, number: `${h2Count}.${h3Count}` };
+		}
+		return { ...heading, number: "" };
+	});
 
 	return (
 		<Sheet>
@@ -96,7 +110,7 @@ const TableOfContent = ({
 					aria-label="Table of contents"
 				>
 					<ol className="space-y-2">
-						{headings.map((heading, index) => (
+						{numberedHeadings.map((heading) => (
 							<li
 								key={heading.id}
 								className={cn(
@@ -123,7 +137,7 @@ const TableOfContent = ({
 												: "text-foreground/80",
 										)}
 									>
-										{index + 1}.
+										{heading.number}
 									</span>
 									<span className="flex-1">{heading.text}</span>
 								</a>

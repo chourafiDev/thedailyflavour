@@ -10,6 +10,7 @@ import Categories from "@/features/home/components/categories";
 import FeaturedPosts from "@/features/home/components/featured-posts";
 import MostPopular from "@/features/home/components/most-popular";
 import Trending from "@/features/home/components/trending";
+import { sarahMitchell } from "@/lib/assets";
 import {
 	generateHomeMetadata,
 	generateWebsiteSchema,
@@ -39,8 +40,8 @@ export default async function Home() {
 					<div className="flex md:flex-row flex-col items-center md:gap-0 gap-6 p-4">
 						<div>
 							<Image
-								src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-								alt="remi"
+								src={sarahMitchell}
+								alt="sarah-mitchell"
 								width={1000}
 								height={1000}
 								className="rounded-md"
@@ -52,9 +53,9 @@ export default async function Home() {
 							</h2>
 							<p className="text-foreground mb-10">
 								Mom of two, comfort food lover, and the heart behind{" "}
-								<span className="font-semibold">The Daily Flavour.</span> I share real recipes from my
-								real kitchen warm, simple, and always worth making twice. Grab a
-								recipe and make yourself at home. 🍲
+								<span className="font-semibold">The Daily Flavour.</span> I
+								share real recipes from my real kitchen warm, simple, and always
+								worth making twice. Grab a recipe and make yourself at home. 🍲
 							</p>
 
 							<Link

@@ -175,8 +175,8 @@ export const GET_AUTHOR_BY_SLUG = gql`
       name
       slug
       description
-      avatar {
-        url
+      avatar(size: 300) {
+            url
       }
       posts(first: 100) {
         nodes {

@@ -127,16 +127,16 @@ const AuthorPage = async ({ params }: AuthorPageProps) => {
 								itemProp="image"
 								itemScope
 								itemType="https://schema.org/ImageObject"
-								className="relative rounded-full size-[120px] mb-5 mx-auto overflow-hidden"
+								className="relative rounded-full w-[100px] h-[100px] mb-5 mx-auto overflow-hidden"
 							>
 								<Image
 									src={author.avatar.url}
 									alt={`${author.name} profile picture`}
 									itemProp="url"
 									priority
-									fill
-									sizes="120px"
-									className="absolute object-cover"
+									width={700}
+									height={700}
+									className="object-cover"
 								/>
 							</figure>
 						)}

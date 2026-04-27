@@ -14,7 +14,7 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { digitalEbook } from "@/lib/assets";
+import { sarahMitchell } from "@/lib/assets";
 /* import { ebook } from "@/lib/assets"; */
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -65,7 +65,7 @@ const DigitalEbook = () => {
 			{/* Planner Image */}
 			<div className="w-auto bg-gray-100 rounded-xl overflow-hidden">
 				<Image
-					src={digitalEbook}
+					src={sarahMitchell}
 					alt="Plan Your 2026 Southeast Asia Adventures with Confidence"
 					width={512}
 					height={800}

@@ -1,6 +1,5 @@
 import darkLogo from "../../public/assets/images/dark-logo.png";
-import digitalEbook from "../../public/assets/images/digital-ebook.png";
-import touristCarryingLuggage from "../../public/assets/images/tourist-carrying-luggage.jpg";
+import sarahMitchell from "../../public/assets/images/sarah-mitchell.png";
 import whiteLogo from "../../public/assets/images/white-logo.png";
 
-export { touristCarryingLuggage, darkLogo, whiteLogo, digitalEbook };
+export { sarahMitchell, darkLogo, whiteLogo, type digitalEbook };

@@ -14,7 +14,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Trending from "@/features/search/components/trending";
-import { dummyCategories, dummyTrendingPosts } from "@/lib/dummy-data";
 import { Button } from "../../ui/button";
 
 interface Category {
@@ -22,12 +21,34 @@ interface Category {
 	slug: string;
 }
 
+type WPPost = {
+	title: string;
+	slug: string;
+	featuredImage?: {
+		node: {
+			sourceUrl: string;
+			altText: string;
+		};
+	};
+	author?: {
+		node: {
+			name: string;
+			slug: string;
+		};
+	};
+};
+
+interface SearchSheetProps {
+	categories: Category[];
+	trendingPosts: WPPost[];
+}
+
 const formSchema = z.object({
 	search: z.string().trim(),
 	category: z.string().optional(),
 });
 
-const SearchSheet = () => {
+const SearchSheet = ({ categories, trendingPosts }: SearchSheetProps) => {
 	const id = useId();
 	const router = useRouter();
 	const [open, setOpen] = useState(false);
@@ -35,14 +56,6 @@ const SearchSheet = () => {
 
 	const query = searchParams.get("q") || "";
 	const category = searchParams.get("category") || "";
-
-	// ── Dummy data (replace with WPGraphQL fetch once WordPress is live) ──
-	const categories: Category[] = dummyCategories.map((cat) => ({
-		title: cat.title,
-		slug: cat.slug,
-	}));
-
-	const trendingPosts = dummyTrendingPosts;
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -52,7 +65,6 @@ const SearchSheet = () => {
 		},
 	});
 
-	// Update form when URL params change
 	useEffect(() => {
 		form.reset({
 			search: query,
@@ -62,15 +74,8 @@ const SearchSheet = () => {
 
 	const performSearch = (values: z.infer<typeof formSchema>) => {
 		const params = new URLSearchParams();
-
-		if (values.search) {
-			params.set("q", values.search);
-		}
-
-		if (values.category) {
-			params.set("category", values.category);
-		}
-
+		if (values.search) params.set("q", values.search);
+		if (values.category) params.set("category", values.category);
 		if (params.toString()) {
 			router.push(`/search?${params.toString()}`);
 			setOpen(false);
@@ -88,11 +93,7 @@ const SearchSheet = () => {
 	const handleCategoryChange = (categoryValue: string) => {
 		const currentSearch = form.getValues("search");
 		form.setValue("category", categoryValue);
-
-		performSearch({
-			search: currentSearch,
-			category: categoryValue,
-		});
+		performSearch({ search: currentSearch, category: categoryValue });
 	};
 
 	const handleClearCategory = (e: React.MouseEvent) => {
@@ -125,7 +126,7 @@ const SearchSheet = () => {
 				<div className="py-6 lg:px-20 md:px-10 px-4">
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-							{/* Search Input Section */}
+							{/* Search Input */}
 							<div>
 								<h3 className="text-foreground font-extrabold text-[17px] mb-2">
 									What Are You Looking For?
@@ -159,12 +160,13 @@ const SearchSheet = () => {
 										shadow={"sm"}
 										className="md:has-[>svg]:px-10 has-[>svg]:px-4 py-6 mb-1 mr-1 flex-shrink-0"
 									>
-										<span className="md:block hidden">Search</span> <IoSearch />
+										<span className="md:block hidden">Search</span>{" "}
+										<IoSearch />
 									</Button>
 								</div>
 							</div>
 
-							{/* Category Filter Section */}
+							{/* Category Filter */}
 							<div>
 								<div className="flex items-center justify-between mb-2">
 									<h3 className="text-foreground font-extrabold text-[17px]">

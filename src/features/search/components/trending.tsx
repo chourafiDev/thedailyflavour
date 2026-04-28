@@ -1,12 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { DummyRecipe } from "@/lib/dummy-data";
 
-const PLACEHOLDER =
-	"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&q=80";
+type WPPost = {
+	title: string;
+	slug: string;
+	featuredImage?: {
+		node: {
+			sourceUrl: string;
+			altText: string;
+		};
+	};
+	author?: {
+		node: {
+			name: string;
+			slug: string;
+		};
+	};
+};
 
 interface TrendingProps {
-	posts: DummyRecipe[];
+	posts: WPPost[];
 	loading?: boolean;
 }
 
@@ -38,9 +51,9 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 					itemScope
 					itemType="https://schema.org/BlogPosting"
 					className={`group w-full flex items-center gap-3 
-	${index % 3 === 0 ? "md:border-r md:pr-4" : ""} 
-	${index !== posts.length - 1 ? "lg:border-r lg:pr-4" : "lg:pr-0"}
-`}
+						${index % 3 === 0 ? "md:border-r md:pr-4" : ""} 
+						${index !== posts.length - 1 ? "lg:border-r lg:pr-4" : "lg:pr-0"}
+					`}
 				>
 					<Link href={`/blog/${post.slug}`} itemProp="url">
 						<figure
@@ -49,20 +62,26 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 							itemType="https://schema.org/ImageObject"
 							className="relative w-[90px] h-[70px] rounded-lg overflow-hidden"
 						>
-							<Image
-								src={post.mainImage?.url || PLACEHOLDER}
-								alt={post.mainImage?.alt || post.title || "Trending Recipe"}
-								fill
-								sizes="90px"
-								className="absolute object-cover transition-all duration-300 group-hover:scale-110"
-								itemProp="url"
-								loading={index < 2 ? "eager" : "lazy"}
-							/>
+							{post.featuredImage ? (
+								<Image
+									src={post.featuredImage?.node?.sourceUrl}
+									alt={
+										post.featuredImage?.node?.altText ||
+										post.title ||
+										"Trending Recipe"
+									}
+									fill
+									sizes="90px"
+									className="absolute object-cover transition-all duration-300 group-hover:scale-110"
+									itemProp="url"
+									loading={index < 2 ? "eager" : "lazy"}
+								/>
+							) : null}
 						</figure>
 					</Link>
 
 					<div>
-						{post.author && (
+						{post.author?.node && (
 							<div
 								itemProp="author"
 								itemScope
@@ -70,11 +89,13 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 								className="mb-1"
 							>
 								<Link
-									href={`/author/${post.author.slug}`}
+									href={`/author/${post.author.node.slug}`}
 									className="text-[9px] font-semibold"
 								>
 									<span className="text-muted-foreground">POST BY</span>{" "}
-									<span itemProp="name">{post.author.name?.toUpperCase()}</span>
+									<span itemProp="name">
+										{post.author.node.name?.toUpperCase()}
+									</span>
 								</Link>
 							</div>
 						)}
@@ -87,7 +108,6 @@ const Trending = ({ posts, loading }: TrendingProps) => {
 						</h3>
 					</div>
 
-					{/* Hidden publisher info */}
 					<div
 						itemProp="publisher"
 						itemScope

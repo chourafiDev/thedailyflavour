@@ -1,9 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
-import { dummyTrendingPosts } from "@/lib/dummy-data";
+import { getTrendingRecipes } from "@/lib/wordpress";
 
-const Trending = () => {
-	const posts = dummyTrendingPosts;
+type WPPost = {
+	title: string;
+	slug: string;
+	featuredImage?: {
+		node: {
+			sourceUrl: string;
+			altText: string;
+		};
+	};
+	author?: {
+		node: {
+			name: string;
+			slug: string;
+		};
+	};
+};
+
+const Trending = async () => {
+	const posts: WPPost[] = await getTrendingRecipes(5);
 
 	if (!posts || posts.length === 0) {
 		return null;
@@ -22,62 +39,61 @@ const Trending = () => {
 						itemScope
 						itemType="https://schema.org/BlogPosting"
 						className={`group w-full flex items-center gap-3 
-	${index % 2 !== 0 ? "md:border-r md:pr-4" : ""} 
-	${index !== posts.length - 1 ? "lg:border-r lg:pr-2" : "lg:pr-0"}
-`}
+							${index % 2 !== 0 ? "md:border-r md:pr-4" : ""} 
+							${index !== posts.length - 1 ? "lg:border-r lg:pr-2" : "lg:pr-0"}
+						`}
 					>
-						<Link href={`/blog/crock-pot-round-steak-and-gravy`} itemProp="url">
+						<Link href={`/blog/${post.slug}`} itemProp="url">
 							<figure
 								itemProp="image"
 								itemScope
 								itemType="https://schema.org/ImageObject"
 								className="relative w-[90px] h-[70px] rounded-md overflow-hidden"
 							>
-								<Image
-									src={post.mainImage.url}
-									alt={post.mainImage.alt}
-									fill
-									sizes="90px"
-									className="absolute object-cover transition-all duration-300 group-hover:scale-110"
-									itemProp="url"
-									loading={index < 2 ? "eager" : "lazy"}
-								/>
+								{post.featuredImage?.node?.sourceUrl ? (
+									<Image
+										src={post.featuredImage.node.sourceUrl}
+										alt={post.featuredImage.node.altText || post.title}
+										fill
+										sizes="90px"
+										className="absolute object-cover transition-all duration-300 group-hover:scale-110"
+										itemProp="url"
+										loading={index < 2 ? "eager" : "lazy"}
+									/>
+								) : (
+									<div className="absolute inset-0 bg-muted" />
+								)}
 							</figure>
 						</Link>
 
 						<div>
-							<div className="flex items-center gap-0">
-								{post.author && (
-									<div
-										itemProp="author"
-										itemScope
-										itemType="https://schema.org/Person"
-										className="mb-1"
+							{post.author?.node && (
+								<div
+									itemProp="author"
+									itemScope
+									itemType="https://schema.org/Person"
+									className="mb-1"
+								>
+									<Link
+										href={`/author/${post.author.node.slug}`}
+										className="text-[9px] font-semibold"
 									>
-										<Link
-											href={`/author/sarah`}
-											className="text-[9px] font-semibold"
-										>
-											<span className="text-muted-foreground">POST BY</span>{" "}
-											<span itemProp="name" className="font-bold">
-												{post.author.name?.toUpperCase()}
-											</span>
-										</Link>
-									</div>
-								)}
-							</div>
+										<span className="text-muted-foreground">POST BY</span>{" "}
+										<span itemProp="name" className="font-bold">
+											{post.author.node.name?.toUpperCase()}
+										</span>
+									</Link>
+								</div>
+							)}
 
 							<h3
 								itemProp="headline"
 								className="text-foreground font-bold text-sm leading-[20px] group-hover:underline line-clamp-2"
 							>
-								<Link href={`/blog/crock-pot-round-steak-and-gravy`}>
-									{post.title}
-								</Link>
+								<Link href={`/blog/${post.slug}`}>{post.title}</Link>
 							</h3>
 						</div>
 
-						{/* Hidden publisher info */}
 						<div
 							itemProp="publisher"
 							itemScope

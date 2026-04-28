@@ -8,9 +8,7 @@ export const siteConfig = {
 	ogImage: "/og-image.png",
 	twitterImage: "/og-image.png",
 	links: {
-		instagram: "https://instagram.com/thedailyflavour",
 		pinterest: "https://pinterest.com/thedailyflavour",
-		tiktok: "https://tiktok.com/@thedailyflavour",
 	},
 	creator: {
 		name: "Sarah Mitchell",
@@ -77,19 +75,6 @@ export const siteConfig = {
 			slug: "drinks",
 			keywords: ["drink recipes", "smoothies", "mocktails", "homemade drinks"],
 		},
-		asian: {
-			title: "Asian Recipes",
-			description:
-				"Quick and easy Asian-inspired meals — Thai, Korean, Japanese, Chinese and Vietnamese dishes ready in under 30 minutes.",
-			slug: "asian",
-			keywords: [
-				"asian recipes",
-				"thai recipes",
-				"korean recipes",
-				"japanese dinner",
-				"stir fry",
-			],
-		},
 		healthy: {
 			title: "Healthy Recipes",
 			description:
@@ -115,24 +100,8 @@ export const siteConfig = {
 				"sunday meal prep",
 			],
 		},
-		"one-pan": {
-			title: "One Pan Dinners",
-			description:
-				"Sheet pan and one pot dinners with minimal washing up. All the flavour, none of the mess — perfect for busy weeknights.",
-			slug: "one-pan",
-			keywords: [
-				"one pan dinners",
-				"sheet pan meals",
-				"one pot recipes",
-				"easy cleanup dinner",
-			],
-		},
 	},
 	social: {
-		instagram: {
-			handle: "@thedailyflavour",
-			url: "https://instagram.com/thedailyflavour",
-		},
 		pinterest: {
 			handle: "@the_daily_flavour",
 			url: "https://pinterest.com/the_daily_flavour",
@@ -146,7 +115,7 @@ export const siteConfig = {
 		mission:
 			"Bringing world flavours to your family table — quick, delicious and made for real weeknights.",
 		colors: {
-			primary: "#E16C87",
+			primary: "#7BAE8A",
 			secondary: "#FAF4F0",
 		},
 	},

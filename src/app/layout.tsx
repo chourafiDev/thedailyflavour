@@ -4,7 +4,6 @@ import Footer from "@/components/layout/footer";
 import NavBar from "@/components/layout/navbar";
 import "../styles/globals.css";
 import type { Viewport } from "next";
-import Script from "next/script";
 import NextTopLoader from "nextjs-toploader";
 import GoToTopButton from "@/components/go-to-top-button";
 import { JsonLd } from "@/components/JsonLd";
@@ -51,7 +50,7 @@ export default function RootLayout({
 			<head>
 				<meta
 					name="google-site-verification"
-					content="PCRwB9gHR1MPDKb_IqeuCI8VFNFMPQ6MnJuiYwAYg4"
+					content="-PCRwB9gHR1MPDKb_IqeuCI8VFNFMPQ6MnJuiYwAYg4"
 				/>
 
 				{/* Additional meta tags */}
@@ -81,21 +80,6 @@ export default function RootLayout({
 				<link rel="preconnect" href="https://www.google-analytics.com" />
 				<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 				<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-
-				{/* Google tag */}
-				<Script
-					async
-					src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALITICS_ID}`}
-					strategy="afterInteractive"
-				/>
-				<Script id="google-analytics" strategy="afterInteractive">
-					{`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${process.env.GOOGLE_ANALITICS_ID}');
-          `}
-				</Script>
 			</head>
 			<body
 				className={`${manrope.className} ${marcellus.variable} antialiased`}

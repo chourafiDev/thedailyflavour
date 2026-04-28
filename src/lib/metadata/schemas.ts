@@ -23,7 +23,7 @@ export function generateOrganizationSchema(): OrganizationSchema {
 			"@type": "ImageObject",
 			url: `${siteConfig.url}/logo.png`,
 		},
-		sameAs: [siteConfig.links.instagram, siteConfig.links.pinterest],
+		sameAs: [siteConfig.links.pinterest],
 	};
 }
 
@@ -259,10 +259,7 @@ export function generateContactPageSchema() {
 					availableLanguage: ["English"],
 				},
 			],
-			sameAs: [
-				siteConfig.social.instagram.url,
-				siteConfig.social.pinterest.url,
-			],
+			sameAs: [siteConfig.social.pinterest.url],
 		},
 	};
 }

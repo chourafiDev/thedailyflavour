@@ -267,14 +267,6 @@ const AboutUsPage = () => {
 							<h3 className="font-semibold mb-3 text-lg">Follow Along</h3>
 							<nav aria-label="Social media links" className="space-y-2">
 								<Link
-									href={siteConfig.social.instagram.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="block text-foreground text-[15px] hover:text-primary transition-colors"
-								>
-									Instagram {siteConfig.social.instagram.handle}
-								</Link>
-								<Link
 									href={siteConfig.social.pinterest.url}
 									target="_blank"
 									rel="noopener noreferrer"

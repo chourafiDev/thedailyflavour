@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AiFillInstagram } from "react-icons/ai";
 import { FaPinterest } from "react-icons/fa";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
@@ -105,18 +104,6 @@ const ContactPage = () => {
 								with fellow solo female travelers.
 							</p>
 							<ul className="flex items-center gap-2">
-								<li>
-									<Link
-										href={siteConfig.social.instagram.url}
-										aria-label={`Follow us on Instagram ${siteConfig.social.instagram.handle}`}
-										className="flex items-center justify-center size-10 border hover:bg-foreground hover:text-background duration-200 ease-in rounded-full"
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										<AiFillInstagram size={24} aria-hidden="true" />
-									</Link>
-								</li>
-
 								<li>
 									<Link
 										href={siteConfig.social.pinterest.url}

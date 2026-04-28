@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import Link from "next/link";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ArticleHeaderPost {
 	title: string;
@@ -73,6 +73,7 @@ const ArticleHeader = ({ post }: ArticleHeaderProps) => {
 				className="flex items-center justify-center gap-1.5"
 			>
 				<Avatar className="size-10">
+					<AvatarImage src={post.author.image} alt={authorName} />
 					<AvatarFallback>{getInitials(authorName)}</AvatarFallback>
 				</Avatar>
 				<p className="text-foreground font-semibold text-[13px]">

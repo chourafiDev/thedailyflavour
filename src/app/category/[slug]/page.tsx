@@ -36,6 +36,32 @@ interface PageProps {
 
 const POSTS_PER_PAGE = 10;
 
+function cleanExcerpt(html: string): string {
+	return html
+		.replace(/<[^>]*>/g, "")
+		.replace(/&#8217;/g, "'")
+		.replace(/&#8220;/g, '"')
+		.replace(/&#8221;/g, '"')
+		.replace(/&#8211;/g, "–")
+		.replace(/&#8212;/g, "—")
+		.replace(/&amp;/g, "&")
+		.replace(/&hellip;/g, "…")
+		.replace(/\[&hellip;\]/g, "…")
+		.trim();
+}
+
+function cleanAuthorName(name?: string | null): string {
+	if (!name) return "Sarah Mitchell";
+	if (name.includes("@")) return "Sarah Mitchell";
+	return name;
+}
+
+function cleanAuthorSlug(slug?: string | null): string {
+	if (!slug) return "sarah-mitchell";
+	if (slug.includes("gmail")) return "sarah-mitchell";
+	return slug;
+}
+
 export async function generateMetadata({ params }: PageProps) {
 	const { slug } = await params;
 	const category = await getCategoryWithPosts(slug);
@@ -47,8 +73,12 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export async function generateStaticParams() {
-	const categories = await getAllCategories();
-	return categories.map((cat: { slug: string }) => ({ slug: cat.slug }));
+	try {
+		const categories = await getAllCategories();
+		return categories.map((cat: { slug: string }) => ({ slug: cat.slug }));
+	} catch {
+		return [];
+	}
 }
 
 const PostsByCategoryPage = async ({ params, searchParams }: PageProps) => {
@@ -58,13 +88,19 @@ const PostsByCategoryPage = async ({ params, searchParams }: PageProps) => {
 	const category = await getCategoryWithPosts(slug);
 	if (!category) return notFound();
 
-	const categoryTitle = category.name;
+	const categoryTitle =
+		category.name ?? slug.charAt(0).toUpperCase() + slug.slice(1);
 	const allCategoryPosts = category.posts?.nodes ?? [];
 
 	// Pagination
 	const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
 	const totalPosts = allCategoryPosts.length;
 	const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+
+	if (totalPosts > 0 && (currentPage < 1 || currentPage > totalPages)) {
+		return notFound();
+	}
+
 	const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
 	const paginated = allCategoryPosts.slice(
 		startIndex,
@@ -83,13 +119,13 @@ const PostsByCategoryPage = async ({ params, searchParams }: PageProps) => {
 		}) => ({
 			image: post.featuredImage?.node?.sourceUrl || "",
 			date: post.date || new Date().toISOString(),
-			author: post.author?.node?.name || "Unknown",
-			authorSlug: post.author?.node?.slug || "unknown",
+			author: cleanAuthorName(post.author?.node?.name),
+			authorSlug: cleanAuthorSlug(post.author?.node?.slug),
 			title: post.title || "Untitled Recipe",
 			slug: post.slug || "",
 			category: categoryTitle,
 			categorySlug: slug,
-			excerpt: post.excerpt || "",
+			excerpt: post.excerpt ? cleanExcerpt(post.excerpt) : "",
 		}),
 	);
 

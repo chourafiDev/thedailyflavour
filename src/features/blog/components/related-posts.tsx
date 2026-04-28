@@ -9,20 +9,45 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
-import { type DummyRecipe, dummyRecipes } from "@/lib/dummy-data";
+import { getRelatedRecipes } from "@/lib/wordpress";
 
 interface RelatedPostsProps {
 	currentSlug: string;
 	categorySlug: string;
 }
 
-const RelatedPosts = ({ currentSlug, categorySlug }: RelatedPostsProps) => {
-	// Same category, exclude current post, limit to 4
-	const displayPosts = dummyRecipes
-		.filter((r) => r.category.slug === categorySlug && r.slug !== currentSlug)
-		.slice(0, 4);
+type WPRelatedPost = {
+	title: string;
+	slug: string;
+	date: string;
+	featuredImage?: {
+		node: {
+			sourceUrl: string;
+			altText: string;
+		};
+	};
+	categories?: {
+		nodes: { name: string; slug: string }[];
+	};
+	author?: {
+		node: {
+			name: string;
+			slug: string;
+		};
+	};
+};
 
-	if (displayPosts.length === 0) return null;
+const RelatedPosts = async ({
+	currentSlug,
+	categorySlug,
+}: RelatedPostsProps) => {
+	const displayPosts: WPRelatedPost[] = await getRelatedRecipes(
+		categorySlug,
+		currentSlug,
+		4,
+	);
+
+	if (!displayPosts || displayPosts.length === 0) return null;
 
 	return (
 		<section aria-labelledby="related-posts-heading" className="mb-16">
@@ -53,23 +78,23 @@ const RelatedPosts = ({ currentSlug, categorySlug }: RelatedPostsProps) => {
 
 // ── Card ──────────────────────────────────────────────────────
 interface RelatedPostCardProps {
-	post: DummyRecipe;
+	post: WPRelatedPost;
 }
 
 const RelatedPostCard = ({ post }: RelatedPostCardProps) => {
 	const postTitle = post.title || "Untitled Post";
 	const postSlug = post.slug || "#";
-	const postImage = post.mainImage?.url;
-	const postImageAlt = post.mainImage?.alt || postTitle;
-	const postDate = post.publishedAt;
-	const categoryTitle = post.category?.title || "Recipes";
-	const authorName = post.author?.name || "Remi";
-	const authorSlug = post.author?.slug || "#";
+	const postImage = post.featuredImage?.node?.sourceUrl;
+	const postImageAlt = post.featuredImage?.node?.altText || postTitle;
+	const postDate = post.date;
+	const categoryTitle = post.categories?.nodes?.[0]?.name || "Recipes";
+	const authorName = post.author?.node?.name || "Remi";
+	const authorSlug = post.author?.node?.slug || "#";
 
 	return (
 		<article itemScope itemType="https://schema.org/BlogPosting">
 			<Link href={`/blog/${postSlug}`} itemProp="url">
-				<div className="relative w-full h-[170px] rounded-md overflow-hidden">
+				<div className="relative w-full h-[220px] rounded-md overflow-hidden">
 					{postImage ? (
 						<Image
 							src={postImage}

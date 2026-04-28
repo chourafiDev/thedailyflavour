@@ -50,7 +50,7 @@ const FeaturedPosts = async () => {
 										itemProp="image"
 										itemScope
 										itemType="https://schema.org/ImageObject"
-										className="relative w-full h-[170px] rounded-md overflow-hidden"
+										className="relative w-full h-[220px] rounded-md overflow-hidden"
 									>
 										{image?.sourceUrl && (
 											<Image

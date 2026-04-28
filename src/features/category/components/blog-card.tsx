@@ -40,15 +40,21 @@ const BlogCard = ({
 						itemType="https://schema.org/ImageObject"
 						className="relative w-full h-[250px] rounded-md overflow-hidden"
 					>
-						<Image
-							src={image}
-							alt={title}
-							fill
-							sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 25vw"
-							className="absolute object-cover object-bottom transition-all duration-300 group-hover:scale-110"
-							itemProp="url"
-							loading="lazy"
-						/>
+						{image ? (
+							<Image
+								src={image}
+								alt={title}
+								fill
+								sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 25vw"
+								className="absolute object-cover object-bottom transition-all duration-300 group-hover:scale-110"
+								itemProp="url"
+								loading="lazy"
+							/>
+						) : (
+							<div className="absolute inset-0 bg-muted flex items-center justify-center">
+								<span className="text-muted-foreground text-sm">No image</span>
+							</div>
+						)}
 					</figure>
 				</Link>
 
@@ -104,10 +110,9 @@ const BlogCard = ({
 					<p
 						itemProp="description"
 						className="text-muted-foreground text-sm line-clamp-2"
-						dangerouslySetInnerHTML={{
-							__html: excerpt,
-						}}
-					/>
+					>
+						{excerpt}
+					</p>
 				</div>
 
 				{/* Read More */}

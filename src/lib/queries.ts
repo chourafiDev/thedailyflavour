@@ -100,9 +100,6 @@ export const GET_ALL_CATEGORIES = gql`
 export const GET_RECIPES_BY_CATEGORY = gql`
   query GetRecipesByCategory($slug: ID!) {
     category(id: $slug, idType: SLUG) {
-      name
-      description
-      slug
       posts(first: 100) {
         nodes {
           title
@@ -115,17 +112,17 @@ export const GET_RECIPES_BY_CATEGORY = gql`
               altText
             }
           }
+          categories {
+            nodes {
+              name
+              slug
+            }
+          }
           author {
             node {
               name
               slug
             }
-          }
-          recipeDetails {
-            prepTime
-            cookTime
-            totalTime
-            calories
           }
         }
       }

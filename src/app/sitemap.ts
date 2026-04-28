@@ -1,12 +1,16 @@
 import type { MetadataRoute } from "next";
-import { dummyCategories, dummyRecipes } from "@/lib/dummy-data";
+import {
+	getAllAuthors,
+	getAllCategories,
+	getAllRecipes,
+} from "@/lib/wordpress";
 
 export const revalidate = 3600;
 export const dynamic = "force-static";
 
 const baseUrl = "https://thedailyflavour.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const now = new Date();
 
 	// ── Static pages ──────────────────────────────────────────
@@ -27,30 +31,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
 	}));
 
 	// ── Recipe posts ──────────────────────────────────────────
-	const postEntries: MetadataRoute.Sitemap = dummyRecipes.map((r) => ({
-		url: `${baseUrl}/blog/${r.slug}`,
-		lastModified: r.publishedAt ? new Date(r.publishedAt) : now,
-		changeFrequency: "weekly",
-		priority: 0.8,
-	}));
+	const posts = await getAllRecipes().catch(() => []);
+
+	const postEntries: MetadataRoute.Sitemap = posts.map(
+		(r: { slug: string; date?: string }) => ({
+			url: `${baseUrl}/blog/${r.slug}`,
+			lastModified: r.date ? new Date(r.date) : now,
+			changeFrequency: "weekly",
+			priority: 0.8,
+		}),
+	);
 
 	// ── Category pages ────────────────────────────────────────
-	const categoryEntries: MetadataRoute.Sitemap = dummyCategories.map((c) => ({
-		url: `${baseUrl}/category/${c.slug}`,
-		lastModified: now,
-		changeFrequency: "monthly",
-		priority: 0.6,
-	}));
+	const categories = await getAllCategories().catch(() => []);
+
+	const categoryEntries: MetadataRoute.Sitemap = categories.map(
+		(c: { slug: string }) => ({
+			url: `${baseUrl}/category/${c.slug}`,
+			lastModified: now,
+			changeFrequency: "monthly",
+			priority: 0.6,
+		}),
+	);
 
 	// ── Author pages ──────────────────────────────────────────
-	const authorEntries: MetadataRoute.Sitemap = [
-		{
-			url: `${baseUrl}/author/remi`,
+	const authors = await getAllAuthors().catch(() => []);
+
+	const authorEntries: MetadataRoute.Sitemap = authors.map(
+		(a: { slug: string }) => ({
+			url: `${baseUrl}/author/${a.slug}`,
 			lastModified: now,
 			changeFrequency: "monthly",
 			priority: 0.5,
-		},
-	];
+		}),
+	);
 
 	return [
 		...staticEntries,

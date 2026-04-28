@@ -120,7 +120,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 		"@type": "Recipe",
 		name: seo?.title || post.title,
 		description: seo?.description || excerpt || undefined,
-		keywords: seo?.focusKeywords?.join(", ") || undefined,
 		image: imageUrl || undefined,
 		author: { "@type": "Person", name: authorName },
 		datePublished: post.date,

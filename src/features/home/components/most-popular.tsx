@@ -3,16 +3,35 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { RxDividerVertical } from "react-icons/rx";
-import { type DummyRecipe, dummyPostsByCategory } from "@/lib/dummy-data";
 import { siteConfig } from "@/lib/metadata";
+import { getRecipesByCategory } from "@/lib/wordpress";
 
-const placeholderImg =
-	"https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&q=80";
+type WPPost = {
+	title: string;
+	slug: string;
+	date: string;
+	featuredImage?: {
+		node: {
+			sourceUrl: string;
+			altText: string;
+		};
+	};
+	author?: {
+		node: {
+			name: string;
+			slug: string;
+		};
+	};
+};
 
-const MostPopular = () => {
-	const dinnerPosts = dummyPostsByCategory("dinner", 3);
-	const breakfastPosts = dummyPostsByCategory("breakfast", 3);
-	const dessertPosts = dummyPostsByCategory("dessert", 3);
+const MostPopular = async () => {
+	const [dinnerPosts, breakfastPosts, dessertPosts, drinkPosts] =
+		await Promise.all([
+			getRecipesByCategory("dinner"),
+			getRecipesByCategory("breakfast"),
+			getRecipesByCategory("dessert"),
+			getRecipesByCategory("drinks"),
+		]);
 
 	return (
 		<section aria-labelledby="most-popular-heading" className="section-bottom">
@@ -24,17 +43,23 @@ const MostPopular = () => {
 				<CategorySection
 					label="Dinner"
 					href="/category/dinner"
-					posts={dinnerPosts}
+					posts={dinnerPosts.slice(0, 8)}
 				/>
 				<CategorySection
 					label="Breakfast"
 					href="/category/breakfast"
-					posts={breakfastPosts}
+					posts={breakfastPosts.slice(0, 8)}
 				/>
 				<CategorySection
 					label="Dessert"
 					href="/category/dessert"
-					posts={dessertPosts}
+					posts={dessertPosts.slice(0, 8)}
+				/>
+
+				<CategorySection
+					label="Drinks"
+					href="/category/drinks"
+					posts={drinkPosts.slice(0, 8)}
 				/>
 			</div>
 		</section>
@@ -44,7 +69,7 @@ const MostPopular = () => {
 interface CategorySectionProps {
 	label: string;
 	href: string;
-	posts: DummyRecipe[];
+	posts: WPPost[];
 }
 
 const CategorySection = ({ label, href, posts }: CategorySectionProps) => (
@@ -64,93 +89,96 @@ const CategorySection = ({ label, href, posts }: CategorySectionProps) => (
 
 		<div className="bg-foreground h-0.5 rounded-full w-full mb-6" />
 
-		<div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-2 gap-6">
-			{posts.map((post, index) => (
-				<article
-					key={post.slug || index}
-					itemScope
-					itemType="https://schema.org/BlogPosting"
-				>
-					<Link
-						href={`/blog/${post.slug}`}
-						itemProp="url"
-						className="w-full h-full"
-					>
-						<figure
-							itemProp="image"
-							itemScope
-							itemType="https://schema.org/ImageObject"
-							className="relative w-full h-[300px] rounded-md overflow-hidden"
-						>
-							<Image
-								src={post.mainImage?.url || placeholderImg}
-								alt={post.mainImage?.alt || post.title}
-								fill
-								sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-								className="absolute object-cover transition-all duration-300 hover:scale-110"
-								itemProp="url"
-								loading="lazy"
-							/>
-						</figure>
-					</Link>
-
-					<div className="flex items-center gap-2 md:mt-4 mt-2">
-						<time
-							dateTime={post.publishedAt || ""}
-							itemProp="datePublished"
-							className="text-[11px] font-semibold text-foreground"
-						>
-							{post.publishedAt
-								? format(
-										new Date(post.publishedAt),
-										"MMMM d, yyyy",
-									).toUpperCase()
-								: ""}
-						</time>
-						<RxDividerVertical
-							className="text-foreground font-bold rotate-12"
-							aria-hidden="true"
-						/>
-						<div
-							itemProp="author"
-							itemScope
-							itemType="https://schema.org/Person"
-							className="mb-1"
-						>
-							<Link
-								href={`/author/${post.author?.slug || "#"}`}
-								className="text-[11px] text-foreground font-semibold"
-							>
-								<span className="text-muted-foreground">POST BY</span>{" "}
-								<span itemProp="name" className="font-bold">
-									{(post.author?.name || "Remi").toUpperCase()}
-								</span>
-							</Link>
-						</div>
-					</div>
-
-					<h4 itemProp="headline" className="post-title">
-						<Link href={`/blog/${post.slug}`}>{post.title}</Link>
-					</h4>
-
-					<div
-						itemProp="publisher"
+		{posts.length === 0 ? (
+			<p className="text-muted-foreground text-sm">No recipes found.</p>
+		) : (
+			<div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-2 gap-6">
+				{posts.map((post, index) => (
+					<article
+						key={post.slug || index}
 						itemScope
-						itemType="https://schema.org/Organization"
-						className="hidden"
+						itemType="https://schema.org/BlogPosting"
 					>
-						<meta itemProp="name" content={siteConfig.name} />
-						<div
-							itemProp="logo"
-							itemScope
-							itemType="https://schema.org/ImageObject"
+						<Link
+							href={`/blog/${post.slug}`}
+							itemProp="url"
+							className="w-full h-full"
 						>
-							<meta itemProp="url" content={`${siteConfig.url}/logo.png`} />
+							<figure
+								itemProp="image"
+								itemScope
+								itemType="https://schema.org/ImageObject"
+								className="relative w-full h-[300px] rounded-md overflow-hidden"
+							>
+								{post.featuredImage?.node?.sourceUrl ? (
+									<Image
+										src={post.featuredImage.node.sourceUrl}
+										alt={post.featuredImage.node.altText || post.title}
+										fill
+										sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+										className="absolute object-cover transition-all duration-300 hover:scale-110"
+										itemProp="url"
+										loading="lazy"
+									/>
+								) : null}
+							</figure>
+						</Link>
+
+						<div className="flex items-center gap-2 md:mt-4 mt-2">
+							{post.date && (
+								<time
+									dateTime={post.date}
+									itemProp="datePublished"
+									className="text-[11px] font-semibold text-foreground"
+								>
+									{format(new Date(post.date), "MMMM d, yyyy").toUpperCase()}
+								</time>
+							)}
+							<RxDividerVertical
+								className="text-foreground font-bold rotate-12"
+								aria-hidden="true"
+							/>
+							<div
+								itemProp="author"
+								itemScope
+								itemType="https://schema.org/Person"
+								className="mb-1"
+							>
+								<Link
+									href={`/author/${post.author?.node?.slug || "#"}`}
+									className="text-[11px] text-foreground font-semibold"
+								>
+									<span className="text-muted-foreground">POST BY</span>{" "}
+									<span itemProp="name" className="font-bold">
+										{(post.author?.node?.name || "Remi").toUpperCase()}
+									</span>
+								</Link>
+							</div>
 						</div>
-					</div>
-				</article>
-			))}
-		</div>
+
+						<h4 itemProp="headline" className="post-title">
+							<Link href={`/blog/${post.slug}`}>{post.title}</Link>
+						</h4>
+
+						<div
+							itemProp="publisher"
+							itemScope
+							itemType="https://schema.org/Organization"
+							className="hidden"
+						>
+							<meta itemProp="name" content={siteConfig.name} />
+							<div
+								itemProp="logo"
+								itemScope
+								itemType="https://schema.org/ImageObject"
+							>
+								<meta itemProp="url" content={`${siteConfig.url}/logo.png`} />
+							</div>
+						</div>
+					</article>
+				))}
+			</div>
+		)}
 	</div>
 );
 

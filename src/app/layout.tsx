@@ -53,11 +53,6 @@ export default function RootLayout({
 					name="google-site-verification"
 					content="yxeFNWpuhvlS0eo9B8iQrxf0t5J49c_LIm7DPQoOTZU"
 				/>
-				<meta
-					name="facebook-domain-verification"
-					content="4a1y1l86exge4zhu8x7fy6s5ao9jo4"
-				/>
-				<meta name="msvalidate.01" content="CD6B89087A11047F5523FAC02B18D301" />
 
 				{/* Additional meta tags */}
 				<meta name="author" content={siteConfig.creator.name} />
@@ -70,7 +65,7 @@ export default function RootLayout({
 				{/* Pinterest Domain Verification */}
 				<meta
 					name="p:domain_verify"
-					content="47cb10da423033dd19eb384a733fa0c0"
+					content="7b8ecc63971f619bfde796a3e69a99b3"
 				/>
 
 				<meta name="apple-mobile-web-app-title" content="MyWebSite" />

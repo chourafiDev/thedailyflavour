@@ -44,15 +44,21 @@ export async function generateMetadata({ params }: PageProps) {
 	const post = await getRecipeBySlug(slug);
 	if (!post) return {};
 
-	const imageUrl = post.featuredImage?.node?.sourceUrl;
+	const seo = post.seo;
+	const imageUrl =
+		seo?.openGraph?.image?.url || post.featuredImage?.node?.sourceUrl;
 	const excerpt = post.excerpt ? cleanText(post.excerpt) : "";
 
 	return {
-		title: `${post.title} — ${siteConfig.name}`,
-		description: excerpt,
+		title: seo?.title || `${post.title} — ${siteConfig.name}`,
+		description: seo?.description || excerpt,
+		keywords: seo?.focusKeywords ?? undefined,
+		alternates: {
+			canonical: seo?.canonicalUrl || `${siteConfig.url}/blog/${slug}`,
+		},
 		openGraph: {
-			title: post.title,
-			description: excerpt,
+			title: seo?.openGraph?.title || post.title,
+			description: seo?.openGraph?.description || excerpt,
 			...(imageUrl && { images: [{ url: imageUrl, alt: post.title }] }),
 		},
 	};
@@ -73,6 +79,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 	const imageUrl = post.featuredImage?.node?.sourceUrl || "";
 	const imageAlt = post.featuredImage?.node?.altText || post.title;
 	const r = post.recipeDetails;
+	const seo = post.seo;
 
 	const { headings, content: enrichedContent } = extractHeadings(
 		post.content ?? "",
@@ -111,8 +118,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 	const recipeSchema: RecipeSchema = {
 		"@context": "https://schema.org",
 		"@type": "Recipe",
-		name: post.title,
-		description: excerpt || undefined,
+		name: seo?.title || post.title,
+		description: seo?.description || excerpt || undefined,
+		keywords: seo?.focusKeywords?.join(", ") || undefined,
 		image: imageUrl || undefined,
 		author: { "@type": "Person", name: authorName },
 		datePublished: post.date,

@@ -44,6 +44,22 @@ export interface CategoryRef {
 	slug: string;
 }
 
+// ─── Seo ─────────────────────────────────────────────────────────────────
+
+export interface Seo {
+	title?: string;
+	description?: string;
+	focusKeywords?: string[];
+	canonicalUrl?: string;
+	openGraph?: {
+		title?: string;
+		description?: string;
+		image?: {
+			url?: string;
+		};
+	};
+}
+
 // ─── Post / Recipe ────────────────────────────────────────────────────────────
 
 export interface Recipe {
@@ -55,6 +71,7 @@ export interface Recipe {
 	featuredImage?: FeaturedImage | null;
 	author?: Author | null;
 	categories?: { nodes: CategoryRef[] } | null;
+	seo?: Seo;
 	recipeDetails?: RecipeDetails | null;
 }
 

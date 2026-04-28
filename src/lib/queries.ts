@@ -67,6 +67,19 @@ export const GET_RECIPE_BY_SLUG = gql`
           slug
         }
       }
+      seo {
+        title
+        description
+        focusKeywords
+        canonicalUrl
+        openGraph {
+          title
+          description
+          image {
+            url
+          }
+        }
+      }
       recipeDetails {
         prepTime
         cookTime

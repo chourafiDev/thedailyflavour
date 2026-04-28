@@ -48,6 +48,7 @@ export interface RecipeSchema extends BaseSchema {
 	"@type": "Recipe";
 	name: string;
 	description?: string;
+	keywords?: string[];
 	image?: string;
 	author?: { "@type": string; name: string };
 	datePublished?: string;

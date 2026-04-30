@@ -1,5 +1,7 @@
 import { format } from "date-fns";
 import Link from "next/link";
+import JumpToRecipeButton from "@/components/Jump-to-recipe-button";
+import PrintRecipeButton from "@/components/print-recipe-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ArticleHeaderPost {
@@ -36,56 +38,68 @@ const ArticleHeader = ({ post }: ArticleHeaderProps) => {
 			.slice(0, 2);
 
 	return (
-		<header className="flex flex-col items-center justify-center">
-			<div className="flex items-center gap-2.5">
-				<div className="px-4 pt-1.5 pb-2 bg-foreground rounded-full">
-					<Link
-						href={`/category/${categorySlug}`}
-						rel="category tag"
-						className="text-xs font-semibold text-background uppercase"
-					>
-						{categoryTitle}
-					</Link>
+		<header className="flex lg:items-end items-start justify-between lg:flex-row flex-col lg:gap-0 gap-6 bg-soft-linen rounded-md md:px-10 px-5 md:py-8 py-5 md:mb-10 mb-5">
+			<div>
+				<div className="flex items-center gap-2.5">
+					<div className="px-4 pt-1.5 pb-2 bg-foreground rounded-full">
+						<Link
+							href={`/category/${categorySlug}`}
+							rel="category tag"
+							className="text-xs font-semibold text-background uppercase"
+						>
+							{categoryTitle}
+						</Link>
+					</div>
 				</div>
 
-				<div className="h-5 w-[1px] bg-border" aria-hidden="true" />
-
-				<time
-					dateTime={publishedDate}
-					itemProp="datePublished"
-					className="text-foreground font-semibold text-xs"
+				<h1
+					itemProp="headline"
+					className="text-foreground font-marcellus font-black md:text-[44px] text-[30px] md:leading-12 leading-10 mt-4 mb-6"
 				>
-					{format(new Date(publishedDate), "MMMM d, yyyy").toUpperCase()}
-				</time>
+					{title}
+				</h1>
+
+				<div className="flex md:items-center items-start md:flex-row flex-col md:gap-4 gap-2">
+					<div
+						itemProp="author"
+						itemScope
+						itemType="https://schema.org/Person"
+						className="flex items-center justify-center gap-1.5"
+					>
+						<Avatar className="size-10">
+							<AvatarImage src={post.author.image} alt={authorName} />
+							<AvatarFallback>{getInitials(authorName)}</AvatarFallback>
+						</Avatar>
+						<p className="text-foreground font-semibold text-[13px]">
+							<span className="text-foreground/60 font-medium">Post by</span>{" "}
+							<Link
+								href={`/author/${authorSlug}`}
+								itemProp="url"
+								className="underline"
+							>
+								<span itemProp="name">{authorName}</span>
+							</Link>
+						</p>
+					</div>
+
+					<div className="h-4 w-[1px] bg-foreground/70 md:block hidden" aria-hidden="true" />
+
+					<div className="flex items-center gap-2 text-[13px]">
+						<p className="text-foreground/60 font-medium">Published</p>
+						<time
+							dateTime={publishedDate}
+							itemProp="datePublished"
+							className="text-foreground font-semibold"
+						>
+							{format(new Date(publishedDate), "MMMM d, yyyy").toUpperCase()}
+						</time>
+					</div>
+				</div>
 			</div>
 
-			<h1
-				itemProp="headline"
-				className="text-foreground font-black md:text-[40px] text-[30px] md:leading-12 leading-10 text-center lg:px-24 my-3.5 lg:max-w-5xl"
-			>
-				{title}
-			</h1>
-
-			<div
-				itemProp="author"
-				itemScope
-				itemType="https://schema.org/Person"
-				className="flex items-center justify-center gap-1.5"
-			>
-				<Avatar className="size-10">
-					<AvatarImage src={post.author.image} alt={authorName} />
-					<AvatarFallback>{getInitials(authorName)}</AvatarFallback>
-				</Avatar>
-				<p className="text-foreground font-semibold text-[13px]">
-					<span className="text-foreground/60 font-medium">Post by</span>{" "}
-					<Link
-						href={`/author/${authorSlug}`}
-						itemProp="url"
-						className="hover:underline"
-					>
-						<span itemProp="name">{authorName}</span>
-					</Link>
-				</p>
+			<div className="flex md:flex-row flex-col items-center justify-end md:gap-3 gap-2 md:w-auto w-full">
+				<JumpToRecipeButton />
+				{<PrintRecipeButton />}
 			</div>
 		</header>
 	);

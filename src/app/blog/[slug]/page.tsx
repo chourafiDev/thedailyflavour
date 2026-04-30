@@ -5,8 +5,6 @@ import { FaArrowRight } from "react-icons/fa6";
 import { IoChevronForwardOutline } from "react-icons/io5";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { JsonLd, type RecipeSchema } from "@/components/JsonLd";
-import JumpToRecipeButton from "@/components/Jump-to-recipe-button";
-import PrintRecipeButton from "@/components/print-recipe-button";
 import RecipeCard from "@/components/recipe-card";
 import Subscribe from "@/components/subscribe";
 import SubscribeVertical from "@/components/subscribe-vertical";
@@ -206,30 +204,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 				<article
 					itemScope
 					itemType="https://schema.org/BlogPosting"
-					className="mb-16 mt-10"
+					className="mb-16 mt-6"
 				>
 					<ArticleHeader post={{ ...post, author: authorObj }} />
-
-					{imageUrl && (
-						<figure
-							itemProp="image"
-							itemScope
-							itemType="https://schema.org/ImageObject"
-							className="md:my-8 my-4"
-						>
-							<Image
-								src={imageUrl}
-								alt={imageAlt}
-								width={1200}
-								height={700}
-								itemProp="url"
-								priority
-								className="object-cover rounded-md md:w-full md:h-[700px] aspect-square"
-							/>
-							<meta itemProp="width" content="1200" />
-							<meta itemProp="height" content="700" />
-						</figure>
-					)}
 
 					<div className="flex items-start gap-5 lg:w-[90%] lg:mx-auto">
 						{/* Sidebar */}
@@ -258,10 +235,26 @@ export default async function BlogPostPage({ params }: PageProps) {
 
 						{/* Article body */}
 						<div className="lg:w-[75%] w-full">
-							<div className="flex md:flex-row flex-col items-center justify-end md:gap-3 gap-2 md:mb-8 mb-4">
-								<JumpToRecipeButton />
-								{r && <PrintRecipeButton />}
-							</div>
+							{imageUrl && (
+								<figure
+									itemProp="image"
+									itemScope
+									itemType="https://schema.org/ImageObject"
+									className="mb-6"
+								>
+									<Image
+										src={imageUrl}
+										alt={imageAlt}
+										width={1200}
+										height={700}
+										itemProp="url"
+										priority
+										className="object-cover rounded-md aspect-square"
+									/>
+									<meta itemProp="width" content="1200" />
+									<meta itemProp="height" content="700" />
+								</figure>
+							)}
 
 							{/* WordPress content */}
 							{enrichedContent && (

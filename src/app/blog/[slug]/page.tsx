@@ -12,6 +12,7 @@ import TableOfContent from "@/components/table-of-content";
 import { buttonVariants } from "@/components/ui/button";
 import ArticleHeader from "@/features/blog/components/article-header";
 import AuthorBio from "@/features/blog/components/author-bio";
+import MobileSidebar from "@/features/blog/components/mobile-sidebar";
 import PostNavigation from "@/features/blog/components/post-navigation";
 import RelatedPosts from "@/features/blog/components/related-posts";
 import SocialShareButtons from "@/features/blog/components/social-share-buttons";
@@ -311,6 +312,12 @@ export default async function BlogPostPage({ params }: PageProps) {
 					<RelatedPosts currentSlug={post.slug} categorySlug={categorySlug} />
 				)}
 				<Subscribe />
+				<MobileSidebar
+					slug={post.slug}
+					title={post.title}
+					imageUrl={imageUrl}
+					headings={headings}
+				/>
 			</main>
 		</>
 	);

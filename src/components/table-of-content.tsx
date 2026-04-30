@@ -22,11 +22,25 @@ export interface TableOfContentHeading {
 interface TableOfContentProps {
 	headings: TableOfContentHeading[];
 	title?: string;
+	showIcon?: boolean;
+	className?: string;
+	size?:
+		| "lg"
+		| "default"
+		| "sm"
+		| "icon"
+		| "icon-sm"
+		| "icon-lg"
+		| null
+		| undefined;
 }
 
 const TableOfContent = ({
 	headings,
 	title = "Table of Contents",
+	showIcon = true,
+	className,
+	size = "lg",
 }: TableOfContentProps) => {
 	const [activeId, setActiveId] = useState<string>("");
 
@@ -89,12 +103,12 @@ const TableOfContent = ({
 		<Sheet>
 			<SheetTrigger asChild>
 				<Button
-					className="w-full relative dark:text-background"
+					className={cn("w-full relative dark:text-background", className)}
 					variant={"white"}
-					size={"lg"}
+					size={size}
 					shadow={"sm"}
 				>
-					Table Of Content <Menu className="absolute right-4" />
+					Table Of Content {showIcon && <Menu className="absolute right-4" />}
 				</Button>
 			</SheetTrigger>
 			<SheetContent side="left" className="w-[400px] sm:w-[540px] gap-0">

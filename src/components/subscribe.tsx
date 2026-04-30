@@ -108,7 +108,7 @@ const Subscribe = () => {
 												type="email"
 												aria-label="Email address"
 												disabled={isPending}
-												className="lg:w-full md:w-[400px] w-[300px] bg-background dark:bg-transparent border-none shadow-none outline-none dark:focus-visible:ring-offset-0 focus-visible:ring-0"
+												className="w-full bg-background dark:bg-transparent border-none shadow-none outline-none dark:focus-visible:ring-offset-0 focus-visible:ring-0"
 												{...field}
 											/>
 										</FormControl>

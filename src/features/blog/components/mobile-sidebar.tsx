@@ -34,7 +34,7 @@ const MobileSidebar = ({
 	const encodedImage = encodeURIComponent(postImage);
 
 	return (
-		<div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border px-4 py-3 flex items-center gap-2">
+		<div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border px-2 py-3 flex items-center gap-2">
 			{/* Share label */}
 			<span className="text-xs font-bold text-foreground shrink-0">Share:</span>
 
@@ -100,9 +100,6 @@ const MobileSidebar = ({
 				<span className="text-xs font-semibold hidden sm:block">Pinterest</span>
 				<FaArrowRight className="size-3" aria-hidden="true" />
 			</Link>
-
-			{/* Divider */}
-			<div className="h-6 w-[1px] bg-border shrink-0" aria-hidden="true" />
 
 			{/* Table of contents */}
 			<div className="shrink-0">

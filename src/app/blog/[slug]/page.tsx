@@ -131,7 +131,10 @@ export default async function BlogPostPage({ params }: PageProps) {
 		recipeYield: r?.servings ? `${r.servings} servings` : undefined,
 		recipeCategory: categoryTitle,
 		recipeCuisine: "American",
-		keywords: post.categories?.nodes?.map((c: { name: string }) => c.name),
+		keywords: [
+			post.title,
+			...(post.categories?.nodes?.map((c: { name: string }) => c.name) ?? []),
+		],
 		nutrition: r?.calories
 			? { "@type": "NutritionInformation", calories: `${r.calories} calories` }
 			: undefined,

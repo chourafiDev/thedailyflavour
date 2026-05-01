@@ -4,6 +4,7 @@ import { Check, Clock, DollarSign, Flame, Star } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import type { ParsedIngredient, ParsedInstruction } from "@/lib/types";
+import { formatTime } from "@/lib/utils";
 import PrintRecipeButton from "./print-recipe-button";
 
 export interface RecipeCardProps {
@@ -11,12 +12,12 @@ export interface RecipeCardProps {
 	description?: string;
 	featuredImageUrl?: string | null;
 	featuredImageAlt?: string | null;
-	prepTime?: string | null;
+	prepTime?: number | null;
 	servings?: number | null;
-	cookTime?: string | null;
-	totalTime?: string | null;
+	cookTime?: number | null;
+	totalTime?: number | null;
 	calories?: number | null;
-	cost?: string | null;
+	cost?: number | null;
 	ingredientsRaw?: string | null;
 	instructionsRaw?: string | null;
 	notes?: string | null;
@@ -207,7 +208,6 @@ export default function RecipeCard({
 	const instructions = instructionsRaw
 		? parseInstructions(instructionsRaw)
 		: [];
-	const computedTotal = totalTime ?? null;
 
 	const BASE_SERVINGS = initialServings ?? 4;
 	const [servings, setServings] = useState(BASE_SERVINGS);
@@ -299,21 +299,25 @@ export default function RecipeCard({
 						<StatPill
 							icon={<Clock size={15} />}
 							label="Prep Time"
-							value={prepTime}
+							value={formatTime(prepTime)}
 						/>
 					)}
 					{cookTime != null && (
 						<StatPill
 							icon={<Flame size={15} />}
 							label="Cook Time"
-							value={cookTime}
+							value={formatTime(cookTime)}
 						/>
 					)}
-					{computedTotal != null && (
+					{(totalTime ?? (prepTime && cookTime ? prepTime + cookTime : null)) !=
+						null && (
 						<StatPill
 							icon={<Clock size={15} />}
 							label="Total Time"
-							value={computedTotal}
+							value={formatTime(
+								totalTime ??
+									(prepTime && cookTime ? prepTime + cookTime : null),
+							)}
 						/>
 					)}
 					{calories != null && (
@@ -327,7 +331,7 @@ export default function RecipeCard({
 						<StatPill
 							icon={<DollarSign size={15} />}
 							label="Est. Cost"
-							value={cost}
+							value={`$${cost}`}
 						/>
 					)}
 				</div>

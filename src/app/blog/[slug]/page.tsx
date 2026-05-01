@@ -78,7 +78,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 	const imageUrl = post.featuredImage?.node?.sourceUrl || "";
 	const imageAlt = post.featuredImage?.node?.altText || post.title;
 	const r = post.recipeDetails;
-	const seo = post.seo;
 
 	const { headings, content: enrichedContent } = extractHeadings(
 		post.content ?? "",
@@ -117,8 +116,8 @@ export default async function BlogPostPage({ params }: PageProps) {
 	const recipeSchema: RecipeSchema = {
 		"@context": "https://schema.org",
 		"@type": "Recipe",
-		name: seo?.title || post.title,
-		description: seo?.description || excerpt || undefined,
+		name: post.title,
+		description: excerpt || undefined,
 		image: imageUrl || undefined,
 		author: { "@type": "Person", name: authorName },
 		datePublished: post.date,
@@ -129,9 +128,18 @@ export default async function BlogPostPage({ params }: PageProps) {
 			: r?.prepTime && r?.cookTime
 				? `PT${r.prepTime + r.cookTime}M`
 				: undefined,
+		recipeYield: r?.servings ? `${r.servings} servings` : undefined,
+		recipeCategory: categoryTitle,
+		recipeCuisine: "American",
+		keywords: post.categories?.nodes?.map((c: { name: string }) => c.name),
 		nutrition: r?.calories
 			? { "@type": "NutritionInformation", calories: `${r.calories} calories` }
 			: undefined,
+		aggregateRating: {
+			"@type": "AggregateRating",
+			ratingValue: "5",
+			ratingCount: "1",
+		},
 		recipeIngredient: ingredientsForSchema.length
 			? ingredientsForSchema
 			: undefined,

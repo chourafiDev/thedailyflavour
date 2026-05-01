@@ -44,3 +44,11 @@ export function extractHeadings(html: string): {
 
 	return { headings, content: enriched };
 }
+
+export function formatTime(minutes?: number | null): string {
+	if (!minutes) return "—";
+	if (minutes < 60) return `${minutes} min`;
+	const h = Math.floor(minutes / 60);
+	const m = minutes % 60;
+	return m ? `${h} hr ${m} min` : `${h} hr`;
+}

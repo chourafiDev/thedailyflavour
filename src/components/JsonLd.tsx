@@ -55,10 +55,18 @@ export interface RecipeSchema extends BaseSchema {
 	cookTime?: string;
 	totalTime?: string;
 	recipeYield?: string;
+	recipeCategory?: string;
+	recipeCuisine?: string;
+	keywords?: string[];
 	recipeIngredient?: string[];
 	recipeInstructions?: { "@type": string; position: number; text: string }[];
 	nutrition?: { "@type": string; calories: string };
 	publisher?: { "@type": string; name: string };
+	aggregateRating?: {
+		"@type": string;
+		ratingValue: string;
+		ratingCount: string;
+	};
 }
 
 interface BlogPostingSchema extends BaseSchema {

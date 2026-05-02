@@ -9,6 +9,10 @@ export interface RecipeDetails {
 	instructions?: string | null;
 	notes?: string | null;
 	nutrition?: string | null;
+	summary?: string | null;
+	title?: string | null;
+	keywords?: string | null;
+	cuisines?: string | null;
 }
 
 // ─── Media ────────────────────────────────────────────────────────────────────

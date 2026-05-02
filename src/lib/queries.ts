@@ -78,6 +78,10 @@ export const GET_RECIPE_BY_SLUG = gql`
         instructions
         notes
         nutrition
+        summary
+        title
+        keywords
+        cuisines
       }
     }
   }

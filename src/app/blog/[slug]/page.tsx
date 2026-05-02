@@ -38,6 +38,14 @@ function cleanText(html: string): string {
 		.trim();
 }
 
+function parseLines(val?: string | null): string[] {
+	if (!val) return [];
+	return val
+		.split("\n")
+		.map((s) => s.trim())
+		.filter(Boolean);
+}
+
 export async function generateMetadata({ params }: PageProps) {
 	const { slug } = await params;
 	const post = await getRecipeBySlug(slug);
@@ -99,25 +107,24 @@ export default async function BlogPostPage({ params }: PageProps) {
 		image: post.author?.node?.avatar?.url || "",
 	};
 
-	// ── Schema.org arrays (plain text, no group headers) ────────────────────────
-	const ingredientsForSchema =
-		r?.ingredients
-			?.split("\n")
-			.map((l: string) => l.trim())
-			.filter((l: string) => l && !l.startsWith("##")) ?? [];
+	// ── Parse textarea fields ────────────────────────────────────────────────────
+	const keywordsArray = parseLines(r?.keywords);
+	const cuisinesArray = parseLines(r?.cuisines);
 
-	const instructionsForSchema =
-		r?.instructions
-			?.split("\n")
-			.map((l: string) => l.trim())
-			.filter((l: string) => l && !l.startsWith("##")) ?? [];
+	const ingredientsForSchema = r?.ingredients
+		? parseLines(r.ingredients).filter((l) => !l.startsWith("##"))
+		: [];
+
+	const instructionsForSchema = r?.instructions
+		? parseLines(r.instructions).filter((l) => !l.startsWith("##"))
+		: [];
 
 	// ── JSON-LD ──────────────────────────────────────────────────────────────────
 	const recipeSchema: RecipeSchema = {
 		"@context": "https://schema.org",
 		"@type": "Recipe",
-		name: post.title,
-		description: excerpt || undefined,
+		name: r?.title || post.title,
+		description: r?.summary || excerpt || undefined,
 		image: imageUrl || undefined,
 		author: { "@type": "Person", name: authorName },
 		datePublished: post.date,
@@ -130,13 +137,19 @@ export default async function BlogPostPage({ params }: PageProps) {
 				: undefined,
 		recipeYield: r?.servings ? `${r.servings} servings` : undefined,
 		recipeCategory: categoryTitle,
-		recipeCuisine: "American",
-		keywords: [
-			post.title,
-			...(post.categories?.nodes?.map((c: { name: string }) => c.name) ?? []),
-		],
+		recipeCuisine: cuisinesArray[0] ?? "American",
+		keywords: keywordsArray.length
+			? keywordsArray
+			: [
+					post.title,
+					...(post.categories?.nodes?.map((c: { name: string }) => c.name) ??
+						[]),
+				],
 		nutrition: r?.calories
-			? { "@type": "NutritionInformation", calories: `${r.calories} calories` }
+			? {
+					"@type": "NutritionInformation",
+					calories: `${r.calories} calories`,
+				}
 			: undefined,
 		aggregateRating: {
 			"@type": "AggregateRating",
@@ -212,7 +225,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 				</>
 			</Breadcrumbs>
 
-			<main className="custom-container">
+			<main className="custom-container lg:pb-0 pb-20">
 				<article
 					itemScope
 					itemType="https://schema.org/BlogPosting"
@@ -233,7 +246,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 											size: "lg",
 											shadow: "sm",
 										}),
-
 										"bg-[#E60023] w-full dark:text-white dark:border-[#E60023]",
 									)}
 								>
@@ -268,7 +280,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 								</figure>
 							)}
 
-							{/* WordPress content */}
 							{enrichedContent && (
 								<div
 									className="post-content mb-10 max-w-none"
@@ -278,8 +289,8 @@ export default async function BlogPostPage({ params }: PageProps) {
 
 							{r && (
 								<RecipeCard
-									title={post.title}
-									description={excerpt || undefined}
+									title={r.title || post.title}
+									description={r.summary || excerpt || undefined}
 									featuredImageUrl={imageUrl || undefined}
 									featuredImageAlt={imageAlt || undefined}
 									prepTime={r.prepTime ?? undefined}

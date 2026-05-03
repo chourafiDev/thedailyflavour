@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { DummyRecipe } from "@/lib/dummy-data";
 import { siteConfig } from "./site-config";
 
 // ── Base metadata ─────────────────────────────────────────────
@@ -123,55 +122,6 @@ export function generateCategoryMetadata(categorySlug: string): Metadata {
 			title: category.title,
 			description: category.description,
 			site: siteConfig.creator.twitter,
-		},
-	};
-}
-
-// ── Blog / recipe post pages ──────────────────────────────────
-// Accepts DummyRecipe now — swap for WPGraphQL post type when ready
-export function generateBlogPostMetadata(post: DummyRecipe | null): Metadata {
-	if (!post) return {};
-
-	const url = `${siteConfig.url}/blog/${post.slug}`;
-	const imageUrl = post.mainImage?.url ?? undefined;
-
-	return {
-		title: post.title || "Recipe",
-		description: post.excerpt || siteConfig.description,
-		keywords: [
-			...siteConfig.keywords,
-			post.category?.title?.toLowerCase() ?? "",
-			"recipe",
-			"easy recipe",
-		].filter(Boolean),
-		authors: post.author?.name ? [{ name: post.author.name }] : [],
-		alternates: { canonical: url },
-		openGraph: {
-			title: post.title || "Recipe",
-			description: post.excerpt || siteConfig.description,
-			type: "article",
-			publishedTime: post.publishedAt || undefined,
-			authors: post.author?.name ? [post.author.name] : [],
-			url: url,
-			siteName: siteConfig.name,
-			...(imageUrl && {
-				images: [
-					{
-						url: imageUrl,
-						width: 1200,
-						height: 630,
-						alt: post.mainImage?.alt || post.title || "Recipe image",
-					},
-				],
-			}),
-		},
-		twitter: {
-			card: "summary_large_image",
-			title: post.title || "Recipe",
-			description: post.excerpt || siteConfig.description,
-			...(imageUrl && { images: [imageUrl] }),
-			site: siteConfig.creator.twitter,
-			creator: siteConfig.creator.twitter,
 		},
 	};
 }

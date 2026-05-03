@@ -2,21 +2,35 @@ import Link from "next/link";
 import { BsTwitterX } from "react-icons/bs";
 import { FaFacebook, FaPinterest } from "react-icons/fa";
 import { buttonVariants } from "@/components/ui/button";
-import type { DummyRecipe } from "@/lib/dummy-data";
 import { siteConfig } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 
+interface SocialSharePost {
+	slug: string;
+	title: string;
+	featuredImage?: {
+		node?: {
+			sourceUrl?: string;
+		};
+	};
+	author: {
+		name: string;
+		slug: string;
+		image?: string;
+	};
+}
+
 interface SocialShareButtonsProps {
-	post: DummyRecipe;
+	post: SocialSharePost;
 }
 
 const SocialShareButtons = ({ post }: SocialShareButtonsProps) => {
 	const postUrl = `${siteConfig.url}/blog/${post.slug}`;
 	const postTitle = post.title || "Check out this recipe";
-	const postImage = post.mainImage?.url
-		? post.mainImage.url.startsWith("http")
-			? post.mainImage.url
-			: `${siteConfig.url}${post.mainImage.url}`
+	const postImage = post.featuredImage?.node?.sourceUrl
+		? post.featuredImage.node.sourceUrl.startsWith("http")
+			? post.featuredImage.node.sourceUrl
+			: `${siteConfig.url}${post.featuredImage.node.sourceUrl}`
 		: `${siteConfig.url}/default-og-image.jpg`;
 
 	const encodedUrl = encodeURIComponent(postUrl);
@@ -30,7 +44,6 @@ const SocialShareButtons = ({ post }: SocialShareButtonsProps) => {
 			</p>
 
 			<div className="space-y-2">
-				{/* Facebook Share */}
 				<Link
 					href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
 					aria-label="Share on Facebook"
@@ -45,7 +58,6 @@ const SocialShareButtons = ({ post }: SocialShareButtonsProps) => {
 					Facebook
 				</Link>
 
-				{/* Twitter/X Share */}
 				<Link
 					href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
 					aria-label="Share on Twitter"
@@ -60,7 +72,6 @@ const SocialShareButtons = ({ post }: SocialShareButtonsProps) => {
 					Twitter
 				</Link>
 
-				{/* Pinterest Share */}
 				<Link
 					href={`https://pinterest.com/pin/create/button/?url=${encodedUrl}&media=${encodedImage}&description=${encodedTitle}`}
 					aria-label="Share on Pinterest"

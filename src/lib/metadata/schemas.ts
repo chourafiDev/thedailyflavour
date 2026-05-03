@@ -9,7 +9,6 @@ import type {
 	ReviewSchema,
 	WebSiteSchema,
 } from "@/components/JsonLd";
-import type { DummyRecipe } from "@/lib/dummy-data";
 import { siteConfig } from "./site-config";
 
 // ── Organization ──────────────────────────────────────────────
@@ -55,60 +54,6 @@ export function generateWebsiteSchema(): WebSiteSchema {
 			},
 			"query-input": "required name=search_term_string",
 		},
-	};
-}
-
-// ── Recipe / BlogPosting schema ───────────────────────────────
-// Uses DummyRecipe — swap for WPGraphQL post type when WordPress is live
-export function generateBlogPostingSchema(post: DummyRecipe | null) {
-	if (!post) return {};
-
-	const keywords = [
-		"quick recipes",
-		"family recipes",
-		post.category?.title?.toLowerCase(),
-		"easy recipe",
-		"weeknight dinner",
-	]
-		.filter(Boolean)
-		.join(", ");
-
-	return {
-		"@context": "https://schema.org",
-		"@type": "Recipe",
-		name: post.title || "Recipe",
-		description: post.excerpt || siteConfig.description,
-		image: {
-			"@type": "ImageObject",
-			url: post.mainImage?.url || `${siteConfig.url}/default-image.jpg`,
-			alt: post.mainImage?.alt || post.title || "Recipe image",
-		},
-		author: {
-			"@type": "Person",
-			name: post.author?.name || siteConfig.creator.name,
-		},
-		publisher: {
-			"@type": "Organization",
-			name: siteConfig.name,
-			url: siteConfig.url,
-			logo: {
-				"@type": "ImageObject",
-				url: `${siteConfig.url}/logo.png`,
-			},
-		},
-		datePublished: post.publishedAt,
-		dateModified: post.publishedAt,
-		mainEntityOfPage: {
-			"@type": "WebPage",
-			"@id": `${siteConfig.url}/blog/${post.slug}`,
-		},
-		keywords,
-		recipeCategory: post.category?.title || "",
-		prepTime: `PT${post.recipeDetails?.prepTime || 0}M`,
-		cookTime: `PT${post.recipeDetails?.cookTime || 0}M`,
-		totalTime: `PT${(post.recipeDetails?.prepTime || 0) + (post.recipeDetails?.cookTime || 0)}M`,
-		recipeYield: `${post.recipeDetails?.servings || 4} servings`,
-		inLanguage: "en-US",
 	};
 }
 

@@ -1,19 +1,20 @@
 import Link from "next/link";
-import { dummyRecipes } from "@/lib/dummy-data";
+import { getNextRecipe, getPreviousRecipe } from "@/lib/wordpress";
 
 interface PostNavigationProps {
 	currentSlug: string;
 }
 
-const PostNavigation = ({ currentSlug }: PostNavigationProps) => {
-	const currentIndex = dummyRecipes.findIndex((r) => r.slug === currentSlug);
+type WPPost = {
+	title: string;
+	slug: string;
+};
 
-	const previousPost = currentIndex > 0 ? dummyRecipes[currentIndex - 1] : null;
-
-	const nextPost =
-		currentIndex < dummyRecipes.length - 1
-			? dummyRecipes[currentIndex + 1]
-			: null;
+const PostNavigation = async ({ currentSlug }: PostNavigationProps) => {
+	const [previousPost, nextPost] = await Promise.all([
+		getPreviousRecipe(currentSlug),
+		getNextRecipe(currentSlug),
+	]);
 
 	if (!previousPost && !nextPost) return null;
 
@@ -25,26 +26,26 @@ const PostNavigation = ({ currentSlug }: PostNavigationProps) => {
 			{/* Previous Post */}
 			{previousPost ? (
 				<Link
-					href={`/blog/${previousPost.slug}`}
+					href={`/blog/${(previousPost as WPPost).slug}`}
 					rel="prev"
 					className="group px-10 py-6 flex-1 flex flex-col justify-center hover:bg-soft-linen dark:hover:bg-background transition-colors"
 				>
 					<span className="text-sm font-bold text-foreground underline">
-						Previous
+						Previous Recipe
 					</span>
 					<h3 className="text-lg mt-2 font-bold text-foreground group-hover:underline line-clamp-2">
-						{previousPost.title}
+						{(previousPost as WPPost).title}
 					</h3>
 				</Link>
 			) : (
 				<div className="flex-1 px-10 py-6 flex flex-col justify-center opacity-50">
 					<span className="text-sm font-bold text-muted-foreground">
-						No previous post
+						No previous recipe
 					</span>
 				</div>
 			)}
 
-			{/* Divider - only show if both posts exist */}
+			{/* Divider */}
 			{previousPost && nextPost && (
 				<div className="bg-border w-[1px]" aria-hidden="true" />
 			)}
@@ -52,21 +53,21 @@ const PostNavigation = ({ currentSlug }: PostNavigationProps) => {
 			{/* Next Post */}
 			{nextPost ? (
 				<Link
-					href={`/blog/${nextPost.slug}`}
+					href={`/blog/${(nextPost as WPPost).slug}`}
 					rel="next"
 					className="group text-right flex-1 px-10 py-6 flex flex-col justify-center hover:bg-soft-linen dark:hover:bg-background transition-colors"
 				>
 					<span className="text-sm font-bold text-foreground underline">
-						Next
+						Next Recipe
 					</span>
 					<h3 className="text-lg mt-2 font-bold text-foreground group-hover:underline line-clamp-2">
-						{nextPost.title}
+						{(nextPost as WPPost).title}
 					</h3>
 				</Link>
 			) : (
 				<div className="flex-1 px-10 py-6 flex flex-col justify-center text-right opacity-50">
 					<span className="text-sm font-bold text-muted-foreground">
-						No next post
+						No next recipe
 					</span>
 				</div>
 			)}

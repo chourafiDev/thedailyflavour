@@ -7,13 +7,13 @@ import {
 	NavigationMenuList,
 	NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { dummyFeaturedPosts } from "@/lib/dummy-data";
 import { cn } from "@/lib/utils";
+import { getFeaturedRecipes } from "@/lib/wordpress";
 import type { NavigationMenu as TNavigationMenu } from ".";
 import { BlogCard } from "./blog-card";
 
-const DesktopMenu = ({ menu }: { menu: TNavigationMenu }) => {
-	const posts = dummyFeaturedPosts.slice(0, 3);
+const DesktopMenu = async ({ menu }: { menu: TNavigationMenu }) => {
+	const posts = await getFeaturedRecipes(3);
 
 	return (
 		<NavigationMenu className="hidden lg:block">
@@ -37,11 +37,22 @@ const DesktopMenu = ({ menu }: { menu: TNavigationMenu }) => {
 
 									{/* Featured Posts */}
 									<ul className="grid grow gap-2 pl-2 md:grid-cols-3">
-										{posts.map((post) => (
-											<li key={post.slug || post.title}>
-												<BlogCard post={post} />
-											</li>
-										))}
+										{posts.map(
+											(post: {
+												slug: string;
+												title: string;
+												featuredImage?: {
+													node: { sourceUrl: string; altText: string };
+												};
+												categories?: {
+													nodes: { name: string; slug: string }[];
+												};
+											}) => (
+												<li key={post.slug || post.title}>
+													<BlogCard post={post} />
+												</li>
+											),
+										)}
 									</ul>
 								</div>
 							</NavigationMenuContent>

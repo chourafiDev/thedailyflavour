@@ -52,3 +52,29 @@ export function formatTime(minutes?: number | null): string {
 	const m = minutes % 60;
 	return m ? `${h} hr ${m} min` : `${h} hr`;
 }
+
+export function parseNutrition(raw?: string | null) {
+	if (!raw) return undefined;
+	const lines = raw
+		.split("\n")
+		.map((l) => l.trim())
+		.filter(Boolean);
+	const get = (key: string) =>
+		lines
+			.find((l) => l.toLowerCase().startsWith(key))
+			?.split(":")[1]
+			?.trim();
+
+	return {
+		"@type": "NutritionInformation",
+		calories: get("calories") ? `${get("calories")} calories` : undefined,
+		proteinContent: get("protein"),
+		fatContent: get("fat"),
+		carbohydrateContent: get("carbohydrate"),
+		fiberContent: get("fiber"),
+		sugarContent: get("sugar"),
+		sodiumContent: get("sodium"),
+		cholesterolContent: get("cholesterol"),
+		saturatedFatContent: get("saturated fat") ?? get("saturatedfat"),
+	};
+}

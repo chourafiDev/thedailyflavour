@@ -17,7 +17,7 @@ import PostNavigation from "@/features/blog/components/post-navigation";
 import RelatedPosts from "@/features/blog/components/related-posts";
 import SocialShareButtons from "@/features/blog/components/social-share-buttons";
 import { siteConfig } from "@/lib/metadata";
-import { cn, extractHeadings } from "@/lib/utils";
+import { cn, extractHeadings, parseNutrition } from "@/lib/utils";
 import { getAllRecipes, getRecipeBySlug } from "@/lib/wordpress";
 
 interface PageProps {
@@ -125,7 +125,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 		"@type": "Recipe",
 		name: r?.title || post.title,
 		description: r?.summary || excerpt || undefined,
-		image: imageUrl || undefined,
+		image: imageUrl
+			? { "@type": "ImageObject", url: imageUrl, alt: imageAlt }
+			: undefined,
 		author: { "@type": "Person", name: authorName },
 		datePublished: post.date,
 		prepTime: r?.prepTime ? `PT${r.prepTime}M` : undefined,
@@ -145,12 +147,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 					...(post.categories?.nodes?.map((c: { name: string }) => c.name) ??
 						[]),
 				],
-		nutrition: r?.calories
-			? {
-					"@type": "NutritionInformation",
-					calories: `${r.calories} calories`,
-				}
-			: undefined,
+		nutrition: parseNutrition(r?.nutrition),
 		aggregateRating: {
 			"@type": "AggregateRating",
 			ratingValue: "5",
@@ -163,10 +160,12 @@ export default async function BlogPostPage({ params }: PageProps) {
 			? instructionsForSchema.map((text: string, i: number) => ({
 					"@type": "HowToStep",
 					position: i + 1,
+					name: text.slice(0, 60).split(".")[0],
 					text,
 				}))
 			: undefined,
 		publisher: { "@type": "Organization", name: siteConfig.name },
+		inLanguage: "en-US",
 	};
 
 	const breadcrumbSchema = {

@@ -48,7 +48,7 @@ export interface RecipeSchema extends BaseSchema {
 	"@type": "Recipe";
 	name: string;
 	description?: string;
-	image?: string;
+	image?: string | { "@type": "ImageObject"; url: string; alt?: string };
 	author?: { "@type": string; name: string };
 	datePublished?: string;
 	prepTime?: string;
@@ -60,13 +60,25 @@ export interface RecipeSchema extends BaseSchema {
 	keywords?: string[];
 	recipeIngredient?: string[];
 	recipeInstructions?: { "@type": string; position: number; text: string }[];
-	nutrition?: { "@type": string; calories: string };
+	nutrition?: {
+		"@type": string;
+		calories?: string;
+		proteinContent?: string;
+		fatContent?: string;
+		carbohydrateContent?: string;
+		fiberContent?: string;
+		sugarContent?: string;
+		sodiumContent?: string;
+		cholesterolContent?: string;
+		saturatedFatContent?: string;
+	};
 	publisher?: { "@type": string; name: string };
 	aggregateRating?: {
 		"@type": string;
 		ratingValue: string;
 		ratingCount: string;
 	};
+	inLanguage: string;
 }
 
 interface BlogPostingSchema extends BaseSchema {

@@ -49,7 +49,7 @@ export interface RecipeSchema extends BaseSchema {
 	name: string;
 	description?: string;
 	image?: string | { "@type": "ImageObject"; url: string; alt?: string };
-	author?: { "@type": string; name: string };
+	author?: { "@type": string; name: string; url: string };
 	datePublished?: string;
 	prepTime?: string;
 	cookTime?: string;

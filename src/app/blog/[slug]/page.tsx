@@ -128,7 +128,11 @@ export default async function BlogPostPage({ params }: PageProps) {
 		image: imageUrl
 			? { "@type": "ImageObject", url: imageUrl, alt: imageAlt }
 			: undefined,
-		author: { "@type": "Person", name: authorName },
+		author: {
+			"@type": "Person",
+			name: authorName,
+			url: `${siteConfig.url}/author/${authorSlug}`,
+		},
 		datePublished: post.date,
 		prepTime: r?.prepTime ? `PT${r.prepTime}M` : undefined,
 		cookTime: r?.cookTime ? `PT${r.cookTime}M` : undefined,
@@ -148,11 +152,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 						[]),
 				],
 		nutrition: parseNutrition(r?.nutrition),
-		aggregateRating: {
-			"@type": "AggregateRating",
-			ratingValue: "5",
-			ratingCount: "1",
-		},
 		recipeIngredient: ingredientsForSchema.length
 			? ingredientsForSchema
 			: undefined,

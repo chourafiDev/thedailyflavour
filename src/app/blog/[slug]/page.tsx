@@ -135,7 +135,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 		},
 		datePublished: post.date,
 		prepTime: r?.prepTime ? `PT${r.prepTime}M` : undefined,
-		cookTime: r?.cookTime ? `PT${r.cookTime}M` : "0",
+		cookTime: r?.cookTime ? `PT${r.cookTime}M` : "0M",
 		totalTime: r?.totalTime
 			? `PT${r.totalTime}M`
 			: r?.prepTime && r?.cookTime

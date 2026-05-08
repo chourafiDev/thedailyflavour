@@ -1,4 +1,4 @@
-import Script from "next/script";
+// components/JsonLd.tsx
 
 // Define all possible JSON-LD schema types
 type JsonLdSchema =
@@ -48,18 +48,26 @@ export interface RecipeSchema extends BaseSchema {
 	"@type": "Recipe";
 	name: string;
 	description?: string;
-	image?: string | { "@type": "ImageObject"; url: string; alt?: string };
-	author?: { "@type": string; name: string; url: string };
+	image?:
+		| string
+		| string[]
+		| { "@type": "ImageObject"; url: string; alt?: string };
+	author?: { "@type": string; name: string; url?: string };
 	datePublished?: string;
 	prepTime?: string;
 	cookTime?: string;
 	totalTime?: string;
-	recipeYield?: string;
+	recipeYield?: string | string[];
 	recipeCategory?: string;
 	recipeCuisine?: string;
 	keywords?: string[];
 	recipeIngredient?: string[];
-	recipeInstructions?: { "@type": string; position: number; text: string }[];
+	recipeInstructions?: {
+		"@type": string;
+		position?: number;
+		name?: string;
+		text: string;
+	}[];
 	nutrition?: {
 		"@type": string;
 		calories?: string;
@@ -203,19 +211,27 @@ interface JsonLdProps {
 }
 
 /**
- * JsonLd Component for structured data
- * Renders JSON-LD script for SEO purposes
+ * JsonLd Component for structured data.
+ *
+ * Renders a server-side <script type="application/ld+json"> tag in the HTML.
+ *
+ * IMPORTANT: Do NOT use next/script for JSON-LD. next/script is designed for
+ * executable JavaScript and processes its children through Next.js's hydration
+ * pipeline (the __next_s push pattern), which can mangle or truncate large
+ * JSON-LD payloads — especially nested arrays and objects (ingredients,
+ * instructions, nutrition). A plain <script> tag with dangerouslySetInnerHTML
+ * is the official Next.js recommendation for structured data:
+ * https://nextjs.org/docs/app/guides/json-ld
+ *
  * @param data - JSON-LD schema object or array of schemas
- * @param id - Optional unique identifier for the script tag
+ * @param id   - Optional unique identifier for the script tag
  */
 export function JsonLd({ data, id }: JsonLdProps) {
-	// Generate unique ID if not provided
-	const scriptId =
-		id || `jsonld-${Math.random().toString(36).substring(2, 11)}`;
-
 	// Validate data
 	if (!data) {
-		console.warn("JsonLd: No data provided");
+		if (process.env.NODE_ENV !== "production") {
+			console.warn("JsonLd: No data provided");
+		}
 		return null;
 	}
 
@@ -224,31 +240,39 @@ export function JsonLd({ data, id }: JsonLdProps) {
 		!Array.isArray(data) &&
 		Object.keys(data).length === 0
 	) {
-		console.warn("JsonLd: Empty object provided");
+		if (process.env.NODE_ENV !== "production") {
+			console.warn("JsonLd: Empty object provided");
+		}
 		return null;
 	}
 
 	if (Array.isArray(data) && data.length === 0) {
-		console.warn("JsonLd: Empty array provided");
+		if (process.env.NODE_ENV !== "production") {
+			console.warn("JsonLd: Empty array provided");
+		}
 		return null;
 	}
 
 	let jsonString: string;
 	try {
+		// Strip undefined values automatically (JSON.stringify drops them).
 		jsonString = JSON.stringify(data);
 	} catch (error) {
 		console.error("JsonLd: Failed to stringify data", error);
 		return null;
 	}
 
+	// XSS hardening: escape `<` so an injected "</script>" string in user data
+	// can't break out of the script tag. Next.js docs explicitly recommend this.
+	const safeJson = jsonString.replace(/</g, "\\u003c");
+
 	return (
-		<Script
-			id={scriptId}
+		<script
+			id={id}
 			type="application/ld+json"
-			strategy="beforeInteractive"
-		>
-			{jsonString}
-		</Script>
+			// biome-ignore lint/security/noDangerouslySetInnerHtml: trusted server-rendered JSON-LD
+			dangerouslySetInnerHTML={{ __html: safeJson }}
+		/>
 	);
 }
 

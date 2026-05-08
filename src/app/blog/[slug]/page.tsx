@@ -135,7 +135,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 		},
 		datePublished: post.date,
 		prepTime: r?.prepTime ? `PT${r.prepTime}M` : undefined,
-		cookTime: r?.cookTime ? `PT${r.cookTime}M` : "0M",
+		cookTime: r?.cookTime ? `PT${r.cookTime}M` : undefined,
 		totalTime: r?.totalTime
 			? `PT${r.totalTime}M`
 			: r?.prepTime && r?.cookTime
@@ -159,7 +159,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 			? instructionsForSchema.map((text: string, i: number) => ({
 					"@type": "HowToStep",
 					position: i + 1,
-					name: text.slice(0, 60).split(".")[0],
 					text,
 				}))
 			: undefined,

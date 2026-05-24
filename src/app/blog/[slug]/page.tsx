@@ -126,7 +126,29 @@ export default async function BlogPostPage({ params }: PageProps) {
 		name: r?.title || post.title,
 		description: r?.summary || excerpt || undefined,
 		image: imageUrl
-			? { "@type": "ImageObject", url: imageUrl, alt: imageAlt }
+			? [
+					{
+						"@type": "ImageObject",
+						url: imageUrl,
+						alt: imageAlt,
+						width: 1200,
+						height: 675,
+					},
+					{
+						"@type": "ImageObject",
+						url: imageUrl,
+						alt: imageAlt,
+						width: 1200,
+						height: 900,
+					},
+					{
+						"@type": "ImageObject",
+						url: imageUrl,
+						alt: imageAlt,
+						width: 1200,
+						height: 1200,
+					},
+				]
 			: undefined,
 		author: {
 			"@type": "Person",

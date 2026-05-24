@@ -48,10 +48,13 @@ export interface RecipeSchema extends BaseSchema {
 	"@type": "Recipe";
 	name: string;
 	description?: string;
-	image?:
-		| string
-		| string[]
-		| { "@type": "ImageObject"; url: string; alt?: string };
+	image?: {
+		"@type": "ImageObject";
+		url: string | undefined;
+		alt?: string | undefined;
+		width?: number | undefined;
+		height?: number | undefined;
+	}[];
 	author?: { "@type": string; name: string; url?: string };
 	datePublished?: string;
 	prepTime?: string;

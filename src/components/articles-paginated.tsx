@@ -132,10 +132,13 @@ export function ArticlesPaginated({
 						key={post.slug}
 						itemScope
 						itemType="https://schema.org/BlogPosting"
-						className="pr-3 border-r border-border"
 					>
 						<div className="relative w-full">
-							<Link href={`/blog/${post.slug}`} itemProp="url">
+							<Link
+								href={`/blog/${post.slug}`}
+								itemProp="url"
+								title={post.title}
+							>
 								<figure
 									itemProp="image"
 									itemScope
@@ -194,7 +197,13 @@ export function ArticlesPaginated({
 						</div>
 
 						<h3 itemProp="headline" className="post-title leading-6 text-lg">
-							<Link href={`/blog/${post.slug}`}>{post.title}</Link>
+							<Link
+								href={`/blog/${post.slug}`}
+								className="line-clamp-2"
+								title={post.title}
+							>
+								{post.title}
+							</Link>
 						</h3>
 
 						<div

@@ -124,7 +124,7 @@ const CategoryCard = ({ category }: CategoryCardProps) => (
 			className="absolute object-cover transition-transform duration-300 group-hover:scale-110"
 		/>
 		<div className="absolute bottom-4 left-4 z-30">
-			<h3 className="text-white font-bold text-lg">{category.name}</h3>
+			<h3 className="text-white font-bold text-xl">{category.name}</h3>
 			<p className="text-white text-sm">{category.count ?? 0} Posts</p>
 		</div>
 		<div className="absolute z-10 bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/80 to-transparent" />

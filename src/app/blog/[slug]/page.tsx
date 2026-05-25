@@ -1,10 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FaArrowRight } from "react-icons/fa6";
 import { IoChevronForwardOutline } from "react-icons/io5";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { JsonLd, type RecipeSchema } from "@/components/JsonLd";
+import { PinterestImage } from "@/components/pinterest-image";
 import RecipeCard from "@/components/recipe-card";
 import Subscribe from "@/components/subscribe";
 import SubscribeVertical from "@/components/subscribe-vertical";
@@ -208,6 +208,8 @@ export default async function BlogPostPage({ params }: PageProps) {
 		],
 	};
 
+	const pageUrl = `${siteConfig.url}/blog/${slug}`;
+
 	return (
 		<>
 			<JsonLd data={recipeSchema} id="recipe-schema" />
@@ -285,14 +287,16 @@ export default async function BlogPostPage({ params }: PageProps) {
 									itemType="https://schema.org/ImageObject"
 									className="mb-6"
 								>
-									<Image
+									<PinterestImage
 										src={imageUrl}
 										alt={imageAlt}
+										pageUrl={pageUrl}
 										width={1200}
 										height={700}
-										itemProp="url"
 										priority
-										className="object-cover rounded-md aspect-square"
+										itemProp="url"
+										className="object-cover rounded-md aspect-square w-full"
+										wrapperClassName="rounded-md overflow-hidden"
 									/>
 									<meta itemProp="width" content="1200" />
 									<meta itemProp="height" content="700" />
@@ -309,6 +313,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 							{r && (
 								<RecipeCard
 									title={r.title || post.title}
+									slug={r.slug || post.slug}
 									description={r.summary || excerpt || undefined}
 									featuredImageUrl={imageUrl || undefined}
 									featuredImageAlt={imageAlt || undefined}

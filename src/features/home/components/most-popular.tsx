@@ -92,7 +92,7 @@ const CategorySection = ({ label, href, posts }: CategorySectionProps) => (
 		{posts.length === 0 ? (
 			<p className="text-muted-foreground text-sm">No recipes found.</p>
 		) : (
-			<div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-2 gap-6">
+			<div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:gap-3 gap-6">
 				{posts.map((post, index) => (
 					<article
 						key={post.slug || index}
@@ -119,6 +119,7 @@ const CategorySection = ({ label, href, posts }: CategorySectionProps) => (
 										className="absolute object-cover transition-all duration-300 hover:scale-110"
 										itemProp="url"
 										loading="lazy"
+										title={post.title}
 									/>
 								) : null}
 							</figure>
@@ -157,7 +158,13 @@ const CategorySection = ({ label, href, posts }: CategorySectionProps) => (
 						</div>
 
 						<h4 itemProp="headline" className="post-title">
-							<Link href={`/blog/${post.slug}`}>{post.title}</Link>
+							<Link
+								href={`/blog/${post.slug}`}
+								className="line-clamp-2"
+								title={post.title}
+							>
+								{post.title}
+							</Link>
 						</h4>
 
 						<div

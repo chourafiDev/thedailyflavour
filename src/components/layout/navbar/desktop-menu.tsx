@@ -21,7 +21,7 @@ const DesktopMenu = async ({ menu }: { menu: TNavigationMenu }) => {
 				{menu.map((item) =>
 					item.submenu ? (
 						<NavigationMenuItem key={item.label}>
-							<NavigationMenuTrigger className="hover:bg-soft-linen font-bold text-base">
+							<NavigationMenuTrigger className="hover:bg-soft-linen font-bold text-lg">
 								{item.label}
 							</NavigationMenuTrigger>
 							<NavigationMenuContent>
@@ -62,7 +62,7 @@ const DesktopMenu = async ({ menu }: { menu: TNavigationMenu }) => {
 							<NavigationMenuLink
 								href={item.href || "#"}
 								className={cn(
-									"group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-base font-bold transition-colors hover:bg-soft-linen focus:bg-soft-linen focus:outline-none disabled:pointer-events-none disabled:opacity-50",
+									"group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-lg font-extrabold transition-colors hover:bg-soft-linen focus:bg-soft-linen focus:outline-none disabled:pointer-events-none disabled:opacity-50",
 								)}
 							>
 								{item.label}

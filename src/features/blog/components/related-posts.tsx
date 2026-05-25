@@ -144,7 +144,13 @@ const RelatedPostCard = ({ post }: RelatedPostCardProps) => {
 			</div>
 
 			<h3 itemProp="headline" className="post-title leading-6 text-lg">
-				<Link href={`/blog/${postSlug}`}>{postTitle}</Link>
+				<Link
+					href={`/blog/${postSlug}`}
+					className="line-clamp-2"
+					title={postTitle}
+				>
+					{postTitle}
+				</Link>
 			</h3>
 		</article>
 	);

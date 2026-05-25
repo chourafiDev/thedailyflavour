@@ -1,14 +1,16 @@
 "use client";
 
 import { Check, Clock, DollarSign, Flame, Star } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 import type { ParsedIngredient, ParsedInstruction } from "@/lib/types";
 import { formatTime } from "@/lib/utils";
+import { PinterestImage } from "./pinterest-image";
 import PrintRecipeButton from "./print-recipe-button";
+import { siteConfig } from "@/lib/metadata";
 
 export interface RecipeCardProps {
 	title: string;
+	slug: string;
 	description?: string;
 	featuredImageUrl?: string | null;
 	featuredImageAlt?: string | null;
@@ -189,6 +191,7 @@ function StatPill({
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function RecipeCard({
 	title,
+	slug,
 	description,
 	featuredImageUrl,
 	featuredImageAlt,
@@ -232,6 +235,7 @@ export default function RecipeCard({
 		});
 
 	const hasBody = ingredients.length > 0 || instructions.length > 0;
+	const pageUrl = `${siteConfig.url}/blog/${slug}`;
 
 	return (
 		<>
@@ -276,14 +280,37 @@ export default function RecipeCard({
 						className={`border-b border-[#eae5d8] grid gap-6 p-4 ${featuredImageUrl ? "grid-cols-[220px_1fr]" : "grid-cols-1"} max-sm:grid-cols-1`}
 					>
 						{featuredImageUrl && (
-							<div className="relative rounded-md overflow-hidden aspect-square flex-shrink-0">
+							<>
+								{/* <div className="relative rounded-md overflow-hidden aspect-square flex-shrink-0">
 								<Image
 									src={featuredImageUrl}
 									alt={featuredImageAlt || title}
 									fill
 									style={{ objectFit: "cover" }}
 								/>
-							</div>
+							</div> */}
+
+								<figure
+									itemProp="image"
+									itemScope
+									itemType="https://schema.org/ImageObject"
+									className="mb-6"
+								>
+									<PinterestImage
+										src={featuredImageUrl}
+										alt={featuredImageAlt || title}
+										pageUrl={pageUrl}
+										width={1200}
+										height={700}
+										priority
+										itemProp="url"
+										className="object-cover rounded-md aspect-square w-full"
+										wrapperClassName="rounded-md overflow-hidden"
+									/>
+									<meta itemProp="width" content="1200" />
+									<meta itemProp="height" content="700" />
+								</figure>
+							</>
 						)}
 						{description && (
 							<p className="py-4 text-[0.92rem] leading-[1.65] text-foreground m-0 self-center">

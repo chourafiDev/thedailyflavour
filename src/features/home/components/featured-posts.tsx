@@ -111,8 +111,13 @@ const FeaturedPosts = async () => {
 								)}
 							</div>
 
-							<h3 itemProp="headline" className="post-title leading-6 text-lg">
-								<Link href={`/blog/${post.slug}`}>{post.title}</Link>
+							<h3
+								itemProp="headline"
+								className="post-title leading-6 text-lg"
+							>
+								<Link href={`/blog/${post.slug}`} title={post.title} className="line-clamp-2">
+									{post.title}
+								</Link>
 							</h3>
 
 							{/* Hidden publisher */}

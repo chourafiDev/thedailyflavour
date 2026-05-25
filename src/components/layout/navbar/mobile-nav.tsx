@@ -50,7 +50,7 @@ const MobileNav = ({ menu }: { menu: NavigationMenu }) => {
 							item.submenu ? (
 								<Accordion type="single" collapsible key={item.label}>
 									<AccordionItem value="item-1">
-										<AccordionTrigger className="capitalize text-base font-semibold hover:no-underline py-0">
+										<AccordionTrigger className="capitalize text-lg font-extrabold hover:no-underline py-0">
 											{item.label}
 										</AccordionTrigger>
 										<AccordionContent className="space-y-0 pb-0">
@@ -70,7 +70,7 @@ const MobileNav = ({ menu }: { menu: NavigationMenu }) => {
 								<Link
 									href={`/${item.href}`}
 									key={item.label}
-									className="text-base font-semibold"
+									className="text-lg font-extrabold"
 								>
 									{item.label}
 								</Link>

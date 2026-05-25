@@ -1,4 +1,4 @@
-import { Josefin_Sans, Marcellus } from "next/font/google";
+import { Marcellus, Outfit } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/layout/footer";
 import NavBar from "@/components/layout/navbar";
@@ -14,7 +14,7 @@ import {
 	siteConfig,
 } from "@/lib/metadata";
 
-const manrope = Josefin_Sans({
+const manrope = Outfit({
 	weight: ["300", "400", "500", "600", "700"],
 	variable: "--font-manrope",
 	subsets: ["latin"],

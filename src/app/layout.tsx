@@ -14,9 +14,9 @@ import {
 	siteConfig,
 } from "@/lib/metadata";
 
-const manrope = Outfit({
+const outfit = Outfit({
 	weight: ["300", "400", "500", "600", "700"],
-	variable: "--font-manrope",
+	variable: "--font-outfit",
 	subsets: ["latin"],
 });
 
@@ -97,7 +97,7 @@ export default function RootLayout({
 				</Script>
 			</head>
 			<body
-				className={`${manrope.className} ${marcellus.variable} antialiased`}
+				className={`${outfit.className} ${marcellus.variable} antialiased`}
 			>
 				<JsonLd data={websiteSchema} id="website-schema" />
 

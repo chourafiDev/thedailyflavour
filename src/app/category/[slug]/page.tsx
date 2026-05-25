@@ -204,7 +204,10 @@ const PostsByCategoryPage = async ({ params, searchParams }: PageProps) => {
 					</h2>
 
 					{/* Posts list */}
-					<div className="flex-1 space-y-14 mb-10 lg:border-r border-border lg:pr-5">
+					<div
+						id="results"
+						className="flex-1 space-y-14 mb-10 lg:border-r border-border lg:pr-5 scroll-mt-24"
+					>
 						<div className="space-y-6">
 							{posts.map((post, index) => (
 								<React.Fragment key={`${post.slug}-${index}`}>

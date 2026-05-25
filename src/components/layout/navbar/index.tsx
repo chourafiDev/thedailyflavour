@@ -29,12 +29,14 @@ const NAVIGATION_MENU_DESKTOP: NavigationMenu = [
 			{ href: "/category/drinks", label: "Drinks" },
 			{ href: "/category/healthy", label: "Healthy Eating" },
 			{ href: "/category/meal-prep", label: "Meal Prep" },
+			{ href: "/search", label: "See All Recipes" },
 		],
 	},
 ];
 
 const NAVIGATION_MENU_MOBILE: NavigationMenu = [
 	{ href: "/", label: "Home" },
+	{ href: "/search", label: "See All Recipes" },
 	{ href: "/category/dinner", label: "Dinner" },
 	{ href: "/category/breakfast", label: "Breakfast" },
 	{ href: "/category/dessert", label: "Dessert" },

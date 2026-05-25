@@ -101,7 +101,7 @@ export default function RootLayout({
 			>
 				<JsonLd data={websiteSchema} id="website-schema" />
 
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+				<ThemeProvider attribute="class" defaultTheme="light">
 					<NavBar />
 					{children}
 					<Footer />

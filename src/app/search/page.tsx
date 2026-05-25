@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { JsonLd } from "@/components/JsonLd";
+import { ArticlesSkeleton } from "@/components/search-skeleton";
 import Articles from "@/features/search/components/articles";
 import SearchForm from "@/features/search/components/search-results";
 import {
@@ -12,6 +13,7 @@ interface SearchPageProps {
 	searchParams: Promise<{
 		q?: string;
 		category?: string;
+		page?: string;
 	}>;
 }
 
@@ -24,6 +26,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 	const params = await searchParams;
 	const query = params.q || "";
 	const category = params.category || "";
+	const page = Math.max(1, parseInt(params.page || "1", 10));
 
 	const searchSchema = generateSearchPageSchema();
 
@@ -69,18 +72,10 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 				</Suspense>
 
 				<Suspense
-					fallback={
-						<div className="flex items-center justify-center py-20">
-							<div className="text-center space-y-2">
-								<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground mx-auto" />
-								<p className="text-muted-foreground">
-									Loading search results...
-								</p>
-							</div>
-						</div>
-					}
+					key={`${query}-${category}-${page}`}
+					fallback={<ArticlesSkeleton />}
 				>
-					<Articles query={query} category={category} />
+					<Articles query={query} category={category} page={page} />
 				</Suspense>
 			</main>
 		</>

@@ -63,7 +63,7 @@ const BlogCard = ({
 					<Link
 						href={`/category/${categorySlug}`}
 						rel="category tag"
-						className="bg-foreground/40 backdrop-blur-md border border dark:border-white px-4 py-2 rounded-full text-[11px] text-white font-bold uppercase leading-none"
+						className="bg-foreground/40 backdrop-blur-md border dark:border-white px-4 py-2 rounded-full text-[11px] text-white font-bold uppercase leading-none"
 					>
 						{category}
 					</Link>

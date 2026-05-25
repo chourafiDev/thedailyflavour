@@ -5,27 +5,27 @@ import { getAllCategories } from "@/lib/wordpress";
 // Fallback images per slug — replace with ACF category image field later
 const CATEGORY_IMAGES: Record<string, { url: string; alt: string }> = {
 	breakfast: {
-		url: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&q=80",
+		url: "https://images.unsplash.com/photo-1556469744-4c65e1579f9d?q=80&w=2064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 		alt: "Breakfast recipes",
 	},
 	dinner: {
-		url: "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&q=80",
+		url: "https://images.unsplash.com/photo-1572862905000-c5b6244027a5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 		alt: "Dinner recipes",
 	},
 	dessert: {
-		url: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80",
+		url: "https://images.unsplash.com/photo-1590835443701-92628e6e15a4?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 		alt: "Dessert recipes",
 	},
 	drinks: {
-		url: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&q=80",
+		url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=2157&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 		alt: "Drinks recipes",
 	},
 	healthy: {
-		url: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80",
+		url: "https://images.unsplash.com/photo-1556040221-a1efce785fcc?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 		alt: "Healthy recipes",
 	},
 	"meal-prep": {
-		url: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80",
+		url: "https://images.unsplash.com/photo-1668665771757-4d42737d295a?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 		alt: "Meal prep",
 	},
 };
@@ -47,7 +47,6 @@ interface CategoryWithImage extends WPCategory {
 
 const Categories = async () => {
 	const raw: WPCategory[] = await getAllCategories();
-
 
 	const categories: CategoryWithImage[] = raw
 		.filter((c) => c.slug !== "uncategorized")

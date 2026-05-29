@@ -96,3 +96,11 @@ export function calculateAverageRating(comments: { content: string }[]): {
 	const average = ratings.reduce((a, b) => a + b, 0) / ratings.length;
 	return { average: Math.round(average * 10) / 10, count: ratings.length };
 }
+
+export function stripMicrodata(html: string): string {
+    return html
+        .replace(/\s+itemscope/gi, "")
+        .replace(/\s+itemtype="[^"]*"/gi, "")
+        .replace(/\s+itemprop="[^"]*"/gi, "")
+        .replace(/\s+itemid="[^"]*"/gi, "");
+}

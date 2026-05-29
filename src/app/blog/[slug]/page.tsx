@@ -289,41 +289,22 @@ export default async function BlogPostPage({ params }: PageProps) {
 
 			<Breadcrumbs>
 				<>
-					<li
-						itemProp="itemListElement"
-						itemScope
-						itemType="https://schema.org/ListItem"
-					>
-						<Link
-							href={`/category/${categorySlug}`}
-							className="font-bold"
-							itemProp="item"
-						>
-							<span itemProp="name">{categoryTitle}</span>
+					<li>
+						<Link href={`/category/${categorySlug}`} className="font-bold">
+							<span>{categoryTitle}</span>
 						</Link>
-						<meta itemProp="position" content="2" />
 					</li>
 					<li>
 						<IoChevronForwardOutline className="size-3.5" aria-hidden="true" />
 					</li>
-					<li
-						itemProp="itemListElement"
-						itemScope
-						itemType="https://schema.org/ListItem"
-						className="text-foreground"
-					>
-						<span itemProp="name">{post.title}</span>
-						<meta itemProp="position" content="3" />
+					<li className="text-foreground">
+						<span>{post.title}</span>
 					</li>
 				</>
 			</Breadcrumbs>
 
 			<main className="custom-container lg:pb-0 pb-20">
-				<article
-					itemScope
-					itemType="https://schema.org/BlogPosting"
-					className="mb-16 mt-6"
-				>
+				<article className="mb-16 mt-6">
 					<ArticleHeader post={{ ...post, author: authorObj }} />
 
 					<div className="flex items-start gap-5 lg:w-[90%] lg:mx-auto">

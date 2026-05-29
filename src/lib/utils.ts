@@ -78,3 +78,21 @@ export function parseNutrition(raw?: string | null) {
 		saturatedFatContent: get("saturated fat") ?? get("saturatedfat"),
 	};
 }
+
+
+export function calculateAverageRating(comments: { content: string }[]): {
+	average: number;
+	count: number;
+} {
+	const ratings = comments
+		.map((c) => {
+			const clean = c.content.replace(/<[^>]*>/g, "").trim();
+			const match = clean.match(/^⭐\s*(\d)\/5/);
+			return match ? parseInt(match[1]) : null;
+		})
+		.filter((r): r is number => r !== null);
+
+	if (ratings.length === 0) return { average: 0, count: 0 };
+	const average = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+	return { average: Math.round(average * 10) / 10, count: ratings.length };
+}

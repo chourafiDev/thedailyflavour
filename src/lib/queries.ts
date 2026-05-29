@@ -41,6 +41,7 @@ export const GET_ALL_RECIPES = gql`
 export const GET_RECIPE_BY_SLUG = gql`
   query GetRecipeBySlug($slug: String!) {
     postBy(slug: $slug) {
+      databaseId
       title
       slug
       date
@@ -82,6 +83,22 @@ export const GET_RECIPE_BY_SLUG = gql`
         title
         keywords
         cuisines
+      }
+      commentCount
+      comments(first: 50, where: { orderby: COMMENT_DATE, order: DESC }) {
+        nodes {
+          id
+          content
+          date
+          author {
+            node {
+              name
+              avatar {
+                url
+              }
+            }
+          }
+        }
       }
     }
   }

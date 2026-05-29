@@ -12,12 +12,18 @@ import TableOfContent from "@/components/table-of-content";
 import { buttonVariants } from "@/components/ui/button";
 import ArticleHeader from "@/features/blog/components/article-header";
 import AuthorBio from "@/features/blog/components/author-bio";
+import CommentsSection from "@/features/blog/components/comments-section";
 import MobileSidebar from "@/features/blog/components/mobile-sidebar";
 import PostNavigation from "@/features/blog/components/post-navigation";
 import RelatedPosts from "@/features/blog/components/related-posts";
 import SocialShareButtons from "@/features/blog/components/social-share-buttons";
 import { siteConfig } from "@/lib/metadata";
-import { cn, extractHeadings, parseNutrition } from "@/lib/utils";
+import {
+	calculateAverageRating,
+	cn,
+	extractHeadings,
+	parseNutrition,
+} from "@/lib/utils";
 import { getAllRecipes, getRecipeBySlug } from "@/lib/wordpress";
 
 interface PageProps {
@@ -119,6 +125,10 @@ export default async function BlogPostPage({ params }: PageProps) {
 		? parseLines(r.instructions).filter((l) => !l.startsWith("##"))
 		: [];
 
+	const comments = post.comments?.nodes ?? [];
+	const { average: ratingAverage, count: ratingCount } =
+		calculateAverageRating(comments);
+
 	// ── JSON-LD ──────────────────────────────────────────────────────────────────
 	const recipeSchema: RecipeSchema = {
 		"@context": "https://schema.org",
@@ -184,6 +194,16 @@ export default async function BlogPostPage({ params }: PageProps) {
 					text,
 				}))
 			: undefined,
+		aggregateRating:
+			ratingCount > 0
+				? {
+						"@type": "AggregateRating",
+						ratingValue: ratingAverage.toString(),
+						ratingCount: ratingCount.toString(),
+						bestRating: "5",
+						worstRating: "1",
+					}
+				: undefined,
 		publisher: { "@type": "Organization", name: siteConfig.name },
 		inLanguage: "en-US",
 	};
@@ -328,6 +348,8 @@ export default async function BlogPostPage({ params }: PageProps) {
 									notes={r.notes ?? undefined}
 									nutrition={r.nutrition ?? undefined}
 									author={authorName}
+									ratingAverage={ratingAverage}
+									ratingCount={ratingCount}
 								/>
 							)}
 						</div>
@@ -355,7 +377,16 @@ export default async function BlogPostPage({ params }: PageProps) {
 				<AuthorBio author={authorObj} />
 				{post.slug && <PostNavigation currentSlug={post.slug} />}
 				{post.slug && categorySlug && (
-					<RelatedPosts currentSlug={post.slug} categorySlug={categorySlug} />
+					<>
+						<RelatedPosts currentSlug={post.slug} categorySlug={categorySlug} />
+						<CommentsSection
+							postId={post.databaseId}
+							comments={post.comments?.nodes ?? []}
+							commentCount={post.commentCount ?? 0}
+							ratingAverage={ratingAverage}
+							ratingCount={ratingCount}
+						/>
+					</>
 				)}
 				<Subscribe />
 				<MobileSidebar

@@ -88,6 +88,8 @@ export interface RecipeSchema extends BaseSchema {
 		"@type": string;
 		ratingValue: string;
 		ratingCount: string;
+		bestRating: string;
+		worstRating: string;
 	};
 	inLanguage: string;
 }

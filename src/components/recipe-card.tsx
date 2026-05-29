@@ -2,11 +2,11 @@
 
 import { Check, Clock, DollarSign, Flame, Star } from "lucide-react";
 import { useState } from "react";
+import { siteConfig } from "@/lib/metadata";
 import type { ParsedIngredient, ParsedInstruction } from "@/lib/types";
 import { formatTime } from "@/lib/utils";
 import { PinterestImage } from "./pinterest-image";
 import PrintRecipeButton from "./print-recipe-button";
-import { siteConfig } from "@/lib/metadata";
 
 export interface RecipeCardProps {
 	title: string;
@@ -26,6 +26,8 @@ export interface RecipeCardProps {
 	nutrition?: string | null;
 	author?: string;
 	printUrl?: string;
+	ratingAverage?: number;
+	ratingCount?: number;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -206,6 +208,8 @@ export default function RecipeCard({
 	notes,
 	nutrition,
 	author = "Sarah Mitchell",
+	ratingAverage = 0,
+	ratingCount = 0,
 }: RecipeCardProps) {
 	const ingredients = ingredientsRaw ? parseIngredients(ingredientsRaw) : [];
 	const instructions = instructionsRaw
@@ -525,14 +529,37 @@ export default function RecipeCard({
 
 				{/* ── Footer ── */}
 				<div className="bg-[#f5f0e5] border-t border-[#eae5d8] px-6 py-2.5 flex items-center justify-between font-[Arial,sans-serif] text-[0.7rem] text-foreground gap-4 flex-wrap">
-					<div
-						className="flex gap-0.5 text-[#e8a000]"
-						role="img"
-						aria-label="5 star recipe"
-					>
-						{[...Array(5)].map((_, i) => (
-							<Star key={i} size={12} fill="currentColor" strokeWidth={0} />
-						))}
+					<div className="flex items-center gap-2">
+						<div
+							className="flex gap-0.5 text-[#e8a000]"
+							role="img"
+							aria-label={
+								ratingCount > 0
+									? `${ratingAverage} out of 5 stars`
+									: "5 star recipe"
+							}
+						>
+							{[1, 2, 3, 4, 5].map((star) => {
+								const filled =
+									ratingCount > 0 ? star <= Math.round(ratingAverage) : true;
+								return (
+									<Star
+										key={star}
+										size={12}
+										fill={filled ? "currentColor" : "none"}
+										strokeWidth={filled ? 0 : 1.5}
+									/>
+								);
+							})}
+						</div>
+						{ratingCount > 0 && (
+							<span className="text-foreground font-semibold">
+								{ratingAverage}/5
+								<span className="text-muted-foreground font-normal ml-1">
+									({ratingCount} {ratingCount === 1 ? "review" : "reviews"})
+								</span>
+							</span>
+						)}
 					</div>
 					<span className="text-black">Recipe by {author}</span>
 				</div>

@@ -129,7 +129,7 @@ export default function CommentsSection({
 
 	return (
 		<section className="mb-16" aria-labelledby="comments-heading">
-			<div className="flex items-center gap-8 mb-6">
+			<div className="space-y-2 mb-10">
 				<h2
 					id="comments-heading"
 					className="text-foreground font-bold text-[22px]"

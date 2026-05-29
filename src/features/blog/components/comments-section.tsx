@@ -193,7 +193,14 @@ export default function CommentsSection({
 								itemScope
 								itemType="https://schema.org/Review"
 							>
-								<meta itemProp="itemReviewed" content={postTitle} />
+								<span
+									itemProp="itemReviewed"
+									itemScope
+									itemType="https://schema.org/Recipe"
+									className="hidden"
+								>
+									<span itemProp="name">{postTitle}</span>
+								</span>
 
 								{/* Avatar */}
 								<div className="flex-shrink-0">
@@ -363,14 +370,6 @@ export default function CommentsSection({
 						</div>
 
 						{error && <p className="text-red-500 text-sm">{error}</p>}
-
-						<button
-							type="submit"
-							disabled={loading}
-							className="bg-[#7BAE8A] hover:bg-[#6a9d79] disabled:opacity-60 text-white font-semibold text-sm px-6 py-2.5 rounded-md transition-colors"
-						>
-							{loading ? "Submitting..." : "Post Comment"}
-						</button>
 
 						<Button
 							type="submit"

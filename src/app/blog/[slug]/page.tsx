@@ -228,12 +228,64 @@ export default async function BlogPostPage({ params }: PageProps) {
 		],
 	};
 
+	const reviewsSchema =
+		comments.length > 0
+			? {
+					"@context": "https://schema.org",
+					"@type": "ItemList",
+					itemListElement: comments.map(
+						(
+							c: {
+								content: string;
+								date: string;
+								author: { node: { name: string } };
+							},
+							i: number,
+						) => {
+							const raw = c.content.replace(/<[^>]*>/g, "").trim();
+							const ratingMatch = raw.match(/^⭐\s*(\d)\/5\n*/);
+							const displayRating = ratingMatch
+								? parseInt(ratingMatch[1])
+								: null;
+							const displayContent = raw.replace(/^⭐\s*\d\/5\n*/, "").trim();
+
+							return {
+								"@type": "ListItem",
+								position: i + 1,
+								item: {
+									"@type": "Review",
+									author: {
+										"@type": "Person",
+										name: c.author.node.name,
+									},
+									datePublished: c.date,
+									reviewBody: displayContent,
+									itemReviewed: {
+										"@type": "Recipe",
+										name: r?.title || post.title,
+									},
+									...(displayRating && {
+										reviewRating: {
+											"@type": "Rating",
+											ratingValue: displayRating.toString(),
+											bestRating: "5",
+											worstRating: "1",
+										},
+									}),
+								},
+							};
+						},
+					),
+				}
+			: null;
+
 	const pageUrl = `${siteConfig.url}/blog/${slug}`;
 
 	return (
 		<>
 			<JsonLd data={recipeSchema} id="recipe-schema" />
 			<JsonLd data={breadcrumbSchema} id="breadcrumb-schema" />
+			{reviewsSchema && <JsonLd data={reviewsSchema} id="reviews-schema" />}
 
 			<Breadcrumbs>
 				<>

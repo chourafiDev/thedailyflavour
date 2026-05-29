@@ -49,7 +49,7 @@ function StarRating({
 					aria-label={`${star} star${star !== 1 ? "s" : ""}`}
 				>
 					<Star
-						size={18}
+						size={25}
 						strokeWidth={1.5}
 						className={
 							star <= (hovered || value)
@@ -135,38 +135,43 @@ export default function CommentsSection({
 			aria-labelledby="comments-heading"
 		>
 			<div className="space-y-3">
-				<h2
-					id="comments-heading"
-					className="text-foreground font-bold text-[22px] mb-6"
-				>
-					{commentCount > 0
-						? `${commentCount} Comment${commentCount !== 1 ? "s" : ""}`
-						: "Comments"}
-				</h2>
+				<div className="flex items-center gap-5 mb-10">
+					<h2
+						id="comments-heading"
+						className="text-foreground font-bold text-[22px]"
+					>
+						{commentCount > 0
+							? `${commentCount} Comment${commentCount !== 1 ? "s" : ""}`
+							: "Comments"}
+					</h2>
 
-				{/* Average rating summary */}
-				{ratingCount > 0 && (
-					<div className="flex items-center gap-3 mb-10">
-						<div className="flex gap-0.5 text-[#e8a000]">
-							{[1, 2, 3, 4, 5].map((star) => (
-								<Star
-									key={star}
-									size={16}
-									fill={
-										star <= Math.round(ratingAverage) ? "currentColor" : "none"
-									}
-									strokeWidth={star <= Math.round(ratingAverage) ? 0 : 1.5}
-								/>
-							))}
+					{/* Average rating summary */}
+					{ratingCount > 0 && (
+						<div className="flex items-center gap-3">
+							<div className="flex gap-0.5 text-[#e8a000]">
+								{[1, 2, 3, 4, 5].map((star) => (
+									<Star
+										key={star}
+										size={18}
+										fill={
+											star <= Math.round(ratingAverage)
+												? "currentColor"
+												: "none"
+										}
+										strokeWidth={star <= Math.round(ratingAverage) ? 0 : 1.5}
+									/>
+								))}
+							</div>
+							<span className="text-foreground font-bold text-sm">
+								{ratingAverage}/5
+							</span>
+							<span className="text-muted-foreground text-sm">
+								based on {ratingCount}{" "}
+								{ratingCount === 1 ? "review" : "reviews"}
+							</span>
 						</div>
-						<span className="text-foreground font-bold text-sm">
-							{ratingAverage}/5
-						</span>
-						<span className="text-muted-foreground text-sm">
-							based on {ratingCount} {ratingCount === 1 ? "review" : "reviews"}
-						</span>
-					</div>
-				)}
+					)}
+				</div>
 			</div>
 
 			{/* Comment list */}
@@ -190,18 +195,7 @@ export default function CommentsSection({
 							<li
 								key={c.id}
 								className="flex gap-4 border-b border-border pb-6 last:border-0"
-								itemScope
-								itemType="https://schema.org/Review"
 							>
-								<span
-									itemProp="itemReviewed"
-									itemScope
-									itemType="https://schema.org/Recipe"
-									className="hidden"
-								>
-									<span itemProp="name">{postTitle}</span>
-								</span>
-
 								{/* Avatar */}
 								<div className="flex-shrink-0">
 									{avatarUrl &&
@@ -225,23 +219,11 @@ export default function CommentsSection({
 								{/* Content */}
 								<div className="flex-1 min-w-0">
 									<div className="flex items-center gap-2 flex-wrap mb-1">
-										{/* author must be Person */}
-										<div
-											itemProp="author"
-											itemScope
-											itemType="https://schema.org/Person"
-											className="contents"
-										>
-											<span
-												itemProp="name"
-												className="text-sm font-bold text-foreground"
-											>
-												{c.author.node.name}
-											</span>
-										</div>
+										<span className="text-sm font-bold text-foreground">
+											{c.author.node.name}
+										</span>
 										<time
 											dateTime={c.date}
-											itemProp="datePublished"
 											className="text-xs text-muted-foreground"
 										>
 											{formatDistanceToNow(new Date(c.date), {
@@ -251,26 +233,12 @@ export default function CommentsSection({
 									</div>
 
 									{displayRating > 0 && (
-										<div
-											itemProp="reviewRating"
-											itemScope
-											itemType="https://schema.org/Rating"
-											className="mb-1.5"
-										>
-											<meta
-												itemProp="ratingValue"
-												content={String(displayRating)}
-											/>
-											<meta itemProp="bestRating" content="5" />
-											<meta itemProp="worstRating" content="1" />
+										<div className="mb-1.5">
 											<StarRating value={displayRating} />
 										</div>
 									)}
 
-									<p
-										itemProp="reviewBody"
-										className="text-sm text-foreground leading-relaxed"
-									>
+									<p className="text-sm text-foreground leading-relaxed">
 										{displayContent}
 									</p>
 								</div>
@@ -288,13 +256,17 @@ export default function CommentsSection({
 
 			{/* Comment form */}
 			<div className="bg-soft-linen dark:bg-input/30 rounded-md p-6">
-				<h3 className="text-foreground font-bold text-lg mb-4">
+				<h3 className="text-foreground font-bold text-xl mb-2">
 					Leave a Comment
 				</h3>
 
+				<p className="text-foreground text-sm mb-6">
+					Your email address will not be published. Required fields are marked *
+				</p>
+
 				{submitted ? (
 					<div className="flex items-center gap-3 text-[#7BAE8A]">
-						<Star size={20} fill="currentColor" strokeWidth={0} />
+						<Star size={16} fill="currentColor" strokeWidth={0} />
 						<p className="text-sm font-semibold">
 							Thank you! Your comment is awaiting moderation.
 						</p>
@@ -325,7 +297,7 @@ export default function CommentsSection({
 									onChange={(e) => setName(e.target.value)}
 									placeholder="Your name"
 									required
-									className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#7BAE8A]"
+									className="w-full rounded-md border border-border bg-background px-3 py-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#7BAE8A]"
 								/>
 							</div>
 							<div>
@@ -345,7 +317,7 @@ export default function CommentsSection({
 									onChange={(e) => setEmail(e.target.value)}
 									placeholder="your@email.com"
 									required
-									className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#7BAE8A]"
+									className="w-full rounded-md border border-border bg-background px-3 py-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#7BAE8A]"
 								/>
 							</div>
 						</div>

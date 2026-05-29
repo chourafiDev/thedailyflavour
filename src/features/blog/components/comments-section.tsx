@@ -21,6 +21,7 @@ interface Comment {
 
 interface CommentsSectionProps {
 	postId: number;
+	postTitle: string;
 	comments: Comment[];
 	commentCount?: number;
 	ratingAverage?: number;
@@ -48,7 +49,7 @@ function StarRating({
 					aria-label={`${star} star${star !== 1 ? "s" : ""}`}
 				>
 					<Star
-						size={25}
+						size={18}
 						strokeWidth={1.5}
 						className={
 							star <= (hovered || value)
@@ -74,10 +75,11 @@ function cleanContent(html: string): string {
 
 export default function CommentsSection({
 	postId,
+	postTitle,
 	comments,
 	commentCount = 0,
-	ratingAverage,
-	ratingCount,
+	ratingAverage = 0,
+	ratingCount = 0,
 }: CommentsSectionProps) {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
@@ -128,67 +130,44 @@ export default function CommentsSection({
 	};
 
 	return (
-		<section className="mb-16" aria-labelledby="comments-heading">
-			<div className="space-y-2 mb-10">
+		<section
+			className="lg:w-[90%] lg:mx-auto mb-16"
+			aria-labelledby="comments-heading"
+		>
+			<div className="space-y-3">
 				<h2
 					id="comments-heading"
-					className="text-foreground font-bold text-[22px]"
+					className="text-foreground font-bold text-[22px] mb-6"
 				>
 					{commentCount > 0
 						? `${commentCount} Comment${commentCount !== 1 ? "s" : ""}`
 						: "Comments"}
 				</h2>
 
-				{ratingCount && ratingCount > 0 && (
-					<div className="flex items-center gap-3">
+				{/* Average rating summary */}
+				{ratingCount > 0 && (
+					<div className="flex items-center gap-3 mb-10">
 						<div className="flex gap-0.5 text-[#e8a000]">
 							{[1, 2, 3, 4, 5].map((star) => (
 								<Star
 									key={star}
 									size={16}
 									fill={
-										star <= Math.round(ratingAverage ?? 0)
-											? "currentColor"
-											: "none"
+										star <= Math.round(ratingAverage) ? "currentColor" : "none"
 									}
-									strokeWidth={star <= Math.round(ratingAverage ?? 0) ? 0 : 1.5}
+									strokeWidth={star <= Math.round(ratingAverage) ? 0 : 1.5}
 								/>
 							))}
 						</div>
 						<span className="text-foreground font-bold text-sm">
 							{ratingAverage}/5
 						</span>
-						<span className="text-muted-foreground text-xs">
-							({ratingCount} {ratingCount === 1 ? "review" : "reviews"})
+						<span className="text-muted-foreground text-sm">
+							based on {ratingCount} {ratingCount === 1 ? "review" : "reviews"}
 						</span>
 					</div>
 				)}
 			</div>
-
-			{/* 	{ratingCount && ratingCount > 0 && (
-				<div className="flex items-center gap-3 mb-6 p-4 bg-soft-linen dark:bg-input/30 rounded-md">
-					<div className="flex gap-0.5 text-[#e8a000]">
-						{[1, 2, 3, 4, 5].map((star) => (
-							<Star
-								key={star}
-								size={16}
-								fill={
-									star <= Math.round(ratingAverage ?? 0)
-										? "currentColor"
-										: "none"
-								}
-								strokeWidth={star <= Math.round(ratingAverage ?? 0) ? 0 : 1.5}
-							/>
-						))}
-					</div>
-					<span className="text-foreground font-bold text-sm">
-						{ratingAverage}/5
-					</span>
-					<span className="text-muted-foreground text-xs">
-						({ratingCount} {ratingCount === 1 ? "review" : "reviews"})
-					</span>
-				</div>
-			)} */}
 
 			{/* Comment list */}
 			{comments.length > 0 && (
@@ -202,7 +181,6 @@ export default function CommentsSection({
 							.toUpperCase()
 							.slice(0, 2);
 
-						// Extract star rating if present
 						const raw = cleanContent(c.content);
 						const ratingMatch = raw.match(/^⭐\s*(\d)\/5\n*/);
 						const displayRating = ratingMatch ? parseInt(ratingMatch[1]) : 0;
@@ -215,6 +193,16 @@ export default function CommentsSection({
 								itemScope
 								itemType="https://schema.org/Review"
 							>
+								{/* itemReviewed — required by Google */}
+								<div
+									itemProp="itemReviewed"
+									itemScope
+									itemType="https://schema.org/Recipe"
+									className="hidden"
+								>
+									<meta itemProp="name" content={postTitle} />
+								</div>
+
 								{/* Avatar */}
 								<div className="flex-shrink-0">
 									{avatarUrl &&
@@ -238,14 +226,23 @@ export default function CommentsSection({
 								{/* Content */}
 								<div className="flex-1 min-w-0">
 									<div className="flex items-center gap-2 flex-wrap mb-1">
-										<span
+										{/* author must be Person */}
+										<div
 											itemProp="author"
-											className="text-sm font-bold text-foreground"
+											itemScope
+											itemType="https://schema.org/Person"
+											className="contents"
 										>
-											{c.author.node.name}
-										</span>
+											<span
+												itemProp="name"
+												className="text-sm font-bold text-foreground"
+											>
+												{c.author.node.name}
+											</span>
+										</div>
 										<time
 											dateTime={c.date}
+											itemProp="datePublished"
 											className="text-xs text-muted-foreground"
 										>
 											{formatDistanceToNow(new Date(c.date), {
@@ -253,11 +250,24 @@ export default function CommentsSection({
 											})}
 										</time>
 									</div>
+
 									{displayRating > 0 && (
-										<div className="mb-1.5">
+										<div
+											itemProp="reviewRating"
+											itemScope
+											itemType="https://schema.org/Rating"
+											className="mb-1.5"
+										>
+											<meta
+												itemProp="ratingValue"
+												content={String(displayRating)}
+											/>
+											<meta itemProp="bestRating" content="5" />
+											<meta itemProp="worstRating" content="1" />
 											<StarRating value={displayRating} />
 										</div>
 									)}
+
 									<p
 										itemProp="reviewBody"
 										className="text-sm text-foreground leading-relaxed"
@@ -294,7 +304,7 @@ export default function CommentsSection({
 					<form onSubmit={handleSubmit} className="space-y-4">
 						{/* Rating */}
 						<div>
-							<label className="text-sm font-semibold text-foreground block mb-3">
+							<label className="text-sm font-semibold text-foreground block mb-1.5">
 								Rate this recipe (optional)
 							</label>
 							<StarRating value={rating} onChange={setRating} />
@@ -316,7 +326,7 @@ export default function CommentsSection({
 									onChange={(e) => setName(e.target.value)}
 									placeholder="Your name"
 									required
-									className="w-full rounded-md border border-border bg-background px-3 py-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#7BAE8A]"
+									className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#7BAE8A]"
 								/>
 							</div>
 							<div>
@@ -361,6 +371,14 @@ export default function CommentsSection({
 						</div>
 
 						{error && <p className="text-red-500 text-sm">{error}</p>}
+
+						<button
+							type="submit"
+							disabled={loading}
+							className="bg-[#7BAE8A] hover:bg-[#6a9d79] disabled:opacity-60 text-white font-semibold text-sm px-6 py-2.5 rounded-md transition-colors"
+						>
+							{loading ? "Submitting..." : "Post Comment"}
+						</button>
 
 						<Button
 							type="submit"

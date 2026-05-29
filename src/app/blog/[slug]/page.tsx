@@ -381,6 +381,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 						<RelatedPosts currentSlug={post.slug} categorySlug={categorySlug} />
 						<CommentsSection
 							postId={post.databaseId}
+							postTitle={r?.title || post.title}
 							comments={post.comments?.nodes ?? []}
 							commentCount={post.commentCount ?? 0}
 							ratingAverage={ratingAverage}

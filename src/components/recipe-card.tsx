@@ -285,15 +285,6 @@ export default function RecipeCard({
 					>
 						{featuredImageUrl && (
 							<>
-								{/* <div className="relative rounded-md overflow-hidden aspect-square flex-shrink-0">
-								<Image
-									src={featuredImageUrl}
-									alt={featuredImageAlt || title}
-									fill
-									style={{ objectFit: "cover" }}
-								/>
-							</div> */}
-
 								<figure
 									itemProp="image"
 									itemScope
@@ -307,12 +298,9 @@ export default function RecipeCard({
 										width={1200}
 										height={700}
 										priority
-										itemProp="url"
 										className="object-cover rounded-md aspect-square w-full"
 										wrapperClassName="rounded-md overflow-hidden"
 									/>
-									<meta itemProp="width" content="1200" />
-									<meta itemProp="height" content="700" />
 								</figure>
 							</>
 						)}

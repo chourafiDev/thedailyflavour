@@ -314,7 +314,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 										width={1200}
 										height={700}
 										priority
-										itemProp="url"
 										className="object-cover rounded-md aspect-square w-full"
 										wrapperClassName="rounded-md overflow-hidden"
 									/>
@@ -354,24 +353,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 							)}
 						</div>
 					</div>
-
-					<footer className="hidden">
-						<meta itemProp="datePublished" content={post.date} />
-						<div
-							itemProp="publisher"
-							itemScope
-							itemType="https://schema.org/Organization"
-						>
-							<meta itemProp="name" content={siteConfig.name} />
-						</div>
-						<div
-							itemProp="author"
-							itemScope
-							itemType="https://schema.org/Person"
-						>
-							<meta itemProp="name" content={authorName} />
-						</div>
-					</footer>
 				</article>
 
 				<AuthorBio author={authorObj} />

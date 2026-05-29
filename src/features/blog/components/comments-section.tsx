@@ -193,15 +193,7 @@ export default function CommentsSection({
 								itemScope
 								itemType="https://schema.org/Review"
 							>
-								{/* itemReviewed — required by Google */}
-								<div
-									itemProp="itemReviewed"
-									itemScope
-									itemType="https://schema.org/Recipe"
-									className="hidden"
-								>
-									<meta itemProp="name" content={postTitle} />
-								</div>
+								<meta itemProp="itemReviewed" content={postTitle} />
 
 								{/* Avatar */}
 								<div className="flex-shrink-0">

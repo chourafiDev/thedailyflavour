@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { FaInstagram, FaPinterestP } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../../ui/button";
 import SearchSheetWrapper from "./search-sheet-wrapper";
@@ -33,7 +32,8 @@ const CallActions = () => {
 					<FaPinterestP />
 				</Link>
 				<Link
-					href="/contact"
+					href="https://www.instagram.com/the_daily_flavour_/"
+					target="_blank"
 					className={cn(
 						buttonVariants({
 							variant: "default",
@@ -44,19 +44,6 @@ const CallActions = () => {
 					)}
 				>
 					<FaInstagram />
-				</Link>
-				<Link
-					href="/contact"
-					className={cn(
-						buttonVariants({
-							variant: "default",
-							size: "icon",
-							shadow: "soft",
-						}),
-						"size-10",
-					)}
-				>
-					<FaXTwitter />
 				</Link>
 			</div>
 		</div>

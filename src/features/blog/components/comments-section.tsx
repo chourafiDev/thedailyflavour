@@ -261,7 +261,8 @@ export default function CommentsSection({
 				</h3>
 
 				<p className="text-foreground text-sm mb-6">
-					Your email address will not be published. Required fields are marked *
+					Your email address will not be published. Required fields are marked{" "}
+					<span className="text-destructive">*</span>
 				</p>
 
 				{submitted ? (

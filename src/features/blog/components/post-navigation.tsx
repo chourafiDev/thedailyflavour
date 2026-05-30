@@ -21,7 +21,7 @@ const PostNavigation = async ({ currentSlug }: PostNavigationProps) => {
 	return (
 		<nav
 			aria-label="Post navigation"
-			className="lg:w-[80%] flex md:flex-row flex-col items-stretch bg-background dark:bg-soft-linen border rounded-lg mx-auto mb-28 overflow-hidden min-h-[8rem]"
+			className="lg:w-[90%] flex md:flex-row flex-col items-stretch bg-background dark:bg-soft-linen border rounded-lg mx-auto mb-28 overflow-hidden min-h-[8rem]"
 		>
 			{/* Previous Post */}
 			{previousPost ? (

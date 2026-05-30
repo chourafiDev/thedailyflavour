@@ -19,7 +19,7 @@ const AuthorBio = ({ author }: AuthorBioProps) => {
 	return (
 		<aside
 			aria-labelledby="author-heading"
-			className="lg:w-[80%] mx-auto mb-10"
+			className="lg:w-[90%] mx-auto mb-10"
 		>
 			<h2
 				id="author-heading"

@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Clock, DollarSign, Flame, Star } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { siteConfig } from "@/lib/metadata";
 import type { ParsedIngredient, ParsedInstruction } from "@/lib/types";
@@ -549,7 +550,9 @@ export default function RecipeCard({
 							</span>
 						)}
 					</div>
-					<span className="text-black">Recipe by {author}</span>
+					<span className="text-black">
+						Recipe by <Link href="/author/sarah" className="font-semibold hover:text-primary">{author}</Link>
+					</span>
 				</div>
 			</div>
 		</>

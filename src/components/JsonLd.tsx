@@ -91,6 +91,18 @@ export interface RecipeSchema extends BaseSchema {
 		bestRating: string;
 		worstRating: string;
 	};
+	review?: {
+		"@type": "Review";
+		author: { "@type": "Person"; name: string };
+		datePublished: string;
+		reviewBody: string;
+		reviewRating?: {
+			"@type": "Rating";
+			ratingValue: string;
+			bestRating: string;
+			worstRating: string;
+		};
+	}[];
 	inLanguage: string;
 }
 

@@ -79,7 +79,6 @@ export function parseNutrition(raw?: string | null) {
 	};
 }
 
-
 export function calculateAverageRating(comments: { content: string }[]): {
 	average: number;
 	count: number;
@@ -97,10 +96,13 @@ export function calculateAverageRating(comments: { content: string }[]): {
 	return { average: Math.round(average * 10) / 10, count: ratings.length };
 }
 
-export function stripMicrodata(html: string): string {
-    return html
-        .replace(/\s+itemscope/gi, "")
-        .replace(/\s+itemtype="[^"]*"/gi, "")
-        .replace(/\s+itemprop="[^"]*"/gi, "")
-        .replace(/\s+itemid="[^"]*"/gi, "");
+export function parseCommentForSchema(content: string): {
+	rating: number | null;
+	body: string;
+} {
+	const raw = content.replace(/<[^>]*>/g, "").trim();
+	const ratingMatch = raw.match(/^⭐\s*(\d)\/5\n*/);
+	const rating = ratingMatch ? parseInt(ratingMatch[1]) : null;
+	const body = raw.replace(/^⭐\s*\d\/5\n*/, "").trim();
+	return { rating, body };
 }

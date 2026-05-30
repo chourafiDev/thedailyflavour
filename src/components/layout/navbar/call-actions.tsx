@@ -2,11 +2,10 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { FaInstagram, FaPinterestP } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import SearchSheet from "@/components/layout/navbar/search-sheet";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../../ui/button";
-import { Skiper } from "./theme-toggle-button";
 import SearchSheetWrapper from "./search-sheet-wrapper";
+import { Skiper } from "./theme-toggle-button";
 
 const CallActions = () => {
 	return (
@@ -20,7 +19,8 @@ const CallActions = () => {
 			<div className="h-10 w-1 mx-3 bg-border" />
 			<div className="md:flex hidden items-center gap-2">
 				<Link
-					href="/contact"
+					href="https://www.pinterest.com/the_daily_flavour/"
+					target="_blank"
 					className={cn(
 						buttonVariants({
 							variant: "default",

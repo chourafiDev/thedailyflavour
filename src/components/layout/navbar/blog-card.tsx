@@ -48,7 +48,9 @@ export function BlogCard({ post }: { post: WPPost }) {
 
 				<div className="absolute bottom-0 left-0 w-full z-10">
 					<h3 className="text-white font-bold text-base leading-6 px-4 pb-4 group-hover:underline">
-						{postTitle}
+						<span className="line-clamp-2" title={postTitle}>
+							{postTitle}
+						</span>
 					</h3>
 				</div>
 

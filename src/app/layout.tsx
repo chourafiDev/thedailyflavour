@@ -96,12 +96,14 @@ export default function RootLayout({
           `}
 				</Script>
 			</head>
-			<body
-				className={`${outfit.className} ${marcellus.variable} antialiased`}
-			>
+			<body className={`${outfit.className} ${marcellus.variable} antialiased`}>
 				<JsonLd data={websiteSchema} id="website-schema" />
 
-				<ThemeProvider attribute="class" defaultTheme="light">
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="light"
+					enableSystem={false}
+				>
 					<NavBar />
 					{children}
 					<Footer />

@@ -46,7 +46,7 @@ export default async function Home() {
 						/>
 					</div>
 					<div className="md:w-2/3 w-full md:h-80 h-100 px-10 bg-soft-linen rounded-md flex flex-col justify-center">
-						<h2 className="font-marcellus text-foreground text-2xl font-semibold mb-4">
+						<h2 className="font-marcellus text-foreground text-3xl font-semibold mb-4">
 							Welcome to The Daily Flavour !
 						</h2>
 						<p className="text-foreground mb-10">

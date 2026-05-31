@@ -1,39 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
+import { BiDish } from "react-icons/bi";
+import { LuDessert } from "react-icons/lu";
+import { MdOutlineEmojiFoodBeverage } from "react-icons/md";
+import { PiBowlFoodBold } from "react-icons/pi";
 import { getAllCategories } from "@/lib/wordpress";
-
-// Fallback images per slug — replace with ACF category image field later
-const CATEGORY_IMAGES: Record<string, { url: string; alt: string }> = {
-	breakfast: {
-		url: "https://images.unsplash.com/photo-1556469744-4c65e1579f9d?q=80&w=2064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-		alt: "Breakfast recipes",
-	},
-	dinner: {
-		url: "https://images.unsplash.com/photo-1572862905000-c5b6244027a5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-		alt: "Dinner recipes",
-	},
-	dessert: {
-		url: "https://images.unsplash.com/photo-1590835443701-92628e6e15a4?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-		alt: "Dessert recipes",
-	},
-	drinks: {
-		url: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=2157&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-		alt: "Drinks recipes",
-	},
-	healthy: {
-		url: "https://images.unsplash.com/photo-1556040221-a1efce785fcc?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-		alt: "Healthy recipes",
-	},
-	"meal-prep": {
-		url: "https://images.unsplash.com/photo-1668665771757-4d42737d295a?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-		alt: "Meal prep",
-	},
-};
-
-const FALLBACK = {
-	url: "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=800&q=80",
-	alt: "Recipe",
-};
 
 interface WPCategory {
 	name: string;
@@ -41,94 +11,44 @@ interface WPCategory {
 	count: number;
 }
 
-interface CategoryWithImage extends WPCategory {
-	image: { url: string; alt: string };
-}
-
 const Categories = async () => {
-	const raw: WPCategory[] = await getAllCategories();
-
-	const categories: CategoryWithImage[] = raw
-		.filter((c) => c.slug !== "uncategorized")
-		.slice(0, 6)
-		.map((c) => ({
-			...c,
-			image: CATEGORY_IMAGES[c.slug] ?? FALLBACK,
-		}));
-
-	if (categories.length < 6) return null;
+	const categories: WPCategory[] = await getAllCategories();
 
 	return (
-		<section aria-labelledby="categories-heading" className="section-bottom">
-			<h2 id="categories-heading" className="title mb-4">
+		<section aria-labelledby="categories-heading" className="section-bottom mx-auto lg:max-w-4xl">
+			<h2 id="categories-heading" className="title md:text-center mb-4">
 				Explore By Category
 			</h2>
 
-			<div className="flex md:flex-row flex-col gap-4">
-				{/* Left Column - 2 cards stacked */}
-				<div className="md:w-[30%] w-full space-y-4">
-					<CategoryCard category={categories[0]} />
-					<CategoryCard category={categories[1]} />
-				</div>
-
-				{/* Middle Column - 1 tall card */}
-				<Link
-					href={`/category/${categories[2].slug}`}
-					className="block relative md:h-auto h-56 md:w-[30%] w-full rounded-md overflow-hidden group"
-				>
-					<div className="md:h-[464px] h-56">
-						<Image
-							src={categories[2].image.url}
-							alt={categories[2].image.alt}
-							fill
-							className="absolute object-cover transition-transform duration-300 group-hover:scale-110"
-						/>
-						<div className="absolute bottom-4 left-4 z-30">
-							<h3 className="text-white font-bold text-lg">
-								{categories[2].name}
+			<div className="grid md:grid-cols-4 grid-cols-2 items-center gap-3">
+				{categories.map((cat) => (
+					<Link
+						key={cat.slug}
+						href={cat.slug}
+						className="border rounded-md flex flex-col justify-center items-center hover:bg-soft-linen duration-150 ease-in p-6"
+					>
+						{cat.name === "Dessert" ? (
+							<LuDessert className="size-8" />
+						) : cat.name === "Breakfast" ? (
+							<MdOutlineEmojiFoodBeverage className="size-8" />
+						) : cat.name === "Dinner" ? (
+							<BiDish className="size-8" />
+						) : (
+							<PiBowlFoodBold className="size-8" />
+						)}
+						<div className="mt-4">
+							<h3 className="text-foreground font-bold text-center text-xl">
+								{cat.name}
 							</h3>
-							<p className="text-white text-sm">
-								{categories[2].count ?? 0} Posts
+							<p className="text-muted-foreground text-center text-sm">
+								{cat.count ?? 0} Posts
 							</p>
 						</div>
-						<div className="absolute z-10 bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/80 to-transparent" />
-					</div>
-				</Link>
-
-				{/* Right Column - 1 card on top, 2 cards on bottom */}
-				<div className="md:w-[40%] w-full space-y-4">
-					<CategoryCard category={categories[3]} />
-					<div className="flex md:flex-row flex-col gap-4">
-						<CategoryCard category={categories[4]} />
-						<CategoryCard category={categories[5]} />
-					</div>
-				</div>
+					</Link>
+				))}
 			</div>
 		</section>
 	);
 };
-
-interface CategoryCardProps {
-	category: CategoryWithImage;
-}
-
-const CategoryCard = ({ category }: CategoryCardProps) => (
-	<Link
-		href={`/category/${category.slug}`}
-		className="block relative h-56 w-full rounded-md overflow-hidden group"
-	>
-		<Image
-			src={category.image.url}
-			alt={category.image.alt}
-			fill
-			className="absolute object-cover transition-transform duration-300 group-hover:scale-110"
-		/>
-		<div className="absolute bottom-4 left-4 z-30">
-			<h3 className="text-white font-bold text-xl">{category.name}</h3>
-			<p className="text-white text-sm">{category.count ?? 0} Posts</p>
-		</div>
-		<div className="absolute z-10 bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/80 to-transparent" />
-	</Link>
-);
 
 export default Categories;

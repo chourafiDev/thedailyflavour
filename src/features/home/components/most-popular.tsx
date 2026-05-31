@@ -75,7 +75,7 @@ interface CategorySectionProps {
 const CategorySection = ({ label, href, posts }: CategorySectionProps) => (
 	<div className="w-full">
 		<div className="flex items-center justify-between mb-4">
-			<h3 className="text-foreground font-black uppercase text-lg italic">
+			<h3 className="text-foreground font-black uppercase text-xl italic">
 				{label}
 			</h3>
 			<Link

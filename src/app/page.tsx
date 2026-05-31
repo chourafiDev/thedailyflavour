@@ -35,29 +35,28 @@ export default async function Home() {
 				<Trending />
 				<section
 					aria-labelledby="about-author"
-					className="section-bottom relative rounded-md bg-soft-linen"
+					className="section-bottom flex md:flex-row flex-col items-center gap-3"
 				>
-					<div className="flex md:flex-row flex-col items-center md:gap-0 gap-6 p-4">
-						<div>
-							<Image
-								src={sarahMitchellCover}
-								alt="sarah-mitchell"
-								width={1000}
-								height={1000}
-								className="rounded-md"
-							/>
-						</div>
-						<div className="md:px-14">
-							<h2 className="font-marcellus text-foreground text-2xl font-semibold mb-4">
-								Welcome to The Daily Flavour !
-							</h2>
-							<p className="text-foreground mb-10">
-								Mom of two, comfort food lover, and the heart behind{" "}
-								<span className="font-semibold">The Daily Flavour.</span> I
-								share real recipes from my real kitchen warm, simple, and always
-								worth making twice. Grab a recipe and make yourself at home. 🍲
-							</p>
+					<div className="md:w-1/3 w-full h-80 relative rounded-md overflow-hidden">
+						<Image
+							src={sarahMitchellCover}
+							alt="sarah-mitchell"
+							fill
+							className="rounded-md absolute object-cover"
+						/>
+					</div>
+					<div className="md:w-2/3 w-full md:h-80 h-100 px-10 bg-soft-linen rounded-md flex flex-col justify-center">
+						<h2 className="font-marcellus text-foreground text-2xl font-semibold mb-4">
+							Welcome to The Daily Flavour !
+						</h2>
+						<p className="text-foreground mb-10">
+							Mom of two, comfort food lover, and the heart behind{" "}
+							<span className="font-semibold">The Daily Flavour.</span> I share
+							real recipes from my real kitchen warm, simple, and always worth
+							making twice. Grab a recipe and make yourself at home. 🍲
+						</p>
 
+						<div className="flex">
 							<Link
 								href="/search"
 								className={cn(

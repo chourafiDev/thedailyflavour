@@ -122,24 +122,22 @@ const AuthorPage = async ({ params }: AuthorPageProps) => {
 						className="lg:w-1/6 w-full lg:sticky top-24"
 						aria-label="Author profile sidebar"
 					>
-						{author.avatar?.url && (
-							<figure
-								itemProp="image"
-								itemScope
-								itemType="https://schema.org/ImageObject"
-								className="relative rounded-full w-[100px] h-[100px] mb-5 mx-auto overflow-hidden"
-							>
-								<Image
-									src={author.avatar.url}
-									alt={`${author.name} profile picture`}
-									itemProp="url"
-									priority
-									width={700}
-									height={700}
-									className="object-cover"
-								/>
-							</figure>
-						)}
+						<figure
+							itemProp="image"
+							itemScope
+							itemType="https://schema.org/ImageObject"
+							className="relative rounded-full w-[100px] h-[100px] mb-5 mx-auto overflow-hidden"
+						>
+							<Image
+								src={author.avatar.url}
+								alt={`${author.name} profile picture`}
+								itemProp="url"
+								priority
+								width={700}
+								height={700}
+								className="object-cover"
+							/>
+						</figure>
 
 						<div
 							className="md:mb-10 mb-5 md:pb-10 pb-5 border-b"

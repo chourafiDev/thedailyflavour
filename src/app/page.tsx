@@ -10,7 +10,7 @@ import Categories from "@/features/home/components/categories";
 import FeaturedPosts from "@/features/home/components/featured-posts";
 import MostPopular from "@/features/home/components/most-popular";
 import Trending from "@/features/home/components/trending";
-import { sarahMitchell } from "@/lib/assets";
+import { sarahMitchellCover } from "@/lib/assets";
 import {
 	generateHomeMetadata,
 	generateWebsiteSchema,
@@ -40,7 +40,7 @@ export default async function Home() {
 					<div className="flex md:flex-row flex-col items-center md:gap-0 gap-6 p-4">
 						<div>
 							<Image
-								src={sarahMitchell}
+								src={sarahMitchellCover}
 								alt="sarah-mitchell"
 								width={1000}
 								height={1000}

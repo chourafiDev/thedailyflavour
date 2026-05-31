@@ -1,5 +1,6 @@
 import darkLogo from "../../public/assets/images/dark-logo.png";
 import sarahMitchell from "../../public/assets/images/sarah-mitchell.png";
+import sarahMitchellCover from "../../public/assets/images/sarah-mitchell-cover.png";
 import whiteLogo from "../../public/assets/images/white-logo.png";
 
-export { sarahMitchell, darkLogo, whiteLogo };
+export { sarahMitchellCover, sarahMitchell, darkLogo, whiteLogo };

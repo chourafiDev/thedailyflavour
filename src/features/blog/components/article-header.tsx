@@ -82,7 +82,10 @@ const ArticleHeader = ({ post }: ArticleHeaderProps) => {
 						</p>
 					</div>
 
-					<div className="h-4 w-[1px] bg-foreground/70 md:block hidden" aria-hidden="true" />
+					<div
+						className="h-4 w-[1px] bg-foreground/70 md:block hidden"
+						aria-hidden="true"
+					/>
 
 					<div className="flex items-center gap-2 text-[13px]">
 						<p className="text-foreground/60 font-medium">Published</p>

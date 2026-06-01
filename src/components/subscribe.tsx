@@ -86,8 +86,9 @@ const Subscribe = () => {
 					Subscribe Now To Stay Updated With Top News!
 				</h2>
 				<p className="text-muted-foreground lg:text-start text-center text-sm flex-1">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-					voluptatem nobis minus accusantium voluptas.
+					Get the latest quick recipes, seasonal flavours, and kitchen tips
+					delivered straight to your inbox — fresh ideas for every meal, every
+					week.
 				</p>
 
 				<div className="flex-1 w-full">

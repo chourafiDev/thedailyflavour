@@ -106,6 +106,10 @@ export const siteConfig = {
 			handle: "@the_daily_flavour",
 			url: "https://pinterest.com/the_daily_flavour",
 		},
+		instagram: {
+			handle: "@the_daily_flavour_",
+			url: "https://www.instagram.com/the_daily_flavour_/",
+		},
 	},
 	contact: {
 		email: "contact@thedailyflavour.com",

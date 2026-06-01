@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaPinterest } from "react-icons/fa";
+import { FaInstagram, FaPinterest } from "react-icons/fa";
 import Breadcrumbs from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import {
@@ -113,6 +113,17 @@ const ContactPage = () => {
 										rel="noopener noreferrer"
 									>
 										<FaPinterest size={20} aria-hidden="true" />
+									</Link>
+								</li>
+								<li>
+									<Link
+										href={siteConfig.social.instagram.url}
+										aria-label={`Follow us on Instagram ${siteConfig.social.instagram.handle}`}
+										className="flex items-center justify-center size-10 border hover:bg-foreground hover:text-background duration-200 ease-in rounded-full"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<FaInstagram size={20} aria-hidden="true" />
 									</Link>
 								</li>
 							</ul>

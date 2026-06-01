@@ -26,10 +26,9 @@ const NAVIGATION_MENU_DESKTOP: NavigationMenu = [
 		submenu: true,
 		type: "description",
 		items: [
-			{ href: "/category/drinks", label: "Drinks" },
 			{ href: "/category/healthy", label: "Healthy Eating" },
-			{ href: "/category/meal-prep", label: "Meal Prep" },
 			{ href: "/search", label: "See All Recipes" },
+			{ href: "/contact", label: "Contact Us" },
 		],
 	},
 ];
@@ -40,9 +39,7 @@ const NAVIGATION_MENU_MOBILE: NavigationMenu = [
 	{ href: "/category/dinner", label: "Dinner" },
 	{ href: "/category/breakfast", label: "Breakfast" },
 	{ href: "/category/dessert", label: "Dessert" },
-	{ href: "/category/drinks", label: "Drinks" },
 	{ href: "/category/healthy", label: "Healthy Eating" },
-	{ href: "/category/meal-prep", label: "Meal Prep" },
 ];
 
 export default function NavBar() {

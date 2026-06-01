@@ -20,28 +20,28 @@ const index = () => {
 				</div>
 
 				<div className="bg-primary dark:bg-soft-linen flex lg:flex-row flex-col lg:gap-0 gap-5 items-center justify-between py-3 md:px-12 px-8">
-					<p className="text-foreground font-semibold text-[13px]">
+					<p className="text-white font-semibold text-[13px]">
 						&copy; {new Date().getFullYear()} Brand, All Rights Reserved.
 					</p>
 
 					<div className="flex md:flex-row flex-col items-center md:gap-4 gap-2">
 						<Link
 							href="/terms"
-							className="font-semibold text-foreground text-[13px] link"
+							className="font-semibold text-white text-[13px] link"
 						>
 							Term Of Services
 						</Link>
-						<div className="md:block hidden h-3 w-[1px] bg-foreground/30" />
+						<div className="md:block hidden h-3 w-[1px] bg-white/30" />
 						<Link
 							href="/privacy-policy"
-							className="font-semibold text-[13px] text-foreground link"
+							className="font-semibold text-[13px] text-white link"
 						>
 							Privacy Policy
 						</Link>
-						<div className="md:block hidden h-3 w-[1px] bg-foreground/30" />
+						<div className="md:block hidden h-3 w-[1px] bg-white/30" />
 						<Link
 							href="/disclaimer"
-							className="font-semibold text-foreground text-[13px] link"
+							className="font-semibold text-white text-[13px] link"
 						>
 							Disclaimer
 						</Link>

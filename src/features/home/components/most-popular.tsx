@@ -25,12 +25,12 @@ type WPPost = {
 };
 
 const MostPopular = async () => {
-	const [dinnerPosts, breakfastPosts, dessertPosts, drinkPosts] =
+	const [dinnerPosts, breakfastPosts, dessertPosts, healthyPosts] =
 		await Promise.all([
 			getRecipesByCategory("dinner"),
 			getRecipesByCategory("breakfast"),
 			getRecipesByCategory("dessert"),
-			getRecipesByCategory("drinks"),
+			getRecipesByCategory("healthy"),
 		]);
 
 	return (
@@ -57,9 +57,9 @@ const MostPopular = async () => {
 				/>
 
 				<CategorySection
-					label="Drinks"
-					href="/category/drinks"
-					posts={drinkPosts.slice(0, 8)}
+					label="Healthy Eating"
+					href="/category/healthy"
+					posts={healthyPosts.slice(0, 8)}
 				/>
 			</div>
 		</section>

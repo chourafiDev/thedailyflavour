@@ -10,7 +10,7 @@ const QuickLink = () => {
 			<ul className="space-y-1 font-medium">
 				<li>
 					<Link href="/" className="link text-sm">
-						Homepage
+						Home
 					</Link>
 				</li>
 				<li>

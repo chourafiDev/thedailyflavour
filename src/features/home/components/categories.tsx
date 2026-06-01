@@ -15,7 +15,10 @@ const Categories = async () => {
 	const categories: WPCategory[] = await getAllCategories();
 
 	return (
-		<section aria-labelledby="categories-heading" className="section-bottom mx-auto lg:max-w-4xl">
+		<section
+			aria-labelledby="categories-heading"
+			className="section-bottom mx-auto lg:max-w-4xl"
+		>
 			<h2 id="categories-heading" className="title md:text-center mb-4">
 				Explore By Category
 			</h2>
@@ -24,7 +27,7 @@ const Categories = async () => {
 				{categories.map((cat) => (
 					<Link
 						key={cat.slug}
-						href={cat.slug}
+						href={`/category/${cat.slug}`}
 						className="border rounded-md flex flex-col justify-center items-center hover:bg-soft-linen duration-150 ease-in p-6"
 					>
 						{cat.name === "Dessert" ? (
